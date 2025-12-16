@@ -41,11 +41,12 @@ export default function LoginPage() {
 
       if (response.ok) {
         // Redirect based on user role
-        if (data.user.role === 'admin') {
-          router.push('/cpanel')
-        } else {
-          router.push('/dashboard')
-        }
+        // if (data.user.role === 'admin') {
+        //   router.push('/admin')
+        // } else {
+        //   router.push('/cpanel')
+        // }
+        router.refresh();
       } else {
         setError(data.error || 'Login failed')
       }

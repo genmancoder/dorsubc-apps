@@ -15,6 +15,7 @@ type Queue = {
 type WindowProps = {
     title: string;
     windowId: number;
+    minimal?: boolean;
 }
 
 export function Window({ title, windowId }: WindowProps) {
@@ -90,7 +91,17 @@ export function Window({ title, windowId }: WindowProps) {
     const pendingQueue = pending?.slice(0, 3) // Show exactly 3 pending tickets
 
     return (
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-xl w-[320px] h-[600px] flex flex-col">
+          <div
+      className="
+        bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden 
+        transition-all duration-300 hover:shadow-xl
+
+        w-full max-w-sm     /* Mobile friendly width */
+        h-auto md:h-[600px] /* Auto height on mobile */
+        min-w-[200px] md:min-w-[250px] /* Minimum width */
+        flex flex-col
+      "
+    >
             {/* Header */}
             <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 flex-shrink-0">
                 <div className="text-center">
@@ -123,7 +134,7 @@ export function Window({ title, windowId }: WindowProps) {
                         {current ? (
                             <div className="bg-gradient-to-br from-green-500 to-green-600 text-white px-4 py-3 rounded-lg shadow-md w-full max-w-[200px] text-center">
                                 <div className="text-2xl font-bold mb-1">
-                                    A{current.ticketNumber.toString().slice(-3)}
+                                    10{current.ticketNumber.toString().slice(-3)}
                                 </div>
                                 <div className="text-xs opacity-90 truncate">
                                     {current.firstName} {current.lastName}
@@ -133,9 +144,16 @@ export function Window({ title, windowId }: WindowProps) {
                                 </div>
                             </div>
                         ) : (
-                            <div className="bg-gray-100 text-gray-500 px-4 py-3 rounded-lg w-full max-w-[200px] text-center">
-                                <div className="text-2xl font-bold">---</div>
-                                <div className="text-xs">No active service</div>
+                            <div className="bg-gradient-to-br from-red-500 to-red-600 text-white px-4 py-3 rounded-lg shadow-md w-full max-w-[200px] text-center">
+                                <div className="text-2xl font-bold mb-1">
+                                    ----
+                                </div>
+                                <div className="text-xs opacity-90 truncate">
+                                    No active service
+                                </div>
+                                <div className="text-xs opacity-75 mt-1 truncate">
+                                    ----
+                                </div>
                             </div>
                         )}
                     </div>
@@ -145,29 +163,29 @@ export function Window({ title, windowId }: WindowProps) {
                 <div className="flex-1">
                     <h3 className="text-center text-sm font-semibold text-gray-700 mb-3 flex items-center justify-center">
                         <Users className="h-4 w-4 mr-2 text-blue-600" />
-                        Next 3 in Queue
+                        {pendingQueue?.length > 0 ? 'Next 3 in Queue' : 'No tickets in Queue.'}
+
                     </h3>
+
                     <div className="space-y-2">
                         {pendingQueue?.length > 0 ? (
                             pendingQueue.map((ticket, index) => (
-                                <div 
-                                    key={ticket.ticketNumber} 
-                                    className={`flex items-center justify-between p-2 rounded-lg transition-colors ${
-                                        index === 0 
-                                            ? 'bg-blue-50 border border-blue-200' 
+                                <div
+                                    key={ticket.ticketNumber}
+                                    className={`flex items-center justify-between p-2 rounded-lg transition-colors ${index === 0
+                                            ? 'bg-blue-50 border border-blue-200'
                                             : 'bg-gray-50 border border-gray-200'
-                                    }`}
+                                        }`}
                                 >
                                     <div className="flex items-center space-x-2 min-w-0 flex-1">
-                                        <div className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${
-                                            index === 0 
-                                                ? 'bg-blue-600 text-white' 
+                                        <div className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${index === 0
+                                                ? 'bg-blue-600 text-white'
                                                 : 'bg-gray-400 text-white'
-                                        }`}>
+                                            }`}>
                                             {index + 1}
                                         </div>
                                         <span className="font-bold text-base text-gray-800 truncate">
-                                            A{ticket.ticketNumber.toString().slice(-3)}
+                                            10{ticket.ticketNumber.toString().slice(-3)}
                                         </span>
                                     </div>
                                     <div className="text-right min-w-0 flex-shrink-0 ml-2">
@@ -186,7 +204,7 @@ export function Window({ title, windowId }: WindowProps) {
                                 <div className="text-xs">Queue is empty</div>
                             </div>
                         )}
-                        
+
                         {/* Show empty slots if less than 3 tickets */}
                         {pendingQueue?.length < 3 && pendingQueue?.length > 0 && (
                             Array.from({ length: 3 - pendingQueue.length }, (_, i) => (
@@ -237,11 +255,10 @@ export function Window({ title, windowId }: WindowProps) {
             </div>
 
             {/* Status Indicator */}
-            <div className={`h-1 flex-shrink-0 ${
-                current 
-                    ? 'bg-gradient-to-r from-green-500 to-green-600' 
+            <div className={`h-1 flex-shrink-0 ${current
+                    ? 'bg-gradient-to-r from-green-500 to-green-600'
                     : 'bg-gradient-to-r from-gray-400 to-gray-500'
-            }`}></div>
+                }`}></div>
         </div>
     )
 }

@@ -257,7 +257,7 @@ export namespace Prisma {
 
   /**
    * Prisma Client JS version: 6.13.0
-   * Query Engine version: 361e86d0ea4987e9f53a565309b3eed797a6bcbd
+   * Query Engine version: 605197351a3c8bdd595af2d2a9bc3025bca48ea2
    */
   export type PrismaVersion = {
     client: string
@@ -716,10 +716,6 @@ export namespace Prisma {
             args: Prisma.UserUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.UserUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
-          }
           upsert: {
             args: Prisma.UserUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$UserPayload>
@@ -789,10 +785,6 @@ export namespace Prisma {
           updateMany: {
             args: Prisma.QueueUpdateManyArgs<ExtArgs>
             result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.QueueUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$QueuePayload>[]
           }
           upsert: {
             args: Prisma.QueueUpsertArgs<ExtArgs>
@@ -864,10 +856,6 @@ export namespace Prisma {
             args: Prisma.WindowUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.WindowUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WindowPayload>[]
-          }
           upsert: {
             args: Prisma.WindowUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$WindowPayload>
@@ -937,10 +925,6 @@ export namespace Prisma {
           updateMany: {
             args: Prisma.UserWindowUpdateManyArgs<ExtArgs>
             result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.UserWindowUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserWindowPayload>[]
           }
           upsert: {
             args: Prisma.UserWindowUpsertArgs<ExtArgs>
@@ -1489,19 +1473,6 @@ export namespace Prisma {
     deletedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
-  export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    email?: boolean
-    username?: boolean
-    password?: boolean
-    fullName?: boolean
-    nickname?: boolean
-    role?: boolean
-    isActive?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    deletedAt?: boolean
-  }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
     id?: boolean
@@ -1523,7 +1494,6 @@ export namespace Prisma {
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
@@ -1746,36 +1716,6 @@ export namespace Prisma {
      * 
      */
     updateMany<T extends UserUpdateManyArgs>(args: SelectSubset<T, UserUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Users and returns the data updated in the database.
-     * @param {UserUpdateManyAndReturnArgs} args - Arguments to update many Users.
-     * @example
-     * // Update many Users
-     * const user = await prisma.user.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Users and only return the `id`
-     * const userWithIdOnly = await prisma.user.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends UserUpdateManyAndReturnArgs>(args: SelectSubset<T, UserUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one User.
@@ -2264,36 +2204,6 @@ export namespace Prisma {
      * Filter which Users to update
      */
     where?: UserWhereInput
-    /**
-     * Limit how many Users to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * User updateManyAndReturn
-   */
-  export type UserUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * The data used to update Users.
-     */
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
-    /**
-     * Filter which Users to update
-     */
-    where?: UserWhereInput
-    /**
-     * Limit how many Users to update.
-     */
-    limit?: number
   }
 
   /**
@@ -2356,10 +2266,6 @@ export namespace Prisma {
      * Filter which Users to delete
      */
     where?: UserWhereInput
-    /**
-     * Limit how many Users to delete.
-     */
-    limit?: number
   }
 
   /**
@@ -2659,18 +2565,6 @@ export namespace Prisma {
     window?: boolean | Queue$windowArgs<ExtArgs>
   }, ExtArgs["result"]["queue"]>
 
-  export type QueueSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    studentId?: boolean
-    firstName?: boolean
-    lastName?: boolean
-    ticketNumber?: boolean
-    status?: boolean
-    createdAt?: boolean
-    deletedAt?: boolean
-    windowId?: boolean
-    window?: boolean | Queue$windowArgs<ExtArgs>
-  }, ExtArgs["result"]["queue"]>
 
   export type QueueSelectScalar = {
     id?: boolean
@@ -2689,9 +2583,6 @@ export namespace Prisma {
     window?: boolean | Queue$windowArgs<ExtArgs>
   }
   export type QueueIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    window?: boolean | Queue$windowArgs<ExtArgs>
-  }
-  export type QueueIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     window?: boolean | Queue$windowArgs<ExtArgs>
   }
 
@@ -2914,36 +2805,6 @@ export namespace Prisma {
      * 
      */
     updateMany<T extends QueueUpdateManyArgs>(args: SelectSubset<T, QueueUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Queues and returns the data updated in the database.
-     * @param {QueueUpdateManyAndReturnArgs} args - Arguments to update many Queues.
-     * @example
-     * // Update many Queues
-     * const queue = await prisma.queue.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Queues and only return the `id`
-     * const queueWithIdOnly = await prisma.queue.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends QueueUpdateManyAndReturnArgs>(args: SelectSubset<T, QueueUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QueuePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one Queue.
@@ -3434,40 +3295,6 @@ export namespace Prisma {
      * Filter which Queues to update
      */
     where?: QueueWhereInput
-    /**
-     * Limit how many Queues to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Queue updateManyAndReturn
-   */
-  export type QueueUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Queue
-     */
-    select?: QueueSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Queue
-     */
-    omit?: QueueOmit<ExtArgs> | null
-    /**
-     * The data used to update Queues.
-     */
-    data: XOR<QueueUpdateManyMutationInput, QueueUncheckedUpdateManyInput>
-    /**
-     * Filter which Queues to update
-     */
-    where?: QueueWhereInput
-    /**
-     * Limit how many Queues to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: QueueIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -3530,10 +3357,6 @@ export namespace Prisma {
      * Filter which Queues to delete
      */
     where?: QueueWhereInput
-    /**
-     * Limit how many Queues to delete.
-     */
-    limit?: number
   }
 
   /**
@@ -3794,14 +3617,6 @@ export namespace Prisma {
     deletedAt?: boolean
   }, ExtArgs["result"]["window"]>
 
-  export type WindowSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    windowTitle?: boolean
-    windowDescription?: boolean
-    status?: boolean
-    createdAt?: boolean
-    deletedAt?: boolean
-  }, ExtArgs["result"]["window"]>
 
   export type WindowSelectScalar = {
     id?: boolean
@@ -3819,7 +3634,6 @@ export namespace Prisma {
     _count?: boolean | WindowCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type WindowIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type WindowIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $WindowPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Window"
@@ -4038,36 +3852,6 @@ export namespace Prisma {
      * 
      */
     updateMany<T extends WindowUpdateManyArgs>(args: SelectSubset<T, WindowUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Windows and returns the data updated in the database.
-     * @param {WindowUpdateManyAndReturnArgs} args - Arguments to update many Windows.
-     * @example
-     * // Update many Windows
-     * const window = await prisma.window.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Windows and only return the `id`
-     * const windowWithIdOnly = await prisma.window.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends WindowUpdateManyAndReturnArgs>(args: SelectSubset<T, WindowUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WindowPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one Window.
@@ -4552,36 +4336,6 @@ export namespace Prisma {
      * Filter which Windows to update
      */
     where?: WindowWhereInput
-    /**
-     * Limit how many Windows to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Window updateManyAndReturn
-   */
-  export type WindowUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Window
-     */
-    select?: WindowSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Window
-     */
-    omit?: WindowOmit<ExtArgs> | null
-    /**
-     * The data used to update Windows.
-     */
-    data: XOR<WindowUpdateManyMutationInput, WindowUncheckedUpdateManyInput>
-    /**
-     * Filter which Windows to update
-     */
-    where?: WindowWhereInput
-    /**
-     * Limit how many Windows to update.
-     */
-    limit?: number
   }
 
   /**
@@ -4644,10 +4398,6 @@ export namespace Prisma {
      * Filter which Windows to delete
      */
     where?: WindowWhereInput
-    /**
-     * Limit how many Windows to delete.
-     */
-    limit?: number
   }
 
   /**
@@ -4946,16 +4696,6 @@ export namespace Prisma {
     window?: boolean | WindowDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userWindow"]>
 
-  export type UserWindowSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    userId?: boolean
-    windowId?: boolean
-    isActive?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    window?: boolean | WindowDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["userWindow"]>
 
   export type UserWindowSelectScalar = {
     id?: boolean
@@ -4972,10 +4712,6 @@ export namespace Prisma {
     window?: boolean | WindowDefaultArgs<ExtArgs>
   }
   export type UserWindowIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    window?: boolean | WindowDefaultArgs<ExtArgs>
-  }
-  export type UserWindowIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     window?: boolean | WindowDefaultArgs<ExtArgs>
   }
@@ -5197,36 +4933,6 @@ export namespace Prisma {
      * 
      */
     updateMany<T extends UserWindowUpdateManyArgs>(args: SelectSubset<T, UserWindowUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more UserWindows and returns the data updated in the database.
-     * @param {UserWindowUpdateManyAndReturnArgs} args - Arguments to update many UserWindows.
-     * @example
-     * // Update many UserWindows
-     * const userWindow = await prisma.userWindow.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more UserWindows and only return the `id`
-     * const userWindowWithIdOnly = await prisma.userWindow.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends UserWindowUpdateManyAndReturnArgs>(args: SelectSubset<T, UserWindowUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserWindowPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one UserWindow.
@@ -5715,40 +5421,6 @@ export namespace Prisma {
      * Filter which UserWindows to update
      */
     where?: UserWindowWhereInput
-    /**
-     * Limit how many UserWindows to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * UserWindow updateManyAndReturn
-   */
-  export type UserWindowUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserWindow
-     */
-    select?: UserWindowSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the UserWindow
-     */
-    omit?: UserWindowOmit<ExtArgs> | null
-    /**
-     * The data used to update UserWindows.
-     */
-    data: XOR<UserWindowUpdateManyMutationInput, UserWindowUncheckedUpdateManyInput>
-    /**
-     * Filter which UserWindows to update
-     */
-    where?: UserWindowWhereInput
-    /**
-     * Limit how many UserWindows to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserWindowIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -5811,10 +5483,6 @@ export namespace Prisma {
      * Filter which UserWindows to delete
      */
     where?: UserWindowWhereInput
-    /**
-     * Limit how many UserWindows to delete.
-     */
-    limit?: number
   }
 
   /**
@@ -6062,7 +5730,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Queue"> | Date | string
     deletedAt?: DateTimeNullableFilter<"Queue"> | Date | string | null
     windowId?: IntNullableFilter<"Queue"> | number | null
-    window?: XOR<WindowNullableScalarRelationFilter, WindowWhereInput> | null
+    window?: XOR<WindowNullableRelationFilter, WindowWhereInput> | null
   }
 
   export type QueueOrderByWithRelationInput = {
@@ -6091,7 +5759,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Queue"> | Date | string
     deletedAt?: DateTimeNullableFilter<"Queue"> | Date | string | null
     windowId?: IntNullableFilter<"Queue"> | number | null
-    window?: XOR<WindowNullableScalarRelationFilter, WindowWhereInput> | null
+    window?: XOR<WindowNullableRelationFilter, WindowWhereInput> | null
   }, "id">
 
   export type QueueOrderByWithAggregationInput = {
@@ -6201,8 +5869,8 @@ export namespace Prisma {
     isActive?: BoolFilter<"UserWindow"> | boolean
     createdAt?: DateTimeFilter<"UserWindow"> | Date | string
     updatedAt?: DateTimeFilter<"UserWindow"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    window?: XOR<WindowScalarRelationFilter, WindowWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    window?: XOR<WindowRelationFilter, WindowWhereInput>
   }
 
   export type UserWindowOrderByWithRelationInput = {
@@ -6227,8 +5895,8 @@ export namespace Prisma {
     isActive?: BoolFilter<"UserWindow"> | boolean
     createdAt?: DateTimeFilter<"UserWindow"> | Date | string
     updatedAt?: DateTimeFilter<"UserWindow"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    window?: XOR<WindowScalarRelationFilter, WindowWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    window?: XOR<WindowRelationFilter, WindowWhereInput>
   }, "id" | "userId_windowId">
 
   export type UserWindowOrderByWithAggregationInput = {
@@ -6759,7 +6427,7 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type WindowNullableScalarRelationFilter = {
+  export type WindowNullableRelationFilter = {
     is?: WindowWhereInput | null
     isNot?: WindowWhereInput | null
   }
@@ -6873,12 +6541,12 @@ export namespace Prisma {
     id?: SortOrder
   }
 
-  export type UserScalarRelationFilter = {
+  export type UserRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
   }
 
-  export type WindowScalarRelationFilter = {
+  export type WindowRelationFilter = {
     is?: WindowWhereInput
     isNot?: WindowWhereInput
   }

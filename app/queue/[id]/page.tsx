@@ -11,24 +11,26 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog"
 import Link from 'next/link'
-import { 
-    Play, 
-    Pause, 
-    Volume2, 
-    ChevronsRight, 
-    CheckCircle, 
-    Clock, 
-    Users, 
-    UserCheck, 
-    Timer, 
+import {
+    Play,
+    Pause,
+    Volume2,
+    ChevronsRight,
+    CheckCircle,
+    Clock,
+    Users,
+    UserCheck,
+    Timer,
     LogOut,
     Search,
     Bell,
     Home,
     Settings,
     Menu,
-    X
+    X,
+    ChevronsLeft
 } from 'lucide-react'
+import TTSButton from '@/components/tts/TTS'
 
 type Queue = {
     ticketNumber: number
@@ -79,9 +81,12 @@ export default function Queue() {
         serviceDuration: '02:45:10'
     })
 
+
+
+
     const fetchCurrent = async () => {
         if (!windowId) return;
-        
+
         const res = await fetch('/api/queue/current/' + windowId)
         if (res.ok) {
             const data = await res.json()
@@ -102,7 +107,7 @@ export default function Queue() {
 
     const fetchWindowDetails = async () => {
         if (!windowId) return;
-        
+
         const res = await fetch('/api/window/details/' + windowId)
         if (res.ok) {
             const data = await res.json()
@@ -114,7 +119,7 @@ export default function Queue() {
 
     const fetchPending = async () => {
         if (!windowId) return;
-        
+
         const res = await fetch('/api/queue/pending/' + windowId)
         if (res.ok) {
             const data = await res.json()
@@ -162,7 +167,7 @@ export default function Queue() {
 
     const callNext = async () => {
         if (!windowId) return;
-        
+
         try {
             const res = await fetch('/api/queue/next', {
                 method: 'POST',
@@ -178,14 +183,14 @@ export default function Queue() {
                 setIsServiceActive(true)
                 setServiceStartTime(new Date())
                 setServiceDuration('00:00:00')
-                
+
                 // Update statistics
-                setStats(prev => ({ 
-                    ...prev, 
+                setStats(prev => ({
+                    ...prev,
                     waitingList: Math.max(0, prev.waitingList - 1),
                     serviceDone: prev.serviceDone + 1
                 }))
-                
+
                 // Refresh pending queue
                 await fetchPending()
             } else {
@@ -210,9 +215,11 @@ export default function Queue() {
         setServiceDuration('00:00:00')
     }
 
+
+
     const completeService = async () => {
         if (!windowId || !current) return;
-        
+
         try {
             // Mark current ticket as completed
             const res = await fetch('/api/queue/update', {
@@ -220,7 +227,7 @@ export default function Queue() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ 
+                body: JSON.stringify({
                     windowId,
                     ticketNumber: current.ticketNumber,
                     status: 'completed'
@@ -233,7 +240,7 @@ export default function Queue() {
                 setServiceDuration('00:00:00')
                 setCurrent(null)
                 setStats(prev => ({ ...prev, serviceDone: prev.serviceDone + 1 }))
-                
+
                 // Refresh data
                 await fetchCurrent()
                 await fetchPending()
@@ -245,11 +252,11 @@ export default function Queue() {
 
     const callCurrent = async () => {
         if (!current) return;
-        
+
         try {
             // Call current ticket (you can implement speaker announcement logic here)
             console.log('Calling current ticket:', current.ticketNumber)
-            
+
             // Optional: Send to WebSocket for real-time announcements
             if (typeof window !== 'undefined' && window.WebSocket) {
                 const ws = new WebSocket('ws://localhost:3005')
@@ -262,7 +269,7 @@ export default function Queue() {
                     ws.close()
                 }
             }
-            
+
             // Show success feedback
             alert(`Calling ticket A${current.ticketNumber.toString().slice(-3)}`)
         } catch (error) {
@@ -276,7 +283,7 @@ export default function Queue() {
             fetchPending()
             fetchWindowDetails()
             fetchPausedQueue()
-            
+
             const interval = setInterval(() => {
                 fetchCurrent()
                 fetchPending()
@@ -301,7 +308,7 @@ export default function Queue() {
                     <div className="flex justify-between items-center h-16">
                         <div className="flex items-center space-x-4 lg:space-x-8">
                             <h1 className="text-xl lg:text-2xl font-bold text-blue-600">Queue</h1>
-                            
+
                             {/* Desktop Navigation */}
                             <nav className="hidden lg:flex space-x-6">
                                 <Link href="/" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
@@ -318,7 +325,7 @@ export default function Queue() {
                                 </Link>
                             </nav>
                         </div>
-                        
+
                         <div className="flex items-center space-x-2 lg:space-x-4">
                             {/* Desktop Search */}
                             <div className="hidden md:block relative">
@@ -329,19 +336,19 @@ export default function Queue() {
                                     className="pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
                             </div>
-                            
+
                             <button className="text-gray-600 hover:text-blue-600">
                                 <Bell className="h-5 w-5" />
                             </button>
-                            
+
                             <div className="flex items-center space-x-2">
                                 <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
                                     <span className="text-white text-sm font-medium">A</span>
                                 </div>
                             </div>
-                            
+
                             {/* Mobile Menu Button */}
-                            <button 
+                            <button
                                 className="lg:hidden text-gray-600 hover:text-blue-600"
                                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             >
@@ -349,7 +356,7 @@ export default function Queue() {
                             </button>
                         </div>
                     </div>
-                    
+
                     {/* Mobile Navigation */}
                     {isMobileMenuOpen && (
                         <div className="lg:hidden border-t border-gray-200 py-4">
@@ -367,7 +374,7 @@ export default function Queue() {
                                     Administration
                                 </Link>
                             </nav>
-                            
+
                             {/* Mobile Search */}
                             <div className="mt-4 relative">
                                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -385,9 +392,15 @@ export default function Queue() {
             {/* Main Content */}
             <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8 w-full">
                 {/* Counter Info */}
-                <div className="mb-4 lg:mb-6">
-                    <h2 className="text-xl lg:text-2xl font-bold text-gray-900">{details?.windowTitle || 'Counter'}</h2>
-                    <p className="text-sm lg:text-base text-gray-600">{formatDate()}</p>
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 space-y-4 lg:space-y-0">
+                    <div className="mb-4 lg:mb-6">
+                        <h2 className="text-xl lg:text-2xl font-bold text-gray-900">{details?.windowTitle || 'Counter'}</h2>
+                        <p className="text-sm lg:text-base text-gray-600">{formatDate()}</p>
+                    </div>
+                    <div className="bg-white rounded-lg shadow-sm border p-4">
+                        <h2 className="text-xl lg:text-2xl font-bold text-gray-900">{details?.windowTitle || 'Counter'}</h2>
+                        <p className="text-sm lg:text-base text-gray-600">{formatDate()}</p>
+                    </div>
                 </div>
 
                 {/* Mobile Current Queue Card */}
@@ -401,7 +414,7 @@ export default function Queue() {
                                 Service Time: {serviceDuration}
                             </div>
                         </div>
-                        
+
                         <div className="grid grid-cols-2 gap-2">
                             {!isServiceActive ? (
                                 <button
@@ -429,7 +442,7 @@ export default function Queue() {
                                     </button>
                                 </>
                             )}
-                            
+
                             <button
                                 onClick={callCurrent}
                                 className="flex items-center justify-center space-x-2 bg-gray-600 text-white py-3 px-4 rounded-lg hover:bg-gray-700 transition-colors"
@@ -437,7 +450,7 @@ export default function Queue() {
                                 <Volume2 className="h-4 w-4" />
                                 <span>Call</span>
                             </button>
-                            
+
                             <button
                                 onClick={callNext}
                                 className="flex items-center justify-center space-x-2 bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors"
@@ -449,51 +462,25 @@ export default function Queue() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8">
-                    {/* Left Column - Paused Queue */}
-                    <div className="lg:col-span-1 order-2 lg:order-1">
-                        <div className="bg-white rounded-lg shadow-sm border p-4 lg:p-6">
-                            <h3 className="text-lg font-semibold text-gray-900 mb-4">Paused Queue</h3>
-                            <div className="space-y-3">
-                                {pausedQueue.map((item, index) => (
-                                    <div key={item.ticketNumber} className={`flex justify-between items-center p-3 rounded-lg ${index === 1 ? 'bg-blue-50 border border-blue-200' : 'bg-gray-50'}`}>
-                                        <div className="flex items-center space-x-3">
-                                            <span className="text-sm font-medium text-gray-500">{index + 1}.</span>
-                                            <span className="font-semibold text-gray-900">A{item.ticketNumber.toString().slice(-3)}</span>
-                                        </div>
-                                        <div className="text-right">
-                                            <div className="text-sm text-gray-600">{item.startTime}</div>
-                                            <div className="text-xs text-gray-500">{item.duration}</div>
-                                        </div>
-                                    </div>
-                                ))}
-                                <Link href="#" className="text-blue-600 hover:text-blue-800 text-sm font-medium">
-                                    See All
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
+                <div className="flex gap-2">
 
                     {/* Center Column - Current Queue (Desktop) */}
-                    <div className="lg:col-span-1 order-1 lg:order-2 hidden lg:block">
+                    <div className=" ">
                         <div className="bg-white rounded-lg shadow-sm border p-6">
                             <div className="text-center mb-6">
                                 <h3 className="text-2xl font-bold text-orange-600 mb-2">
                                     Current Queue: {current ? `A${current.ticketNumber.toString().slice(-3)}` : '---'}
                                 </h3>
-                                <div className="text-lg text-gray-600">
-                                    Service Time: {serviceDuration}
-                                </div>
                             </div>
-                            
+
                             <div className="flex flex-col space-y-3">
                                 {!isServiceActive ? (
                                     <button
                                         onClick={startService}
                                         className="flex items-center justify-center space-x-2 bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors"
                                     >
-                                        <Play className="h-4 w-4" />
-                                        <span>Start</span>
+                                        <ChevronsLeft className="h-4 w-4" />
+                                        <span>Previous</span>
                                     </button>
                                 ) : (
                                     <div className="flex space-x-2">
@@ -513,7 +500,7 @@ export default function Queue() {
                                         </button>
                                     </div>
                                 )}
-                                
+
                                 <button
                                     onClick={callCurrent}
                                     className="flex items-center justify-center space-x-2 bg-gray-600 text-white py-3 px-4 rounded-lg hover:bg-gray-700 transition-colors"
@@ -521,7 +508,7 @@ export default function Queue() {
                                     <Volume2 className="h-4 w-4" />
                                     <span>Call</span>
                                 </button>
-                                
+
                                 <button
                                     onClick={callNext}
                                     className="flex items-center justify-center space-x-2 bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors"
@@ -533,112 +520,58 @@ export default function Queue() {
                         </div>
                     </div>
 
-                    {/* Right Column - Agent Info & Statistics */}
-                    <div className="lg:col-span-1 order-3">
-                        <div className="bg-white rounded-lg shadow-sm border p-4 lg:p-6">
-                            {/* Agent Profile */}
-                            <div className="text-center mb-4 lg:mb-6">
-                                <div className="w-16 h-16 lg:w-20 lg:h-20 bg-blue-600 rounded-full mx-auto mb-3 flex items-center justify-center">
-                                    <span className="text-white text-xl lg:text-2xl font-bold">A</span>
-                                </div>
-                                <h4 className="font-semibold text-gray-900">Agent Name</h4>
-                                <p className="text-sm text-gray-600">Counter {windowId}</p>
-                            </div>
-
-                            {/* Statistics */}
-                            <div className="space-y-3 lg:space-y-4">
-                                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                    <div className="flex items-center space-x-3">
-                                        <Users className="h-4 w-4 lg:h-5 lg:w-5 text-blue-600" />
-                                        <span className="text-sm lg:text-base text-gray-700">Waiting List</span>
-                                    </div>
-                                    <span className="font-semibold text-gray-900">{stats.waitingList}</span>
-                                </div>
-                                
-                                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                    <div className="flex items-center space-x-3">
-                                        <UserCheck className="h-4 w-4 lg:h-5 lg:w-5 text-green-600" />
-                                        <span className="text-sm lg:text-base text-gray-700">Service Done</span>
-                                    </div>
-                                    <span className="font-semibold text-gray-900">{stats.serviceDone}</span>
-                                </div>
-                                
-                                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                    <div className="flex items-center space-x-3">
-                                        <Clock className="h-4 w-4 lg:h-5 lg:w-5 text-yellow-600" />
-                                        <span className="text-sm lg:text-base text-gray-700">Total Idle Time</span>
-                                    </div>
-                                    <span className="font-semibold text-gray-900">{stats.totalIdleTime}</span>
-                                </div>
-                                
-                                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                    <div className="flex items-center space-x-3">
-                                        <Timer className="h-4 w-4 lg:h-5 lg:w-5 text-purple-600" />
-                                        <span className="text-sm lg:text-base text-gray-700">Service Duration</span>
-                                    </div>
-                                    <span className="font-semibold text-gray-900">{stats.serviceDuration}</span>
-                                </div>
-                            </div>
-
-                            {/* Session Control */}
-                            <div className="mt-4 lg:mt-6 pt-4 lg:pt-6 border-t">
-                                <button className="w-full flex items-center justify-center space-x-2 bg-red-600 text-white py-3 px-4 rounded-lg hover:bg-red-700 transition-colors">
-                                    <LogOut className="h-4 w-4" />
-                                    <span>Finish Session</span>
-                                </button>
-                            </div>
+                    {/* Pending Queue Table */}
+                    <div className="bg-white rounded-lg shadow-sm border order-4 w-full">
+                        <div className="p-4 lg:p-6 border-b">
+                            <h3 className="text-lg font-semibold text-gray-900">Pending Queue</h3>
                         </div>
-                    </div>
-                </div>
-
-                {/* Pending Queue Table */}
-                <div className="mt-6 lg:mt-8 bg-white rounded-lg shadow-sm border order-4">
-                    <div className="p-4 lg:p-6 border-b">
-                        <h3 className="text-lg font-semibold text-gray-900">Pending Queue</h3>
-                    </div>
-                    <div className="overflow-x-auto">
-                        <table className="w-full">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pos</th>
-                                    <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ticket #</th>
-                                    <th className="hidden md:table-cell px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student ID</th>
-                                    <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                                    <th className="hidden lg:table-cell px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Wait Time</th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {pending.length > 0 ? (
-                                    pending.map((item, index) => (
-                                        <tr key={item.ticketNumber} className="hover:bg-gray-50">
-                                            <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                {index + 1}
-                                            </td>
-                                            <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                A{item.ticketNumber.toString().slice(-3)}
-                                            </td>
-                                            <td className="hidden md:table-cell px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                {item.studentId}
-                                            </td>
-                                            <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                {item.firstName} {item.lastName}
-                                            </td>
-                                            <td className="hidden lg:table-cell px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                00:05:30
+                        <div className="overflow-x-auto">
+                            <table className="w-full">
+                                <thead className="bg-gray-50">
+                                    <tr>
+                                        <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pos</th>
+                                        <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ticket #</th>
+                                        <th className="hidden md:table-cell px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student ID</th>
+                                        <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                        <th className="hidden lg:table-cell px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Wait Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="bg-white divide-y divide-gray-200">
+                                    {pending.length > 0 ? (
+                                        pending.map((item, index) => (
+                                            <tr key={item.ticketNumber} className="hover:bg-gray-50">
+                                                <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                    {index + 1}
+                                                </td>
+                                                <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                    A{item.ticketNumber.toString().slice(-3)}
+                                                </td>
+                                                <td className="hidden md:table-cell px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    {item.studentId}
+                                                </td>
+                                                <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                    {item.firstName} {item.lastName}
+                                                </td>
+                                                <td className="hidden lg:table-cell px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    00:05:30
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan={5} className="px-4 lg:px-6 py-4 text-center text-sm text-gray-500">
+                                                No pending tickets
                                             </td>
                                         </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan={5} className="px-4 lg:px-6 py-4 text-center text-sm text-gray-500">
-                                            No pending tickets
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+
+
                 </div>
+
             </div>
 
             {/* Footer */}
@@ -649,16 +582,16 @@ export default function Queue() {
                         {/* University Logo */}
 
                         <img src="/assets/dorsu_logo.png" alt="DOrSU" width={80} height={80} />
-                        
+
                         {/* Divider */}
                         <div className="w-px h-12 bg-gray-300"></div>
                         {/* Systems Division Logo */}
                         <img src="/assets/iitso_logo.jpg" alt="DOrSU" width={80} height={80} />
                     </div>
-                    
+
                     {/* Divider Line */}
                     <div className="border-t border-gray-300 mb-6"></div>
-                    
+
                     {/* Text Content */}
                     <div className="text-center space-y-2">
                         <p className="text-sm lg:text-base text-gray-700 font-medium">

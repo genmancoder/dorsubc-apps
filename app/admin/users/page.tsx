@@ -3,17 +3,19 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { 
-  Plus, 
-  Edit, 
-  Trash2, 
-  Users, 
-  UserPlus, 
+import {
+  Plus,
+  Edit,
+  Trash2,
+  Users,
+  UserPlus,
   Settings,
   LogOut,
   Eye,
   EyeOff
 } from 'lucide-react'
+import AdminHeader from '@/components/admin/admin-header'
+import NavLinks from '../nav-links'
 
 interface User {
   id: number
@@ -62,7 +64,7 @@ export default function UserManagementPage() {
   const [showPassword, setShowPassword] = useState(false)
 
   useEffect(() => {
-    checkAuth()
+    // checkAuth()
     fetchUsers()
     fetchWindows()
   }, [])
@@ -121,7 +123,7 @@ export default function UserManagementPage() {
 
   const handleCreateUser = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     try {
       const response = await fetch('/api/users', {
         method: 'POST',
@@ -226,45 +228,28 @@ export default function UserManagementPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
-              <Users className="h-8 w-8 text-blue-600" />
-              <h1 className="text-xl font-semibold text-gray-900">User Management</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">
-                Welcome, {currentUser?.fullName}
-              </span>
-              <button
-                onClick={handleLogout}
-                className="flex items-center space-x-2 text-gray-600 hover:text-gray-800"
-              >
-                <LogOut className="h-4 w-4" />
-                <span>Logout</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+
+      <AdminHeader />
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Actions */}
-        <div className="mb-6 flex justify-between items-center">
-          <h2 className="text-lg font-medium text-gray-900">Users</h2>
-          <button
-            onClick={() => setShowCreateModal(true)}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center space-x-2"
-          >
-            <UserPlus className="h-4 w-4" />
-            <span>Add User</span>
-          </button>
-        </div>
+
+        <NavLinks />
 
         {/* Users Table */}
-        <div className="bg-white shadow-sm rounded-lg overflow-hidden">
+        <div className="bg-white border shadow-sm rounded-lg overflow-hidden p-6">
+
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-lg font-medium text-gray-900">User Management</h2>
+            <button
+              onClick={() => setShowCreateModal(true)}
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center space-x-2"
+            >
+              <Plus className="h-4 w-4" />
+              <span>Add User</span>
+            </button>
+          </div>
+
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
@@ -303,20 +288,18 @@ export default function UserManagementPage() {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        user.role === 'admin' 
-                          ? 'bg-purple-100 text-purple-800' 
-                          : 'bg-gray-100 text-gray-800'
-                      }`}>
+                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${user.role === 'admin'
+                        ? 'bg-purple-100 text-purple-800'
+                        : 'bg-gray-100 text-gray-800'
+                        }`}>
                         {user.role}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        user.isActive 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-red-100 text-red-800'
-                      }`}>
+                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${user.isActive
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
+                        }`}>
                         {user.isActive ? 'Active' : 'Inactive'}
                       </span>
                     </td>
@@ -355,8 +338,8 @@ export default function UserManagementPage() {
 
       {/* Create User Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-md w-full p-6">
+        <div className="fixed inset-0 backdrop-blur-sm bg-white/30 bg-opacity-50 flex items-center justify-center p-4 z-50 border">
+          <div className="bg-white rounded-lg max-w-md w-full p-6 border">
             <h3 className="text-lg font-medium text-gray-900 mb-4">Create New User</h3>
             <form onSubmit={handleCreateUser} className="space-y-4">
               <div>
@@ -365,7 +348,7 @@ export default function UserManagementPage() {
                   type="email"
                   required
                   value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -375,7 +358,7 @@ export default function UserManagementPage() {
                   type="text"
                   required
                   value={formData.username}
-                  onChange={(e) => setFormData({...formData, username: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -386,7 +369,7 @@ export default function UserManagementPage() {
                     type={showPassword ? 'text' : 'password'}
                     required
                     value={formData.password}
-                    onChange={(e) => setFormData({...formData, password: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                     className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                   <button
@@ -404,7 +387,7 @@ export default function UserManagementPage() {
                   type="text"
                   required
                   value={formData.fullName}
-                  onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -414,7 +397,7 @@ export default function UserManagementPage() {
                   type="text"
                   required
                   value={formData.nickname}
-                  onChange={(e) => setFormData({...formData, nickname: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, nickname: e.target.value })}
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -422,7 +405,7 @@ export default function UserManagementPage() {
                 <label className="block text-sm font-medium text-gray-700">Role</label>
                 <select
                   value={formData.role}
-                  onChange={(e) => setFormData({...formData, role: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="user">User</option>
@@ -461,7 +444,7 @@ export default function UserManagementPage() {
                   type="email"
                   required
                   value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -471,7 +454,7 @@ export default function UserManagementPage() {
                   type="text"
                   required
                   value={formData.username}
-                  onChange={(e) => setFormData({...formData, username: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -481,7 +464,7 @@ export default function UserManagementPage() {
                   <input
                     type={showPassword ? 'text' : 'password'}
                     value={formData.password}
-                    onChange={(e) => setFormData({...formData, password: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                     className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                   <button
@@ -499,7 +482,7 @@ export default function UserManagementPage() {
                   type="text"
                   required
                   value={formData.fullName}
-                  onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -509,7 +492,7 @@ export default function UserManagementPage() {
                   type="text"
                   required
                   value={formData.nickname}
-                  onChange={(e) => setFormData({...formData, nickname: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, nickname: e.target.value })}
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -517,7 +500,7 @@ export default function UserManagementPage() {
                 <label className="block text-sm font-medium text-gray-700">Role</label>
                 <select
                   value={formData.role}
-                  onChange={(e) => setFormData({...formData, role: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="user">User</option>
@@ -542,7 +525,7 @@ export default function UserManagementPage() {
             </form>
           </div>
         </div>
-      )}
+      )}  
     </div>
   )
 }
