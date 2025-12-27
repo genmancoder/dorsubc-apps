@@ -1,6 +1,6 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
-import { useParams } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { useParams, useRouter } from 'next/navigation'
 import {
     Dialog,
     DialogContent,
@@ -28,9 +28,11 @@ import {
     Settings,
     Menu,
     X,
-    ChevronsLeft
+    ChevronsLeft,
+    Command
 } from 'lucide-react'
-import TTSButton from '@/components/tts/TTS'
+import { Button } from '@/components/ui/button'
+import UserHeader from '@/components/users/user-admin'
 
 type Queue = {
     ticketNumber: number
@@ -56,7 +58,6 @@ type PausedQueue = {
 }
 
 export default function Queue() {
-    const wsRef = useRef<WebSocket | null>(null);
     const [current, setCurrent] = useState<Queue | null>(null)
     const [pending, setPending] = useState<Queue[]>([])
     const [pausedQueue, setPausedQueue] = useState<PausedQueue[]>([])
@@ -64,7 +65,7 @@ export default function Queue() {
     const [serviceStartTime, setServiceStartTime] = useState<Date | null>(null)
     const [serviceDuration, setServiceDuration] = useState<string>('00:00:00')
     const [isServiceActive, setIsServiceActive] = useState(false)
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+    
 
     const [details, setDetails] = useState<WindowDetails | null>(null)
 
@@ -74,6 +75,14 @@ export default function Queue() {
     const showDialog = () => setOpen(true);
     const closeDialog = () => setOpen(false);
 
+    const [userWindows, setUserWindows] = useState<WindowDetails[]>([]);
+    const [isWindowsModalOpen, setIsWindowsModalOpen] = useState(false);
+
+    const [currentUser, setCurrentUser] = useState<any>(null)
+
+
+    const router = useRouter();
+
     // Statistics
     const [stats, setStats] = useState({
         waitingList: 0,
@@ -82,7 +91,30 @@ export default function Queue() {
         serviceDuration: '02:45:10'
     })
 
+    useEffect(() => {
+        checkAuth()
+    }, []);
 
+    const checkAuth = async () => {
+        try {
+            const response = await fetch('/api/auth/me')
+            if (response.ok) {
+                const data = await response.json()
+                setCurrentUser(data.user)
+
+            }
+        } catch (error) {
+            router.push('/login')
+        }
+    }
+
+
+
+
+    const handleSelectWindow = (id: number) => {
+        setIsWindowsModalOpen(false);
+        router.push(`/cpanel/queue/${id}`);
+    };
 
 
     const fetchCurrent = async () => {
@@ -149,11 +181,6 @@ export default function Queue() {
             }
         }
     }, [params?.id])
-
-    useEffect(() => {
-        wsRef.current = new WebSocket('ws://localhost:3005');
-        return () => wsRef.current?.close();
-    }, []);
 
     // Service timer effect
     useEffect(() => {
@@ -256,6 +283,15 @@ export default function Queue() {
         }
     }
 
+    const handleLogout = async () => {
+        try {
+            await fetch('/api/auth/logout', { method: 'POST' })
+            router.push('/login')
+        } catch (error) {
+            console.error('Logout error:', error)
+        }
+    }
+
     const callCurrent = async () => {
         if (!current) return;
 
@@ -268,7 +304,7 @@ export default function Queue() {
                 const ws = new WebSocket('ws://localhost:3005')
                 ws.onopen = () => {
                     ws.send(JSON.stringify({
-                        type: 'CALL_TICKET',
+                        type: 'call_ticket',
                         ticketNumber: current.ticketNumber,
                         windowId: windowId
                     }))
@@ -308,93 +344,8 @@ export default function Queue() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col">
-            {/* Header Navigation */}
-            <header className="bg-white shadow-sm border-b">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center h-16">
-                        <div className="flex items-center space-x-4 lg:space-x-8">
-                            <h1 className="text-xl lg:text-2xl font-bold text-blue-600">Queue</h1>
-
-                            {/* Desktop Navigation */}
-                            <nav className="hidden lg:flex space-x-6">
-                                <Link href="/" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Home
-                                </Link>
-                                <Link href={`/queue/${windowId}`} className="bg-blue-100 text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Queue
-                                </Link>
-                                <Link href="/transaction" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Transaction
-                                </Link>
-                                <Link href="/admin" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Administration
-                                </Link>
-                            </nav>
-                        </div>
-
-                        <div className="flex items-center space-x-2 lg:space-x-4">
-                            {/* Desktop Search */}
-                            <div className="hidden md:block relative">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                                <input
-                                    type="text"
-                                    placeholder="Search..."
-                                    className="pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                />
-                            </div>
-
-                            <button className="text-gray-600 hover:text-blue-600">
-                                <Bell className="h-5 w-5" />
-                            </button>
-
-                            <div className="flex items-center space-x-2">
-                                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                                    <span className="text-white text-sm font-medium">A</span>
-                                </div>
-                            </div>
-
-                            {/* Mobile Menu Button */}
-                            <button
-                                className="lg:hidden text-gray-600 hover:text-blue-600"
-                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            >
-                                {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Mobile Navigation */}
-                    {isMobileMenuOpen && (
-                        <div className="lg:hidden border-t border-gray-200 py-4">
-                            <nav className="flex flex-col space-y-2">
-                                <Link href="/" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Home
-                                </Link>
-                                <Link href={`/queue/${windowId}`} className="bg-blue-100 text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Queue
-                                </Link>
-                                <Link href="/transaction" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Transaction
-                                </Link>
-                                <Link href="/admin" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Administration
-                                </Link>
-                            </nav>
-
-                            {/* Mobile Search */}
-                            <div className="mt-4 relative">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                                <input
-                                    type="text"
-                                    placeholder="Search..."
-                                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                />
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </header>
-
+            {/* Header */}
+            <UserHeader />
             {/* Main Content */}
             <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8 w-full">
                 {/* Counter Info */}
@@ -633,6 +584,9 @@ export default function Queue() {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
+
+            
+
         </div>
     )
 }

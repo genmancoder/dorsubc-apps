@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import {
     Dialog,
     DialogContent,
@@ -31,6 +31,8 @@ import {
     ChevronsLeft
 } from 'lucide-react'
 import TTSButton from '@/components/tts/TTS'
+import { Button } from '@/components/ui/button'
+import UserHeader from '@/components/users/user-admin'
 
 type Queue = {
     ticketNumber: number
@@ -65,7 +67,8 @@ export default function Queue() {
     const [serviceDuration, setServiceDuration] = useState<string>('00:00:00')
     const [isServiceActive, setIsServiceActive] = useState(false)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-
+    const [userWindows, setUserWindows] = useState<WindowDetails[]>([]);
+    const [isWindowsModalOpen, setIsWindowsModalOpen] = useState(false);
     const [details, setDetails] = useState<WindowDetails | null>(null)
 
     const params = useParams()
@@ -73,6 +76,10 @@ export default function Queue() {
 
     const showDialog = () => setOpen(true);
     const closeDialog = () => setOpen(false);
+
+    const [currentUser, setCurrentUser] = useState<any>(null)
+
+    const router = useRouter();
 
     // Statistics
     const [stats, setStats] = useState({
@@ -83,7 +90,37 @@ export default function Queue() {
     })
 
 
+    const fetchUserWindows = async () => {
+        try {
+            const res = await fetch('/api/users/windows?userId=' + currentUser.id);
+            if (res.ok) {
+                const data: WindowDetails[] = await res.json();
+                setUserWindows(data);
+                setIsWindowsModalOpen(true); // Open modal after fetching
+            } else {
+                console.error('Failed to fetch user windows');
+            }
+        } catch (error) {
+            console.error('Error fetching user windows:', error);
+        }
+    };
 
+    useEffect(() => {
+        checkAuth()
+    }, []);
+
+    const checkAuth = async () => {
+        try {
+            const response = await fetch('/api/auth/me')
+            if (response.ok) {
+                const data = await response.json()
+                setCurrentUser(data.user)
+
+            }
+        } catch (error) {
+            router.push('/login')
+        }
+    }
 
     const fetchCurrent = async () => {
         if (!windowId) return;
@@ -126,6 +163,15 @@ export default function Queue() {
             const data = await res.json()
             setPending(data)
             setStats(prev => ({ ...prev, waitingList: data.length }))
+        }
+    }
+
+    const handleLogout = async () => {
+        try {
+            await fetch('/api/auth/logout', { method: 'POST' })
+            router.push('/login')
+        } catch (error) {
+            console.error('Logout error:', error)
         }
     }
 
@@ -309,91 +355,8 @@ export default function Queue() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col">
             {/* Header Navigation */}
-            <header className="bg-white shadow-sm border-b">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center h-16">
-                        <div className="flex items-center space-x-4 lg:space-x-8">
-                            <h1 className="text-xl lg:text-2xl font-bold text-blue-600">Queue</h1>
-
-                            {/* Desktop Navigation */}
-                            <nav className="hidden lg:flex space-x-6">
-                                <Link href="/" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Home
-                                </Link>
-                                <Link href={`/queue/${windowId}`} className="bg-blue-100 text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Queue
-                                </Link>
-                                <Link href="/transaction" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Transaction
-                                </Link>
-                                <Link href="/admin" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Administration
-                                </Link>
-                            </nav>
-                        </div>
-
-                        <div className="flex items-center space-x-2 lg:space-x-4">
-                            {/* Desktop Search */}
-                            <div className="hidden md:block relative">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                                <input
-                                    type="text"
-                                    placeholder="Search..."
-                                    className="pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                />
-                            </div>
-
-                            <button className="text-gray-600 hover:text-blue-600">
-                                <Bell className="h-5 w-5" />
-                            </button>
-
-                            <div className="flex items-center space-x-2">
-                                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                                    <span className="text-white text-sm font-medium">A</span>
-                                </div>
-                            </div>
-
-                            {/* Mobile Menu Button */}
-                            <button
-                                className="lg:hidden text-gray-600 hover:text-blue-600"
-                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            >
-                                {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Mobile Navigation */}
-                    {isMobileMenuOpen && (
-                        <div className="lg:hidden border-t border-gray-200 py-4">
-                            <nav className="flex flex-col space-y-2">
-                                <Link href="/" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Home
-                                </Link>
-                                <Link href={`/queue/${windowId}`} className="bg-blue-100 text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Queue
-                                </Link>
-                                <Link href="/transaction" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Transaction
-                                </Link>
-                                <Link href="/admin" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Administration
-                                </Link>
-                            </nav>
-
-                            {/* Mobile Search */}
-                            <div className="mt-4 relative">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                                <input
-                                    type="text"
-                                    placeholder="Search..."
-                                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                />
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </header>
+            
+            <UserHeader />
 
             {/* Main Content */}
             <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8 w-full">
@@ -423,16 +386,17 @@ export default function Queue() {
 
                         <div className="grid grid-cols-2 gap-2">
                             {!isServiceActive ? (
-                                <button
-                                    onClick={startService}
-                                    className="flex items-center justify-center space-x-2 bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors"
-                                >
-                                    <Play className="h-4 w-4" />
-                                    <span>Start</span>
-                                </button>
+                                // <button
+                                //     onClick={startService}
+                                //     className="flex items-center justify-center space-x-2 bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+                                // >
+                                //     <Play className="h-4 w-4" />
+                                //     <span>Start</span>
+                                // </button>
+                                <></>
                             ) : (
                                 <>
-                                    <button
+                                    {/* <button
                                         onClick={pauseService}
                                         className="flex items-center justify-center space-x-2 bg-red-600 text-white py-3 px-4 rounded-lg hover:bg-red-700 transition-colors"
                                     >
@@ -445,7 +409,7 @@ export default function Queue() {
                                     >
                                         <CheckCircle className="h-4 w-4" />
                                         <span>Done</span>
-                                    </button>
+                                    </button> */}
                                 </>
                             )}
 
@@ -475,7 +439,7 @@ export default function Queue() {
                         <div className="bg-white rounded-lg shadow-sm border p-6">
                             <div className="text-center mb-6">
                                 <h3 className="text-2xl font-bold text-orange-600 mb-2">
-                                    Current Queue: {current ? `A${current.ticketNumber.toString().slice(-3)}` : '---'}
+                                    Current Queue: {current ? `10${current.ticketNumber.toString().slice(-3)}` : '---'}
                                 </h3>
                             </div>
 
@@ -490,7 +454,7 @@ export default function Queue() {
                                     </button>
                                 ) : (
                                     <div className="flex space-x-2">
-                                        <button
+                                        {/* <button
                                             onClick={pauseService}
                                             className="flex-1 flex items-center justify-center space-x-2 bg-red-600 text-white py-3 px-4 rounded-lg hover:bg-red-700 transition-colors"
                                         >
@@ -503,7 +467,7 @@ export default function Queue() {
                                         >
                                             <CheckCircle className="h-4 w-4" />
                                             <span>Done</span>
-                                        </button>
+                                        </button> */}
                                     </div>
                                 )}
 
@@ -550,7 +514,7 @@ export default function Queue() {
                                                     {index + 1}
                                                 </td>
                                                 <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                    A{item.ticketNumber.toString().slice(-3)}
+                                                    10{item.ticketNumber.toString().slice(-3)}
                                                 </td>
                                                 <td className="hidden md:table-cell px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                     {item.studentId}

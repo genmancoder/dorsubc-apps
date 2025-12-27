@@ -11,25 +11,33 @@ import {
 } from "@/components/ui/dialog"
 import { toast } from "sonner"
 import Link from 'next/link'
-import { 
-    Plus, 
-    Users, 
-    Settings, 
+import {
+    Plus,
+    Users,
+    Settings,
     LogOut,
     User,
     Shield
 } from 'lucide-react'
 import AdminHeader from '@/components/admin/admin-header'
 
+type User = {
+    id: number
+    name: string
+    email: string
+}
+
 type QueeWindow = {
     id: number
     windowTitle: string
-    windowDescription: string
+    windowDescription: string,
+    users?: User[]
 }
 
 export default function Cpanel() {
     const [windows, setWindows] = useState<QueeWindow[]>([])
     const [currentUser, setCurrentUser] = useState<any>(null)
+    const [users, setUsers] = useState<User[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const [open, setOpen] = useState(false);
     const router = useRouter()
@@ -37,10 +45,11 @@ export default function Cpanel() {
     const [form, setForm] = useState({
         windowTitle: '',
         windowDescription: '',
+        assignedUserIds: [] as number[],
     })
 
     const [error, setError] = useState('')
-   
+
 
     const fetchWindow = async () => {
         const res = await fetch('/api/window/list')
@@ -51,6 +60,13 @@ export default function Cpanel() {
         }
     }
 
+    const fetchUsers = async () => {
+        const res = await fetch('/api/users/list')
+        if (res.ok) {
+            setUsers(await res.json())
+        }
+    }
+
     useEffect(() => {
 
         setIsLoading(true);
@@ -58,7 +74,7 @@ export default function Cpanel() {
 
         setIsLoading(false);
     }, []);
-    
+
 
     const validateForm = () => {
         const { windowTitle, windowDescription } = form
@@ -73,6 +89,7 @@ export default function Cpanel() {
         setForm({
             windowTitle: '',
             windowDescription: '',
+            assignedUserIds: [],
         });
     };
 
@@ -118,7 +135,7 @@ export default function Cpanel() {
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Header */}
-            <AdminHeader/>
+            <AdminHeader />
 
             {/* Main Content */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

@@ -28,9 +28,11 @@ import {
     Settings,
     Menu,
     X,
-    ChevronsLeft
+    ChevronsLeft,
+    Command
 } from 'lucide-react'
-import TTSButton from '@/components/tts/TTS'
+import { Button } from '@/components/ui/button'
+import UserHeader from '@/components/users/user-admin'
 
 type Queue = {
     ticketNumber: number
@@ -63,7 +65,7 @@ export default function Queue() {
     const [serviceStartTime, setServiceStartTime] = useState<Date | null>(null)
     const [serviceDuration, setServiceDuration] = useState<string>('00:00:00')
     const [isServiceActive, setIsServiceActive] = useState(false)
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+    
 
     const [details, setDetails] = useState<WindowDetails | null>(null)
 
@@ -72,6 +74,13 @@ export default function Queue() {
 
     const showDialog = () => setOpen(true);
     const closeDialog = () => setOpen(false);
+
+    const [userWindows, setUserWindows] = useState<WindowDetails[]>([]);
+    const [isWindowsModalOpen, setIsWindowsModalOpen] = useState(false);
+
+    const [currentUser, setCurrentUser] = useState<any>(null)
+
+
     const router = useRouter();
 
     // Statistics
@@ -82,7 +91,30 @@ export default function Queue() {
         serviceDuration: '02:45:10'
     })
 
+    useEffect(() => {
+        checkAuth()
+    }, []);
 
+    const checkAuth = async () => {
+        try {
+            const response = await fetch('/api/auth/me')
+            if (response.ok) {
+                const data = await response.json()
+                setCurrentUser(data.user)
+
+            }
+        } catch (error) {
+            router.push('/login')
+        }
+    }
+
+
+
+
+    const handleSelectWindow = (id: number) => {
+        setIsWindowsModalOpen(false);
+        router.push(`/cpanel/queue/${id}`);
+    };
 
 
     const fetchCurrent = async () => {
@@ -312,276 +344,27 @@ export default function Queue() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col">
-            {/* Header Navigation */}
-            <header className="bg-white shadow-sm border-b">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center h-16">
-                        <div className="flex items-center space-x-4 lg:space-x-8">
-                            <h1 className="text-xl lg:text-2xl font-bold text-blue-600">Queue</h1>
-
-                            {/* Desktop Navigation */}
-                            <nav className="hidden lg:flex space-x-6">
-                                <Link href="/" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Home
-                                </Link>
-                                <Link href={`/queue/${windowId}`} className="bg-blue-100 text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Queue
-                                </Link>
-                                <Link href="/transaction" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Transaction
-                                </Link>
-                                <Link href="/admin" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Administration
-                                </Link>
-                                <button
-                                    onClick={handleLogout}
-                                    className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
-                                >
-                                    Logout
-                                </button>
-                            </nav>
-                        </div>
-
-                        <div className="flex items-center space-x-2 lg:space-x-4">
-                            {/* Desktop Search */}
-                            <div className="hidden md:block relative">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                                <input
-                                    type="text"
-                                    placeholder="Search..."
-                                    className="pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                />
-                            </div>
-
-                            <button className="text-gray-600 hover:text-blue-600">
-                                <Bell className="h-5 w-5" />
-                            </button>
-
-                            <div className="flex items-center space-x-2">
-                                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                                    <span className="text-white text-sm font-medium">A</span>
-                                </div>
-                            </div>
-
-                            {/* Mobile Menu Button */}
-                            <button
-                                className="lg:hidden text-gray-600 hover:text-blue-600"
-                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            >
-                                {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Mobile Navigation */}
-                    {isMobileMenuOpen && (
-                        <div className="lg:hidden border-t border-gray-200 py-4">
-                            <nav className="flex flex-col space-y-2">
-                                <Link href="/" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Home
-                                </Link>
-                                <Link href={`/queue/${windowId}`} className="bg-blue-100 text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Queue
-                                </Link>
-                                <Link href="/transaction" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Transaction
-                                </Link>
-                                <Link href="/admin" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Administration
-                                </Link>
-                            </nav>
-
-                            {/* Mobile Search */}
-                            <div className="mt-4 relative">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                                <input
-                                    type="text"
-                                    placeholder="Search..."
-                                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                />
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </header>
-
+            {/* Header */}
+            <UserHeader />
             {/* Main Content */}
             <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8 w-full">
                 {/* Counter Info */}
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 space-y-4 lg:space-y-0">
-                    <div className="mb-4 lg:mb-6">
-                        <h2 className="text-xl lg:text-2xl font-bold text-gray-900">{details?.windowTitle || 'Counter'}</h2>
-                        <p className="text-sm lg:text-base text-gray-600">{formatDate()}</p>
-                    </div>
-                    <div className="bg-white rounded-lg shadow-sm border p-4">
-                        <h2 className="text-xl lg:text-2xl font-bold text-gray-900">{details?.windowTitle || 'Counter'}</h2>
-                        <p className="text-sm lg:text-base text-gray-600">{formatDate()}</p>
-                    </div>
-                </div>
+               
 
                 {/* Mobile Current Queue Card */}
-                <div className="lg:hidden mb-6">
-                    <div className="bg-white rounded-lg shadow-sm border p-4">
-                        <div className="text-center mb-4">
-                            <h3 className="text-xl font-bold text-orange-600 mb-2">
-                                Current Queue: {current ? `A${current.ticketNumber.toString().slice(-3)}` : '---'}
-                            </h3>
-                            <div className="text-base text-gray-600">
-                                Service Time: {serviceDuration}
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-2">
-                            {!isServiceActive ? (
-                                <button
-                                    onClick={startService}
-                                    className="flex items-center justify-center space-x-2 bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors"
-                                >
-                                    <Play className="h-4 w-4" />
-                                    <span>Start</span>
-                                </button>
-                            ) : (
-                                <>
-                                    <button
-                                        onClick={pauseService}
-                                        className="flex items-center justify-center space-x-2 bg-red-600 text-white py-3 px-4 rounded-lg hover:bg-red-700 transition-colors"
-                                    >
-                                        <Pause className="h-4 w-4" />
-                                        <span>Pause</span>
-                                    </button>
-                                    <button
-                                        onClick={completeService}
-                                        className="flex items-center justify-center space-x-2 bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 transition-colors"
-                                    >
-                                        <CheckCircle className="h-4 w-4" />
-                                        <span>Done</span>
-                                    </button>
-                                </>
-                            )}
-
-                            <button
-                                onClick={callCurrent}
-                                className="flex items-center justify-center space-x-2 bg-gray-600 text-white py-3 px-4 rounded-lg hover:bg-gray-700 transition-colors"
-                            >
-                                <Volume2 className="h-4 w-4" />
-                                <span>Call</span>
-                            </button>
-
-                            <button
-                                onClick={callNext}
-                                className="flex items-center justify-center space-x-2 bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors"
-                            >
-                                <ChevronsRight className="h-4 w-4" />
-                                <span>Next</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                
 
                 <div className="flex gap-2">
 
-                    {/* Center Column - Current Queue (Desktop) */}
-                    <div className=" ">
-                        <div className="bg-white rounded-lg shadow-sm border p-6">
-                            <div className="text-center mb-6">
-                                <h3 className="text-2xl font-bold text-orange-600 mb-2">
-                                    Current Queue: {current ? `A${current.ticketNumber.toString().slice(-3)}` : '---'}
-                                </h3>
-                            </div>
-
-                            <div className="flex flex-col space-y-3">
-                                {!isServiceActive ? (
-                                    <button
-                                        onClick={startService}
-                                        className="flex items-center justify-center space-x-2 bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors"
-                                    >
-                                        <ChevronsLeft className="h-4 w-4" />
-                                        <span>Previous</span>
-                                    </button>
-                                ) : (
-                                    <div className="flex space-x-2">
-                                        <button
-                                            onClick={pauseService}
-                                            className="flex-1 flex items-center justify-center space-x-2 bg-red-600 text-white py-3 px-4 rounded-lg hover:bg-red-700 transition-colors"
-                                        >
-                                            <Pause className="h-4 w-4" />
-                                            <span>Pause</span>
-                                        </button>
-                                        <button
-                                            onClick={completeService}
-                                            className="flex-1 flex items-center justify-center space-x-2 bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 transition-colors"
-                                        >
-                                            <CheckCircle className="h-4 w-4" />
-                                            <span>Done</span>
-                                        </button>
-                                    </div>
-                                )}
-
-                                <button
-                                    onClick={callCurrent}
-                                    className="flex items-center justify-center space-x-2 bg-gray-600 text-white py-3 px-4 rounded-lg hover:bg-gray-700 transition-colors"
-                                >
-                                    <Volume2 className="h-4 w-4" />
-                                    <span>Call</span>
-                                </button>
-
-                                <button
-                                    onClick={callNext}
-                                    className="flex items-center justify-center space-x-2 bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors"
-                                >
-                                    <ChevronsRight className="h-4 w-4" />
-                                    <span>Next</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    {/* Center Column - Current Queue (Desktop) */}                
 
                     {/* Pending Queue Table */}
-                    <div className="bg-white rounded-lg shadow-sm border order-4 w-full">
+                    <div className="bg-white rounded-lg shadow-sm border order-4 w-full min-h-dvh">
                         <div className="p-4 lg:p-6 border-b">
-                            <h3 className="text-lg font-semibold text-gray-900">Pending Queue</h3>
+                            <h3 className="text-lg font-semibold text-gray-900"></h3>
                         </div>
-                        <div className="overflow-x-auto">
-                            <table className="w-full">
-                                <thead className="bg-gray-50">
-                                    <tr>
-                                        <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pos</th>
-                                        <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ticket #</th>
-                                        <th className="hidden md:table-cell px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student ID</th>
-                                        <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                                        <th className="hidden lg:table-cell px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Wait Time</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                    {pending.length > 0 ? (
-                                        pending.map((item, index) => (
-                                            <tr key={item.ticketNumber} className="hover:bg-gray-50">
-                                                <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                    {index + 1}
-                                                </td>
-                                                <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                    A{item.ticketNumber.toString().slice(-3)}
-                                                </td>
-                                                <td className="hidden md:table-cell px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {item.studentId}
-                                                </td>
-                                                <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                    {item.firstName} {item.lastName}
-                                                </td>
-                                                <td className="hidden lg:table-cell px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    00:05:30
-                                                </td>
-                                            </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td colSpan={5} className="px-4 lg:px-6 py-4 text-center text-sm text-gray-500">
-                                                No pending tickets
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
+                        <div className="overflow-x-auto p-4 text-gray-900">
+                            <p>Select a specific window to get started.</p>
                         </div>
                     </div>
 
@@ -643,6 +426,9 @@ export default function Queue() {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
+
+            
+
         </div>
     )
 }

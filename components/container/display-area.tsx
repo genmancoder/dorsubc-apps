@@ -16,6 +16,8 @@ export function DisplayArea() {
     const [settingsOpen, setSettingsOpen] = useState(false)
 
     const socketRef = useRef<WebSocket | null>(null)
+    const audioUnlocked = useRef(false);
+
     const audioQueue = useRef<SpeechSynthesisUtterance[]>([])
 
     type DisplaySettings = {
@@ -82,9 +84,10 @@ export function DisplayArea() {
         const ws = new WebSocket("ws://localhost:3005")
         socketRef.current = ws
 
-        ws.onopen = () => console.log("WS connected")
+        ws.onopen = () => console.log("Display Area: WS connected")
 
         ws.onmessage = (event) => {
+            console.log("WS message received:", event.data )
             try {
                 const data = JSON.parse(event.data)
                 if (data.type === "CALL_TICKET") {

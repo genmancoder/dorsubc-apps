@@ -1,6 +1,6 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
-import { useParams } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { useParams, useRouter } from 'next/navigation'
 import {
     Dialog,
     DialogContent,
@@ -28,7 +28,8 @@ import {
     Settings,
     Menu,
     X,
-    ChevronsLeft
+    ChevronsLeft,
+    Command
 } from 'lucide-react'
 import TTSButton from '@/components/tts/TTS'
 
@@ -55,8 +56,7 @@ type PausedQueue = {
     duration: string
 }
 
-export default function Queue() {
-    const wsRef = useRef<WebSocket | null>(null);
+export default function Windows() {
     const [current, setCurrent] = useState<Queue | null>(null)
     const [pending, setPending] = useState<Queue[]>([])
     const [pausedQueue, setPausedQueue] = useState<PausedQueue[]>([])
@@ -73,6 +73,7 @@ export default function Queue() {
 
     const showDialog = () => setOpen(true);
     const closeDialog = () => setOpen(false);
+    const router = useRouter();
 
     // Statistics
     const [stats, setStats] = useState({
@@ -81,6 +82,31 @@ export default function Queue() {
         totalIdleTime: '00:10:00',
         serviceDuration: '02:45:10'
     })
+
+    const [userWindows, setUserWindows] = useState<WindowDetails[]>([]);
+    const [isWindowsModalOpen, setIsWindowsModalOpen] = useState(false);
+
+
+    const fetchUserWindows = async () => {
+        try {
+            const res = await fetch('/api/user/windows');
+            if (res.ok) {
+                const data: WindowDetails[] = await res.json();
+                setUserWindows(data);
+                setIsWindowsModalOpen(true); // Open modal after fetching
+            } else {
+                console.error('Failed to fetch user windows');
+            }
+        } catch (error) {
+            console.error('Error fetching user windows:', error);
+        }
+    };
+
+    const handleSelectWindow = (id: number) => {
+        setIsWindowsModalOpen(false);
+        router.push(`/cpanel/${id}`);
+    };
+
 
 
 
@@ -149,11 +175,6 @@ export default function Queue() {
             }
         }
     }, [params?.id])
-
-    useEffect(() => {
-        wsRef.current = new WebSocket('ws://localhost:3005');
-        return () => wsRef.current?.close();
-    }, []);
 
     // Service timer effect
     useEffect(() => {
@@ -256,6 +277,15 @@ export default function Queue() {
         }
     }
 
+    const handleLogout = async () => {
+        try {
+            await fetch('/api/auth/logout', { method: 'POST' })
+            router.push('/login')
+        } catch (error) {
+            console.error('Logout error:', error)
+        }
+    }
+
     const callCurrent = async () => {
         if (!current) return;
 
@@ -268,7 +298,7 @@ export default function Queue() {
                 const ws = new WebSocket('ws://localhost:3005')
                 ws.onopen = () => {
                     ws.send(JSON.stringify({
-                        type: 'CALL_TICKET',
+                        type: 'call_ticket',
                         ticketNumber: current.ticketNumber,
                         windowId: windowId
                     }))
@@ -313,22 +343,23 @@ export default function Queue() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16">
                         <div className="flex items-center space-x-4 lg:space-x-8">
-                            <h1 className="text-xl lg:text-2xl font-bold text-blue-600">Queue</h1>
+                            <Command className="h-8 w-8 text-blue-600" />
+                            <h1 className="-ml-2 text-xl lg:text-2xl font-bold text-blue-600">Kyuu.</h1>
 
                             {/* Desktop Navigation */}
                             <nav className="hidden lg:flex space-x-6">
-                                <Link href="/" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Home
+                                <Link href="/cpanel" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Home
                                 </Link>
-                                <Link href={`/queue/${windowId}`} className="bg-blue-100 text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Queue
+                                <Link href={`/cpanel/windows`} className="bg-blue-100 text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+                                    Windows
                                 </Link>
-                                <Link href="/transaction" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Transaction
-                                </Link>
-                                <Link href="/admin" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                                    Administration
-                                </Link>
+
+                                <button
+                                    onClick={handleLogout}
+                                    className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                                >
+                                    Logout
+                                </button>
                             </nav>
                         </div>
 
