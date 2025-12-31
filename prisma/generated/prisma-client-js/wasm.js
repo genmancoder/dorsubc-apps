@@ -21,11 +21,11 @@ exports.$Enums = {}
 
 /**
  * Prisma Client JS version: 6.13.0
- * Query Engine version: 361e86d0ea4987e9f53a565309b3eed797a6bcbd
+ * Query Engine version: 605197351a3c8bdd595af2d2a9bc3025bca48ea2
  */
 Prisma.prismaVersion = {
   client: "6.13.0",
-  engine: "361e86d0ea4987e9f53a565309b3eed797a6bcbd"
+  engine: "605197351a3c8bdd595af2d2a9bc3025bca48ea2"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -117,6 +117,20 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  username: 'username',
+  password: 'password',
+  fullName: 'fullName',
+  nickname: 'nickname',
+  role: 'role',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
 exports.Prisma.QueueScalarFieldEnum = {
   id: 'id',
   studentId: 'studentId',
@@ -138,6 +152,15 @@ exports.Prisma.WindowScalarFieldEnum = {
   deletedAt: 'deletedAt'
 };
 
+exports.Prisma.UserWindowScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  windowId: 'windowId',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -150,8 +173,10 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
+  User: 'User',
   Queue: 'Queue',
-  Window: 'Window'
+  Window: 'Window',
+  UserWindow: 'UserWindow'
 };
 
 /**
