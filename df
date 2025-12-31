@@ -1,0 +1,205 @@
+[1mdiff --git a/.gitignore b/.gitignore[m
+[1mindex 9b81a94..62fcee8 100644[m
+[1m--- a/.gitignore[m
+[1m+++ b/.gitignore[m
+[36m@@ -41,4 +41,3 @@[m [myarn-error.log*[m
+ next-env.d.ts[m
+ [m
+ /lib/generated/prisma[m
+[31m-/prisma/dev.db[m
+[1mdiff --git a/app/admin/[id]/page.tsx b/app/admin/[id]/page.tsx[m
+[1mdeleted file mode 100644[m
+[1mindex 30539ad..0000000[m
+[1m--- a/app/admin/[id]/page.tsx[m
+[1m+++ /dev/null[m
+[36m@@ -1,213 +0,0 @@[m
+[31m-'use client'[m
+[31m-import { useState, useEffect } from 'react'[m
+[31m-import { useParams } from 'next/navigation'[m
+[31m-import {[m
+[31m-    Dialog,[m
+[31m-    DialogContent,[m
+[31m-    DialogDescription,[m
+[31m-    DialogFooter,[m
+[31m-    DialogHeader,[m
+[31m-    DialogOverlay,[m
+[31m-    DialogTitle,[m
+[31m-} from "@/components/ui/dialog"[m
+[31m-import Link from 'next/link'[m
+[31m-[m
+[31m-type Queue = {[m
+[31m-    ticketNumber: number[m
+[31m-    firstName: string[m
+[31m-    lastName: string[m
+[31m-    studentId: string[m
+[31m-}[m
+[31m-[m
+[31m-type WindowDetails = {[m
+[31m-    windowId: number;[m
+[31m-    windowTitle: string;[m
+[31m-    windowDescription: string;[m
+[31m-}[m
+[31m-[m
+[31m-export default function Admin() {[m
+[31m-    const [current, setCurrent] = useState<Queue | null>(null)[m
+[31m-    const [pending, setPending] = useState<Queue[]>([])[m
+[31m-    const [open, setOpen] = useState(false);[m
+[31m-[m
+[31m-    const [details, setDetails] = useState<WindowDetails | null>(null)[m
+[31m-[m
+[31m-    const params = useParams()[m
+[31m-    const [windowId, setWindowId] = useState<number | null>(null)[m
+[31m-[m
+[31m-    const showDialog = () => setOpen(true);[m
+[31m-    const closeDialog = () => setOpen(false);[m
+[31m-[m
+[31m-[m
+[31m-    const fetchCurrent = async () => {[m
+[31m-        const res = await fetch('/api/queue/current/' + windowId)[m
+[31m-        if (res.ok) {[m
+[31m-            const data = await res.json()[m
+[31m-            setCurrent(data)[m
+[31m-        } else {[m
+[31m-            setCurrent(null)[m
+[31m-        }[m
+[31m-    }[m
+[31m-[m
+[31m-    const fetchWindowDetails = async () => {[m
+[31m-        const res = await fetch('/api/window/details/' + windowId)[m
+[31m-        if (res.ok) {[m
+[31m-            const data = await res.json()[m
+[31m-            setDetails(data)[m
+[31m-        } else {[m
+[31m-            setDetails(null)[m
+[31m-        }[m
+[31m-    }[m
+[31m-[m
+[31m-[m
+[31m-[m
+[31m-    const fetchPending = async () => {[m
+[31m-        const res = await fetch('/api/queue/pending/' + windowId)[m
+[31m-        if (res.ok) {[m
+[31m-            const data = await res.json()[m
+[31m-            console.log(data)[m
+[31m-            setPending(data)[m
+[31m-        }[m
+[31m-[m
+[31m-    }[m
+[31m-[m
+[31m-    useEffect(() => {[m
+[31m-        if (params?.id) {[m
+[31m-            const parsed = Number(params.id)[m
+[31m-            if (!isNaN(parsed)) {[m
+[31m-                setWindowId(parsed)[m
+[31m-            } else {[m
+[31m-                console.error('Invalid windowId:', params)[m
+[31m-            }[m
+[31m-        }[m
+[31m-    }, [params?.id])[m
+[31m-[m
+[31m-    console.log("win id", windowId);[m
+[31m-[m
+[31m-    const callNext = async () => {[m
+[31m-        if (windowId !== null) {[m
+[31m-[m
+[31m-            const res = await fetch('/api/queue/next', {[m
+[31m-                method: 'POST',[m
+[31m-                headers: {[m
+[31m-                    'Content-Type': 'application/json',[m
+[31m-                },[m
+[31m-                body: JSON.stringify({ windowId }),[m
+[31m-            })[m
+[31m-[m
+[31m-            if (res.ok) {[m
+[31m-                const data = await res.json()[m
+[31m-                setCurrent(data.ticketNumber)[m
+[31m-            } else {[m
+[31m-                setCurrent(null)[m
+[31m-            }[m
+[31m-        } else {[m
+[31m-            console.log("window id is null")[m
+[31m-        }[m
+[31m-    }[m
+[31m-[m
+[31m-[m
+[31m-    useEffect(() => {[m
+[31m-        if (windowId !== null) {[m
+[31m-            fetchCurrent()[m
+[31m-            fetchPending()[m
+[31m-            fetchWindowDetails();[m
+[31m-            const interval = setInterval(() => {[m
+[31m-                fetchCurrent()[m
+[31m-                fetchPending()[m
+[31m-            }, 5000)[m
+[31m-[m
+[31m-            return () => clearInterval(interval)[m
+[31m-        }[m
+[31m-    }, [windowId])[m
+[31m-[m
+[31m-[m
+[31m-    console.log("det", details)[m
+[31m-[m
+[31m-    return ([m
+[31m-        <div className="max-w-2xl mx-auto mt-10 text-center bg-white p-5 scroll-auto rounded-md mb-8">[m
+[31m-            <h1 className="text-3xl font-bold mb-6">Admin Panel - {details?.windowTitle}[m
+[31m-[m
+[31m-            </h1>[m
+[31m-            <div className="flex gap-2 justify-center">[m
+[31m-                <Link href="/cpanel" className='bg-primary text-white px-6 py-3 rounded' >[m
+[31m-                    <span>CPanel</span>[m
+[31m-                </Link>[m
+[31m-                <button onClick={callNext} className="bg-green-800 text-white px-6 py-3 rounded cursor-pointer">[m
+[31m-                    Call Next[m
+[31m-                </button>[m
+[31m-                {/* <button onClick={showDialog} className="bg-primary text-white px-6 py-3 rounded">[m
+[31m-                    Clear Queue[m
+[31m-                </button>[m
+[31m-                <button onClick={showDialog} className="bg-primary text-white px-6 py-3 rounded">[m
+[31m-                    View Queue[m
+[31m-                </button> */}[m
+[31m-            </div>[m
+[31m-[m
+[31m-            <Dialog open={open} onOpenChange={setOpen} >[m
+[31m-                <DialogOverlay className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm" />[m
+[31m-                <DialogContent>[m
+[31m-                    <DialogHeader>[m
+[31m-                        <DialogTitle>Are you absolutely sure?</DialogTitle>[m
+[31m-                        <DialogDescription>[m
+[31m-                            This action cannot be undone. This will permanently delete all tickets from the current queue.[m
+[31m-                        </DialogDescription>[m
+[31m-                    </DialogHeader>[m
+[31m-                    <DialogFooter>[m
+[31m-                        <button onClick={showDialog} className="bg-green-600 text-white px-6 py-3 rounded">[m
+[31m-                            Yes, clear it.[m
+[31m-                        </button>[m
+[31m-                        <button onClick={closeDialog} className="bg-red-600 text-white px-6 py-3 rounded">[m
+[31m-                            Cancel[m
+[31m-                        </button>[m
+[31m-                    </DialogFooter>[m
+[31m-                </DialogContent>[m
+[31m-            </Dialog>[m
+[31m-[m
+[31m-            {current ? ([m
+[31m-                <>[m
+[31m-                    <h2 className="mt-8 text-2xl">[m
+[31m-                        Now Serving: {current.ticketNumber} - ({current.lastName}, {current.firstName})[m
+[31m-                    </h2>[m
+[31m-                    <p className="mt-2">ID Number: {current.studentId}</p>[m
+[31m-                </>[m
+[31m-            ) : ([m
+[31m-                <h2 className="mt-8 text-xl text-gray-600">No one currently being served.</h2>[m
+[31m-            )}[m
+[31m-[m
+[31m-            <hr className="my-10" />[m
+[31m-[m
+[31m-            <h3 className="text-2xl font-semibold mb-4">Pending Tickets</h3>[m
+[31m-            <div className="">[m
+[31m-                <table className="w-full border">[m
+[31m-                    <thead>[m
+[31m-                        <tr className="bg-gray-200">[m
+[31m-                            <th className="p-2 border">Ticket #</th>[m
+[31m-                            <th className="p-2 border">Id Number</th>[m
+[31m-                            <th className="p-2 border">Name</th>[m
+[31m-                        </tr>[m
+[31m-                    </thead>[m
+[31m

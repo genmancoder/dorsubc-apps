@@ -6,7 +6,7 @@ const STARTING_TICKET = 10100
 export async function POST(req: Request) {
     const body = await req.json()
     const { studentId, firstName, lastName, windowId } = body
-  
+    
     const existingTicket = await prisma.queue.findFirst({
         where: { studentId: studentId, windowId: windowId, status: "waiting" },    })
 
