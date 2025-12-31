@@ -131,21 +131,21 @@ export default function Request() {
       {/* Confirmation Dialog */}
       <Dialog open={confirmDialog} onOpenChange={setConfirmDialog}>
         <DialogOverlay className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm" />
-        <DialogContent className="max-w-sm">
+        <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Confirm Service Window</DialogTitle>
-            <DialogDescription>Are you sure you want to generate a ticket for this window?</DialogDescription>
+            <DialogTitle className="text-xl">Confirm Service Window</DialogTitle>
+            <DialogDescription className="text-lg">Are you sure you want to generate a ticket for this window?</DialogDescription>
           </DialogHeader>
           {selectedWindow && (
             <div className="py-4">
               <div className="bg-muted p-4 rounded-lg">
                 <p className="text-sm text-muted-foreground mb-1">Selected Window</p>
-                <h3 className="font-semibold text-lg">{selectedWindow.windowTitle}</h3>
+                <h3 className="font-semibold text-xl">{selectedWindow.windowTitle}</h3>
                 <p className="text-sm text-muted-foreground mt-2">{selectedWindow.windowDescription}</p>
               </div>
             </div>
           )}
-          <DialogFooter className="flex gap-2 sm:gap-0">
+          <DialogFooter className="flex gap-3 sm:gap-2">
             <button
               onClick={() => setConfirmDialog(false)}
               className="flex-1 border border-border text-foreground font-semibold px-4 py-2 rounded-md hover:bg-muted transition-colors"
