@@ -14,6 +14,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
+ * Model User
+ * 
+ */
+export type User = $Result.DefaultSelection<Prisma.$UserPayload>
+/**
  * Model Queue
  * 
  */
@@ -23,6 +28,11 @@ export type Queue = $Result.DefaultSelection<Prisma.$QueuePayload>
  * 
  */
 export type Window = $Result.DefaultSelection<Prisma.$WindowPayload>
+/**
+ * Model UserWindow
+ * 
+ */
+export type UserWindow = $Result.DefaultSelection<Prisma.$UserWindowPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -31,8 +41,8 @@ export type Window = $Result.DefaultSelection<Prisma.$WindowPayload>
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Queues
- * const queues = await prisma.queue.findMany()
+ * // Fetch zero or more Users
+ * const users = await prisma.user.findMany()
  * ```
  *
  *
@@ -52,8 +62,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Queues
-   * const queues = await prisma.queue.findMany()
+   * // Fetch zero or more Users
+   * const users = await prisma.user.findMany()
    * ```
    *
    *
@@ -150,6 +160,16 @@ export class PrismaClient<
   }>>
 
       /**
+   * `prisma.user`: Exposes CRUD operations for the **User** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Users
+    * const users = await prisma.user.findMany()
+    * ```
+    */
+  get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.queue`: Exposes CRUD operations for the **Queue** model.
     * Example usage:
     * ```ts
@@ -168,6 +188,16 @@ export class PrismaClient<
     * ```
     */
   get window(): Prisma.WindowDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userWindow`: Exposes CRUD operations for the **UserWindow** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserWindows
+    * const userWindows = await prisma.userWindow.findMany()
+    * ```
+    */
+  get userWindow(): Prisma.UserWindowDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -227,7 +257,7 @@ export namespace Prisma {
 
   /**
    * Prisma Client JS version: 6.13.0
-   * Query Engine version: 361e86d0ea4987e9f53a565309b3eed797a6bcbd
+   * Query Engine version: 605197351a3c8bdd595af2d2a9bc3025bca48ea2
    */
   export type PrismaVersion = {
     client: string
@@ -608,8 +638,10 @@ export namespace Prisma {
 
 
   export const ModelName: {
+    User: 'User',
     Queue: 'Queue',
-    Window: 'Window'
+    Window: 'Window',
+    UserWindow: 'UserWindow'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -628,10 +660,80 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "queue" | "window"
+      modelProps: "user" | "queue" | "window" | "userWindow"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
+      User: {
+        payload: Prisma.$UserPayload<ExtArgs>
+        fields: Prisma.UserFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+          }
+          findFirst: {
+            args: Prisma.UserFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+          }
+          findMany: {
+            args: Prisma.UserFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
+          }
+          create: {
+            args: Prisma.UserCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+          }
+          createMany: {
+            args: Prisma.UserCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
+          }
+          delete: {
+            args: Prisma.UserDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+          }
+          update: {
+            args: Prisma.UserUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.UserUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+          }
+          aggregate: {
+            args: Prisma.UserAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUser>
+          }
+          groupBy: {
+            args: Prisma.UserGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserCountArgs<ExtArgs>
+            result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
       Queue: {
         payload: Prisma.$QueuePayload<ExtArgs>
         fields: Prisma.QueueFieldRefs
@@ -683,10 +785,6 @@ export namespace Prisma {
           updateMany: {
             args: Prisma.QueueUpdateManyArgs<ExtArgs>
             result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.QueueUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$QueuePayload>[]
           }
           upsert: {
             args: Prisma.QueueUpsertArgs<ExtArgs>
@@ -758,10 +856,6 @@ export namespace Prisma {
             args: Prisma.WindowUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.WindowUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WindowPayload>[]
-          }
           upsert: {
             args: Prisma.WindowUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$WindowPayload>
@@ -777,6 +871,76 @@ export namespace Prisma {
           count: {
             args: Prisma.WindowCountArgs<ExtArgs>
             result: $Utils.Optional<WindowCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserWindow: {
+        payload: Prisma.$UserWindowPayload<ExtArgs>
+        fields: Prisma.UserWindowFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserWindowFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWindowPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserWindowFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWindowPayload>
+          }
+          findFirst: {
+            args: Prisma.UserWindowFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWindowPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserWindowFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWindowPayload>
+          }
+          findMany: {
+            args: Prisma.UserWindowFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWindowPayload>[]
+          }
+          create: {
+            args: Prisma.UserWindowCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWindowPayload>
+          }
+          createMany: {
+            args: Prisma.UserWindowCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserWindowCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWindowPayload>[]
+          }
+          delete: {
+            args: Prisma.UserWindowDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWindowPayload>
+          }
+          update: {
+            args: Prisma.UserWindowUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWindowPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserWindowDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserWindowUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.UserWindowUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWindowPayload>
+          }
+          aggregate: {
+            args: Prisma.UserWindowAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserWindow>
+          }
+          groupBy: {
+            args: Prisma.UserWindowGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserWindowGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserWindowCountArgs<ExtArgs>
+            result: $Utils.Optional<UserWindowCountAggregateOutputType> | number
           }
         }
       }
@@ -872,8 +1036,10 @@ export namespace Prisma {
     omit?: Prisma.GlobalOmitConfig
   }
   export type GlobalOmitConfig = {
+    user?: UserOmit
     queue?: QueueOmit
     window?: WindowOmit
+    userWindow?: UserWindowOmit
   }
 
   /* Types for Logging */
@@ -969,15 +1135,48 @@ export namespace Prisma {
 
 
   /**
+   * Count Type UserCountOutputType
+   */
+
+  export type UserCountOutputType = {
+    userWindows: number
+  }
+
+  export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    userWindows?: boolean | UserCountOutputTypeCountUserWindowsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCountOutputType
+     */
+    select?: UserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountUserWindowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWindowWhereInput
+  }
+
+
+  /**
    * Count Type WindowCountOutputType
    */
 
   export type WindowCountOutputType = {
     queues: number
+    userWindows: number
   }
 
   export type WindowCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     queues?: boolean | WindowCountOutputTypeCountQueuesArgs
+    userWindows?: boolean | WindowCountOutputTypeCountUserWindowsArgs
   }
 
   // Custom InputTypes
@@ -998,10 +1197,1119 @@ export namespace Prisma {
     where?: QueueWhereInput
   }
 
+  /**
+   * WindowCountOutputType without action
+   */
+  export type WindowCountOutputTypeCountUserWindowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWindowWhereInput
+  }
+
 
   /**
    * Models
    */
+
+  /**
+   * Model User
+   */
+
+  export type AggregateUser = {
+    _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
+    _min: UserMinAggregateOutputType | null
+    _max: UserMaxAggregateOutputType | null
+  }
+
+  export type UserAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type UserSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type UserMinAggregateOutputType = {
+    id: number | null
+    email: string | null
+    username: string | null
+    password: string | null
+    fullName: string | null
+    nickname: string | null
+    role: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type UserMaxAggregateOutputType = {
+    id: number | null
+    email: string | null
+    username: string | null
+    password: string | null
+    fullName: string | null
+    nickname: string | null
+    role: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type UserCountAggregateOutputType = {
+    id: number
+    email: number
+    username: number
+    password: number
+    fullName: number
+    nickname: number
+    role: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    deletedAt: number
+    _all: number
+  }
+
+
+  export type UserAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type UserSumAggregateInputType = {
+    id?: true
+  }
+
+  export type UserMinAggregateInputType = {
+    id?: true
+    email?: true
+    username?: true
+    password?: true
+    fullName?: true
+    nickname?: true
+    role?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type UserMaxAggregateInputType = {
+    id?: true
+    email?: true
+    username?: true
+    password?: true
+    fullName?: true
+    nickname?: true
+    role?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type UserCountAggregateInputType = {
+    id?: true
+    email?: true
+    username?: true
+    password?: true
+    fullName?: true
+    nickname?: true
+    role?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    _all?: true
+  }
+
+  export type UserAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which User to aggregate.
+     */
+    where?: UserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Users.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Users
+    **/
+    _count?: true | UserCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserMaxAggregateInputType
+  }
+
+  export type GetUserAggregateType<T extends UserAggregateArgs> = {
+        [P in keyof T & keyof AggregateUser]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUser[P]>
+      : GetScalarType<T[P], AggregateUser[P]>
+  }
+
+
+
+
+  export type UserGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWhereInput
+    orderBy?: UserOrderByWithAggregationInput | UserOrderByWithAggregationInput[]
+    by: UserScalarFieldEnum[] | UserScalarFieldEnum
+    having?: UserScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserCountAggregateInputType | true
+    _avg?: UserAvgAggregateInputType
+    _sum?: UserSumAggregateInputType
+    _min?: UserMinAggregateInputType
+    _max?: UserMaxAggregateInputType
+  }
+
+  export type UserGroupByOutputType = {
+    id: number
+    email: string
+    username: string
+    password: string
+    fullName: string
+    nickname: string
+    role: string
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    deletedAt: Date | null
+    _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
+    _min: UserMinAggregateOutputType | null
+    _max: UserMaxAggregateOutputType | null
+  }
+
+  type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserGroupByOutputType[P]>
+            : GetScalarType<T[P], UserGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    username?: boolean
+    password?: boolean
+    fullName?: boolean
+    nickname?: boolean
+    role?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    userWindows?: boolean | User$userWindowsArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["user"]>
+
+  export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    username?: boolean
+    password?: boolean
+    fullName?: boolean
+    nickname?: boolean
+    role?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+  }, ExtArgs["result"]["user"]>
+
+
+  export type UserSelectScalar = {
+    id?: boolean
+    email?: boolean
+    username?: boolean
+    password?: boolean
+    fullName?: boolean
+    nickname?: boolean
+    role?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+  }
+
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "username" | "password" | "fullName" | "nickname" | "role" | "isActive" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["user"]>
+  export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    userWindows?: boolean | User$userWindowsArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "User"
+    objects: {
+      userWindows: Prisma.$UserWindowPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      email: string
+      username: string
+      password: string
+      fullName: string
+      nickname: string
+      role: string
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+      deletedAt: Date | null
+    }, ExtArgs["result"]["user"]>
+    composites: {}
+  }
+
+  type UserGetPayload<S extends boolean | null | undefined | UserDefaultArgs> = $Result.GetResult<Prisma.$UserPayload, S>
+
+  type UserCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserCountAggregateInputType | true
+    }
+
+  export interface UserDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['User'], meta: { name: 'User' } }
+    /**
+     * Find zero or one User that matches the filter.
+     * @param {UserFindUniqueArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserFindUniqueArgs>(args: SelectSubset<T, UserFindUniqueArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one User that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserFindUniqueOrThrowArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserFindUniqueOrThrowArgs>(args: SelectSubset<T, UserFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first User that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFindFirstArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserFindFirstArgs>(args?: SelectSubset<T, UserFindFirstArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first User that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFindFirstOrThrowArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserFindFirstOrThrowArgs>(args?: SelectSubset<T, UserFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Users that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Users
+     * const users = await prisma.user.findMany()
+     * 
+     * // Get first 10 Users
+     * const users = await prisma.user.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userWithIdOnly = await prisma.user.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserFindManyArgs>(args?: SelectSubset<T, UserFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a User.
+     * @param {UserCreateArgs} args - Arguments to create a User.
+     * @example
+     * // Create one User
+     * const User = await prisma.user.create({
+     *   data: {
+     *     // ... data to create a User
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserCreateArgs>(args: SelectSubset<T, UserCreateArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Users.
+     * @param {UserCreateManyArgs} args - Arguments to create many Users.
+     * @example
+     * // Create many Users
+     * const user = await prisma.user.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserCreateManyArgs>(args?: SelectSubset<T, UserCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Users and returns the data saved in the database.
+     * @param {UserCreateManyAndReturnArgs} args - Arguments to create many Users.
+     * @example
+     * // Create many Users
+     * const user = await prisma.user.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Users and only return the `id`
+     * const userWithIdOnly = await prisma.user.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserCreateManyAndReturnArgs>(args?: SelectSubset<T, UserCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a User.
+     * @param {UserDeleteArgs} args - Arguments to delete one User.
+     * @example
+     * // Delete one User
+     * const User = await prisma.user.delete({
+     *   where: {
+     *     // ... filter to delete one User
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserDeleteArgs>(args: SelectSubset<T, UserDeleteArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one User.
+     * @param {UserUpdateArgs} args - Arguments to update one User.
+     * @example
+     * // Update one User
+     * const user = await prisma.user.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserUpdateArgs>(args: SelectSubset<T, UserUpdateArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Users.
+     * @param {UserDeleteManyArgs} args - Arguments to filter Users to delete.
+     * @example
+     * // Delete a few Users
+     * const { count } = await prisma.user.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserDeleteManyArgs>(args?: SelectSubset<T, UserDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Users.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Users
+     * const user = await prisma.user.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserUpdateManyArgs>(args: SelectSubset<T, UserUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one User.
+     * @param {UserUpsertArgs} args - Arguments to update or create a User.
+     * @example
+     * // Update or create a User
+     * const user = await prisma.user.upsert({
+     *   create: {
+     *     // ... data to create a User
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the User we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserUpsertArgs>(args: SelectSubset<T, UserUpsertArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Users.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCountArgs} args - Arguments to filter Users to count.
+     * @example
+     * // Count the number of Users
+     * const count = await prisma.user.count({
+     *   where: {
+     *     // ... the filter for the Users we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserCountArgs>(
+      args?: Subset<T, UserCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a User.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserAggregateArgs>(args: Subset<T, UserAggregateArgs>): Prisma.PrismaPromise<GetUserAggregateType<T>>
+
+    /**
+     * Group by User.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserGroupByArgs['orderBy'] }
+        : { orderBy?: UserGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the User model
+   */
+  readonly fields: UserFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for User.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    userWindows<T extends User$userWindowsArgs<ExtArgs> = {}>(args?: Subset<T, User$userWindowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserWindowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the User model
+   */
+  interface UserFieldRefs {
+    readonly id: FieldRef<"User", 'Int'>
+    readonly email: FieldRef<"User", 'String'>
+    readonly username: FieldRef<"User", 'String'>
+    readonly password: FieldRef<"User", 'String'>
+    readonly fullName: FieldRef<"User", 'String'>
+    readonly nickname: FieldRef<"User", 'String'>
+    readonly role: FieldRef<"User", 'String'>
+    readonly isActive: FieldRef<"User", 'Boolean'>
+    readonly createdAt: FieldRef<"User", 'DateTime'>
+    readonly updatedAt: FieldRef<"User", 'DateTime'>
+    readonly deletedAt: FieldRef<"User", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * User findUnique
+   */
+  export type UserFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
+     * Filter, which User to fetch.
+     */
+    where: UserWhereUniqueInput
+  }
+
+  /**
+   * User findUniqueOrThrow
+   */
+  export type UserFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
+     * Filter, which User to fetch.
+     */
+    where: UserWhereUniqueInput
+  }
+
+  /**
+   * User findFirst
+   */
+  export type UserFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
+     * Filter, which User to fetch.
+     */
+    where?: UserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Users.
+     */
+    cursor?: UserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Users.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Users.
+     */
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+  }
+
+  /**
+   * User findFirstOrThrow
+   */
+  export type UserFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
+     * Filter, which User to fetch.
+     */
+    where?: UserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Users.
+     */
+    cursor?: UserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Users.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Users.
+     */
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+  }
+
+  /**
+   * User findMany
+   */
+  export type UserFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
+     * Filter, which Users to fetch.
+     */
+    where?: UserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Users.
+     */
+    cursor?: UserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Users.
+     */
+    skip?: number
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+  }
+
+  /**
+   * User create
+   */
+  export type UserCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
+     * The data needed to create a User.
+     */
+    data: XOR<UserCreateInput, UserUncheckedCreateInput>
+  }
+
+  /**
+   * User createMany
+   */
+  export type UserCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Users.
+     */
+    data: UserCreateManyInput | UserCreateManyInput[]
+  }
+
+  /**
+   * User createManyAndReturn
+   */
+  export type UserCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * The data used to create many Users.
+     */
+    data: UserCreateManyInput | UserCreateManyInput[]
+  }
+
+  /**
+   * User update
+   */
+  export type UserUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
+     * The data needed to update a User.
+     */
+    data: XOR<UserUpdateInput, UserUncheckedUpdateInput>
+    /**
+     * Choose, which User to update.
+     */
+    where: UserWhereUniqueInput
+  }
+
+  /**
+   * User updateMany
+   */
+  export type UserUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Users.
+     */
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
+    /**
+     * Filter which Users to update
+     */
+    where?: UserWhereInput
+  }
+
+  /**
+   * User upsert
+   */
+  export type UserUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
+     * The filter to search for the User to update in case it exists.
+     */
+    where: UserWhereUniqueInput
+    /**
+     * In case the User found by the `where` argument doesn't exist, create a new User with this data.
+     */
+    create: XOR<UserCreateInput, UserUncheckedCreateInput>
+    /**
+     * In case the User was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserUpdateInput, UserUncheckedUpdateInput>
+  }
+
+  /**
+   * User delete
+   */
+  export type UserDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
+     * Filter which User to delete.
+     */
+    where: UserWhereUniqueInput
+  }
+
+  /**
+   * User deleteMany
+   */
+  export type UserDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Users to delete
+     */
+    where?: UserWhereInput
+  }
+
+  /**
+   * User.userWindows
+   */
+  export type User$userWindowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWindow
+     */
+    select?: UserWindowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWindow
+     */
+    omit?: UserWindowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWindowInclude<ExtArgs> | null
+    where?: UserWindowWhereInput
+    orderBy?: UserWindowOrderByWithRelationInput | UserWindowOrderByWithRelationInput[]
+    cursor?: UserWindowWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserWindowScalarFieldEnum | UserWindowScalarFieldEnum[]
+  }
+
+  /**
+   * User without action
+   */
+  export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+  }
+
 
   /**
    * Model Queue
@@ -1257,18 +2565,6 @@ export namespace Prisma {
     window?: boolean | Queue$windowArgs<ExtArgs>
   }, ExtArgs["result"]["queue"]>
 
-  export type QueueSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    studentId?: boolean
-    firstName?: boolean
-    lastName?: boolean
-    ticketNumber?: boolean
-    status?: boolean
-    createdAt?: boolean
-    deletedAt?: boolean
-    windowId?: boolean
-    window?: boolean | Queue$windowArgs<ExtArgs>
-  }, ExtArgs["result"]["queue"]>
 
   export type QueueSelectScalar = {
     id?: boolean
@@ -1287,9 +2583,6 @@ export namespace Prisma {
     window?: boolean | Queue$windowArgs<ExtArgs>
   }
   export type QueueIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    window?: boolean | Queue$windowArgs<ExtArgs>
-  }
-  export type QueueIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     window?: boolean | Queue$windowArgs<ExtArgs>
   }
 
@@ -1512,36 +2805,6 @@ export namespace Prisma {
      * 
      */
     updateMany<T extends QueueUpdateManyArgs>(args: SelectSubset<T, QueueUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Queues and returns the data updated in the database.
-     * @param {QueueUpdateManyAndReturnArgs} args - Arguments to update many Queues.
-     * @example
-     * // Update many Queues
-     * const queue = await prisma.queue.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Queues and only return the `id`
-     * const queueWithIdOnly = await prisma.queue.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends QueueUpdateManyAndReturnArgs>(args: SelectSubset<T, QueueUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QueuePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one Queue.
@@ -2032,40 +3295,6 @@ export namespace Prisma {
      * Filter which Queues to update
      */
     where?: QueueWhereInput
-    /**
-     * Limit how many Queues to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Queue updateManyAndReturn
-   */
-  export type QueueUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Queue
-     */
-    select?: QueueSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Queue
-     */
-    omit?: QueueOmit<ExtArgs> | null
-    /**
-     * The data used to update Queues.
-     */
-    data: XOR<QueueUpdateManyMutationInput, QueueUncheckedUpdateManyInput>
-    /**
-     * Filter which Queues to update
-     */
-    where?: QueueWhereInput
-    /**
-     * Limit how many Queues to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: QueueIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2128,10 +3357,6 @@ export namespace Prisma {
      * Filter which Queues to delete
      */
     where?: QueueWhereInput
-    /**
-     * Limit how many Queues to delete.
-     */
-    limit?: number
   }
 
   /**
@@ -2379,6 +3604,7 @@ export namespace Prisma {
     createdAt?: boolean
     deletedAt?: boolean
     queues?: boolean | Window$queuesArgs<ExtArgs>
+    userWindows?: boolean | Window$userWindowsArgs<ExtArgs>
     _count?: boolean | WindowCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["window"]>
 
@@ -2391,14 +3617,6 @@ export namespace Prisma {
     deletedAt?: boolean
   }, ExtArgs["result"]["window"]>
 
-  export type WindowSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    windowTitle?: boolean
-    windowDescription?: boolean
-    status?: boolean
-    createdAt?: boolean
-    deletedAt?: boolean
-  }, ExtArgs["result"]["window"]>
 
   export type WindowSelectScalar = {
     id?: boolean
@@ -2412,15 +3630,16 @@ export namespace Prisma {
   export type WindowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "windowTitle" | "windowDescription" | "status" | "createdAt" | "deletedAt", ExtArgs["result"]["window"]>
   export type WindowInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     queues?: boolean | Window$queuesArgs<ExtArgs>
+    userWindows?: boolean | Window$userWindowsArgs<ExtArgs>
     _count?: boolean | WindowCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type WindowIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type WindowIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $WindowPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Window"
     objects: {
       queues: Prisma.$QueuePayload<ExtArgs>[]
+      userWindows: Prisma.$UserWindowPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2635,36 +3854,6 @@ export namespace Prisma {
     updateMany<T extends WindowUpdateManyArgs>(args: SelectSubset<T, WindowUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Windows and returns the data updated in the database.
-     * @param {WindowUpdateManyAndReturnArgs} args - Arguments to update many Windows.
-     * @example
-     * // Update many Windows
-     * const window = await prisma.window.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Windows and only return the `id`
-     * const windowWithIdOnly = await prisma.window.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends WindowUpdateManyAndReturnArgs>(args: SelectSubset<T, WindowUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WindowPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one Window.
      * @param {WindowUpsertArgs} args - Arguments to update or create a Window.
      * @example
@@ -2824,6 +4013,7 @@ export namespace Prisma {
   export interface Prisma__WindowClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     queues<T extends Window$queuesArgs<ExtArgs> = {}>(args?: Subset<T, Window$queuesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QueuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    userWindows<T extends Window$userWindowsArgs<ExtArgs> = {}>(args?: Subset<T, Window$userWindowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserWindowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3146,36 +4336,6 @@ export namespace Prisma {
      * Filter which Windows to update
      */
     where?: WindowWhereInput
-    /**
-     * Limit how many Windows to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Window updateManyAndReturn
-   */
-  export type WindowUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Window
-     */
-    select?: WindowSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Window
-     */
-    omit?: WindowOmit<ExtArgs> | null
-    /**
-     * The data used to update Windows.
-     */
-    data: XOR<WindowUpdateManyMutationInput, WindowUncheckedUpdateManyInput>
-    /**
-     * Filter which Windows to update
-     */
-    where?: WindowWhereInput
-    /**
-     * Limit how many Windows to update.
-     */
-    limit?: number
   }
 
   /**
@@ -3238,10 +4398,6 @@ export namespace Prisma {
      * Filter which Windows to delete
      */
     where?: WindowWhereInput
-    /**
-     * Limit how many Windows to delete.
-     */
-    limit?: number
   }
 
   /**
@@ -3269,6 +4425,30 @@ export namespace Prisma {
   }
 
   /**
+   * Window.userWindows
+   */
+  export type Window$userWindowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWindow
+     */
+    select?: UserWindowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWindow
+     */
+    omit?: UserWindowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWindowInclude<ExtArgs> | null
+    where?: UserWindowWhereInput
+    orderBy?: UserWindowOrderByWithRelationInput | UserWindowOrderByWithRelationInput[]
+    cursor?: UserWindowWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserWindowScalarFieldEnum | UserWindowScalarFieldEnum[]
+  }
+
+  /**
    * Window without action
    */
   export type WindowDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3288,6 +4468,1043 @@ export namespace Prisma {
 
 
   /**
+   * Model UserWindow
+   */
+
+  export type AggregateUserWindow = {
+    _count: UserWindowCountAggregateOutputType | null
+    _avg: UserWindowAvgAggregateOutputType | null
+    _sum: UserWindowSumAggregateOutputType | null
+    _min: UserWindowMinAggregateOutputType | null
+    _max: UserWindowMaxAggregateOutputType | null
+  }
+
+  export type UserWindowAvgAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    windowId: number | null
+  }
+
+  export type UserWindowSumAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    windowId: number | null
+  }
+
+  export type UserWindowMinAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    windowId: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserWindowMaxAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    windowId: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserWindowCountAggregateOutputType = {
+    id: number
+    userId: number
+    windowId: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type UserWindowAvgAggregateInputType = {
+    id?: true
+    userId?: true
+    windowId?: true
+  }
+
+  export type UserWindowSumAggregateInputType = {
+    id?: true
+    userId?: true
+    windowId?: true
+  }
+
+  export type UserWindowMinAggregateInputType = {
+    id?: true
+    userId?: true
+    windowId?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserWindowMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    windowId?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserWindowCountAggregateInputType = {
+    id?: true
+    userId?: true
+    windowId?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type UserWindowAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserWindow to aggregate.
+     */
+    where?: UserWindowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserWindows to fetch.
+     */
+    orderBy?: UserWindowOrderByWithRelationInput | UserWindowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserWindowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserWindows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserWindows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserWindows
+    **/
+    _count?: true | UserWindowCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserWindowAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserWindowSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserWindowMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserWindowMaxAggregateInputType
+  }
+
+  export type GetUserWindowAggregateType<T extends UserWindowAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserWindow]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserWindow[P]>
+      : GetScalarType<T[P], AggregateUserWindow[P]>
+  }
+
+
+
+
+  export type UserWindowGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWindowWhereInput
+    orderBy?: UserWindowOrderByWithAggregationInput | UserWindowOrderByWithAggregationInput[]
+    by: UserWindowScalarFieldEnum[] | UserWindowScalarFieldEnum
+    having?: UserWindowScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserWindowCountAggregateInputType | true
+    _avg?: UserWindowAvgAggregateInputType
+    _sum?: UserWindowSumAggregateInputType
+    _min?: UserWindowMinAggregateInputType
+    _max?: UserWindowMaxAggregateInputType
+  }
+
+  export type UserWindowGroupByOutputType = {
+    id: number
+    userId: number
+    windowId: number
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: UserWindowCountAggregateOutputType | null
+    _avg: UserWindowAvgAggregateOutputType | null
+    _sum: UserWindowSumAggregateOutputType | null
+    _min: UserWindowMinAggregateOutputType | null
+    _max: UserWindowMaxAggregateOutputType | null
+  }
+
+  type GetUserWindowGroupByPayload<T extends UserWindowGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserWindowGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserWindowGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserWindowGroupByOutputType[P]>
+            : GetScalarType<T[P], UserWindowGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserWindowSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    windowId?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    window?: boolean | WindowDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userWindow"]>
+
+  export type UserWindowSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    windowId?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    window?: boolean | WindowDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userWindow"]>
+
+
+  export type UserWindowSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    windowId?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type UserWindowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "windowId" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["userWindow"]>
+  export type UserWindowInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    window?: boolean | WindowDefaultArgs<ExtArgs>
+  }
+  export type UserWindowIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    window?: boolean | WindowDefaultArgs<ExtArgs>
+  }
+
+  export type $UserWindowPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserWindow"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      window: Prisma.$WindowPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      userId: number
+      windowId: number
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["userWindow"]>
+    composites: {}
+  }
+
+  type UserWindowGetPayload<S extends boolean | null | undefined | UserWindowDefaultArgs> = $Result.GetResult<Prisma.$UserWindowPayload, S>
+
+  type UserWindowCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserWindowFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserWindowCountAggregateInputType | true
+    }
+
+  export interface UserWindowDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserWindow'], meta: { name: 'UserWindow' } }
+    /**
+     * Find zero or one UserWindow that matches the filter.
+     * @param {UserWindowFindUniqueArgs} args - Arguments to find a UserWindow
+     * @example
+     * // Get one UserWindow
+     * const userWindow = await prisma.userWindow.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserWindowFindUniqueArgs>(args: SelectSubset<T, UserWindowFindUniqueArgs<ExtArgs>>): Prisma__UserWindowClient<$Result.GetResult<Prisma.$UserWindowPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserWindow that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserWindowFindUniqueOrThrowArgs} args - Arguments to find a UserWindow
+     * @example
+     * // Get one UserWindow
+     * const userWindow = await prisma.userWindow.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserWindowFindUniqueOrThrowArgs>(args: SelectSubset<T, UserWindowFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserWindowClient<$Result.GetResult<Prisma.$UserWindowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserWindow that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserWindowFindFirstArgs} args - Arguments to find a UserWindow
+     * @example
+     * // Get one UserWindow
+     * const userWindow = await prisma.userWindow.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserWindowFindFirstArgs>(args?: SelectSubset<T, UserWindowFindFirstArgs<ExtArgs>>): Prisma__UserWindowClient<$Result.GetResult<Prisma.$UserWindowPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserWindow that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserWindowFindFirstOrThrowArgs} args - Arguments to find a UserWindow
+     * @example
+     * // Get one UserWindow
+     * const userWindow = await prisma.userWindow.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserWindowFindFirstOrThrowArgs>(args?: SelectSubset<T, UserWindowFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserWindowClient<$Result.GetResult<Prisma.$UserWindowPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserWindows that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserWindowFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserWindows
+     * const userWindows = await prisma.userWindow.findMany()
+     * 
+     * // Get first 10 UserWindows
+     * const userWindows = await prisma.userWindow.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userWindowWithIdOnly = await prisma.userWindow.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserWindowFindManyArgs>(args?: SelectSubset<T, UserWindowFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserWindowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserWindow.
+     * @param {UserWindowCreateArgs} args - Arguments to create a UserWindow.
+     * @example
+     * // Create one UserWindow
+     * const UserWindow = await prisma.userWindow.create({
+     *   data: {
+     *     // ... data to create a UserWindow
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserWindowCreateArgs>(args: SelectSubset<T, UserWindowCreateArgs<ExtArgs>>): Prisma__UserWindowClient<$Result.GetResult<Prisma.$UserWindowPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserWindows.
+     * @param {UserWindowCreateManyArgs} args - Arguments to create many UserWindows.
+     * @example
+     * // Create many UserWindows
+     * const userWindow = await prisma.userWindow.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserWindowCreateManyArgs>(args?: SelectSubset<T, UserWindowCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserWindows and returns the data saved in the database.
+     * @param {UserWindowCreateManyAndReturnArgs} args - Arguments to create many UserWindows.
+     * @example
+     * // Create many UserWindows
+     * const userWindow = await prisma.userWindow.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserWindows and only return the `id`
+     * const userWindowWithIdOnly = await prisma.userWindow.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserWindowCreateManyAndReturnArgs>(args?: SelectSubset<T, UserWindowCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserWindowPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserWindow.
+     * @param {UserWindowDeleteArgs} args - Arguments to delete one UserWindow.
+     * @example
+     * // Delete one UserWindow
+     * const UserWindow = await prisma.userWindow.delete({
+     *   where: {
+     *     // ... filter to delete one UserWindow
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserWindowDeleteArgs>(args: SelectSubset<T, UserWindowDeleteArgs<ExtArgs>>): Prisma__UserWindowClient<$Result.GetResult<Prisma.$UserWindowPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserWindow.
+     * @param {UserWindowUpdateArgs} args - Arguments to update one UserWindow.
+     * @example
+     * // Update one UserWindow
+     * const userWindow = await prisma.userWindow.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserWindowUpdateArgs>(args: SelectSubset<T, UserWindowUpdateArgs<ExtArgs>>): Prisma__UserWindowClient<$Result.GetResult<Prisma.$UserWindowPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserWindows.
+     * @param {UserWindowDeleteManyArgs} args - Arguments to filter UserWindows to delete.
+     * @example
+     * // Delete a few UserWindows
+     * const { count } = await prisma.userWindow.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserWindowDeleteManyArgs>(args?: SelectSubset<T, UserWindowDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserWindows.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserWindowUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserWindows
+     * const userWindow = await prisma.userWindow.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserWindowUpdateManyArgs>(args: SelectSubset<T, UserWindowUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one UserWindow.
+     * @param {UserWindowUpsertArgs} args - Arguments to update or create a UserWindow.
+     * @example
+     * // Update or create a UserWindow
+     * const userWindow = await prisma.userWindow.upsert({
+     *   create: {
+     *     // ... data to create a UserWindow
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserWindow we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserWindowUpsertArgs>(args: SelectSubset<T, UserWindowUpsertArgs<ExtArgs>>): Prisma__UserWindowClient<$Result.GetResult<Prisma.$UserWindowPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserWindows.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserWindowCountArgs} args - Arguments to filter UserWindows to count.
+     * @example
+     * // Count the number of UserWindows
+     * const count = await prisma.userWindow.count({
+     *   where: {
+     *     // ... the filter for the UserWindows we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserWindowCountArgs>(
+      args?: Subset<T, UserWindowCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserWindowCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserWindow.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserWindowAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserWindowAggregateArgs>(args: Subset<T, UserWindowAggregateArgs>): Prisma.PrismaPromise<GetUserWindowAggregateType<T>>
+
+    /**
+     * Group by UserWindow.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserWindowGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserWindowGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserWindowGroupByArgs['orderBy'] }
+        : { orderBy?: UserWindowGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserWindowGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserWindowGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserWindow model
+   */
+  readonly fields: UserWindowFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserWindow.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserWindowClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    window<T extends WindowDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WindowDefaultArgs<ExtArgs>>): Prisma__WindowClient<$Result.GetResult<Prisma.$WindowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserWindow model
+   */
+  interface UserWindowFieldRefs {
+    readonly id: FieldRef<"UserWindow", 'Int'>
+    readonly userId: FieldRef<"UserWindow", 'Int'>
+    readonly windowId: FieldRef<"UserWindow", 'Int'>
+    readonly isActive: FieldRef<"UserWindow", 'Boolean'>
+    readonly createdAt: FieldRef<"UserWindow", 'DateTime'>
+    readonly updatedAt: FieldRef<"UserWindow", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserWindow findUnique
+   */
+  export type UserWindowFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWindow
+     */
+    select?: UserWindowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWindow
+     */
+    omit?: UserWindowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWindowInclude<ExtArgs> | null
+    /**
+     * Filter, which UserWindow to fetch.
+     */
+    where: UserWindowWhereUniqueInput
+  }
+
+  /**
+   * UserWindow findUniqueOrThrow
+   */
+  export type UserWindowFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWindow
+     */
+    select?: UserWindowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWindow
+     */
+    omit?: UserWindowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWindowInclude<ExtArgs> | null
+    /**
+     * Filter, which UserWindow to fetch.
+     */
+    where: UserWindowWhereUniqueInput
+  }
+
+  /**
+   * UserWindow findFirst
+   */
+  export type UserWindowFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWindow
+     */
+    select?: UserWindowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWindow
+     */
+    omit?: UserWindowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWindowInclude<ExtArgs> | null
+    /**
+     * Filter, which UserWindow to fetch.
+     */
+    where?: UserWindowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserWindows to fetch.
+     */
+    orderBy?: UserWindowOrderByWithRelationInput | UserWindowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserWindows.
+     */
+    cursor?: UserWindowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserWindows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserWindows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserWindows.
+     */
+    distinct?: UserWindowScalarFieldEnum | UserWindowScalarFieldEnum[]
+  }
+
+  /**
+   * UserWindow findFirstOrThrow
+   */
+  export type UserWindowFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWindow
+     */
+    select?: UserWindowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWindow
+     */
+    omit?: UserWindowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWindowInclude<ExtArgs> | null
+    /**
+     * Filter, which UserWindow to fetch.
+     */
+    where?: UserWindowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserWindows to fetch.
+     */
+    orderBy?: UserWindowOrderByWithRelationInput | UserWindowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserWindows.
+     */
+    cursor?: UserWindowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserWindows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserWindows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserWindows.
+     */
+    distinct?: UserWindowScalarFieldEnum | UserWindowScalarFieldEnum[]
+  }
+
+  /**
+   * UserWindow findMany
+   */
+  export type UserWindowFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWindow
+     */
+    select?: UserWindowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWindow
+     */
+    omit?: UserWindowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWindowInclude<ExtArgs> | null
+    /**
+     * Filter, which UserWindows to fetch.
+     */
+    where?: UserWindowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserWindows to fetch.
+     */
+    orderBy?: UserWindowOrderByWithRelationInput | UserWindowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserWindows.
+     */
+    cursor?: UserWindowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserWindows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserWindows.
+     */
+    skip?: number
+    distinct?: UserWindowScalarFieldEnum | UserWindowScalarFieldEnum[]
+  }
+
+  /**
+   * UserWindow create
+   */
+  export type UserWindowCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWindow
+     */
+    select?: UserWindowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWindow
+     */
+    omit?: UserWindowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWindowInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserWindow.
+     */
+    data: XOR<UserWindowCreateInput, UserWindowUncheckedCreateInput>
+  }
+
+  /**
+   * UserWindow createMany
+   */
+  export type UserWindowCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserWindows.
+     */
+    data: UserWindowCreateManyInput | UserWindowCreateManyInput[]
+  }
+
+  /**
+   * UserWindow createManyAndReturn
+   */
+  export type UserWindowCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWindow
+     */
+    select?: UserWindowSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWindow
+     */
+    omit?: UserWindowOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserWindows.
+     */
+    data: UserWindowCreateManyInput | UserWindowCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWindowIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserWindow update
+   */
+  export type UserWindowUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWindow
+     */
+    select?: UserWindowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWindow
+     */
+    omit?: UserWindowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWindowInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserWindow.
+     */
+    data: XOR<UserWindowUpdateInput, UserWindowUncheckedUpdateInput>
+    /**
+     * Choose, which UserWindow to update.
+     */
+    where: UserWindowWhereUniqueInput
+  }
+
+  /**
+   * UserWindow updateMany
+   */
+  export type UserWindowUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserWindows.
+     */
+    data: XOR<UserWindowUpdateManyMutationInput, UserWindowUncheckedUpdateManyInput>
+    /**
+     * Filter which UserWindows to update
+     */
+    where?: UserWindowWhereInput
+  }
+
+  /**
+   * UserWindow upsert
+   */
+  export type UserWindowUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWindow
+     */
+    select?: UserWindowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWindow
+     */
+    omit?: UserWindowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWindowInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserWindow to update in case it exists.
+     */
+    where: UserWindowWhereUniqueInput
+    /**
+     * In case the UserWindow found by the `where` argument doesn't exist, create a new UserWindow with this data.
+     */
+    create: XOR<UserWindowCreateInput, UserWindowUncheckedCreateInput>
+    /**
+     * In case the UserWindow was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserWindowUpdateInput, UserWindowUncheckedUpdateInput>
+  }
+
+  /**
+   * UserWindow delete
+   */
+  export type UserWindowDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWindow
+     */
+    select?: UserWindowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWindow
+     */
+    omit?: UserWindowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWindowInclude<ExtArgs> | null
+    /**
+     * Filter which UserWindow to delete.
+     */
+    where: UserWindowWhereUniqueInput
+  }
+
+  /**
+   * UserWindow deleteMany
+   */
+  export type UserWindowDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserWindows to delete
+     */
+    where?: UserWindowWhereInput
+  }
+
+  /**
+   * UserWindow without action
+   */
+  export type UserWindowDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWindow
+     */
+    select?: UserWindowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWindow
+     */
+    omit?: UserWindowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWindowInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -3296,6 +5513,23 @@ export namespace Prisma {
   };
 
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+  export const UserScalarFieldEnum: {
+    id: 'id',
+    email: 'email',
+    username: 'username',
+    password: 'password',
+    fullName: 'fullName',
+    nickname: 'nickname',
+    role: 'role',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
+  };
+
+  export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
   export const QueueScalarFieldEnum: {
@@ -3323,6 +5557,18 @@ export namespace Prisma {
   };
 
   export type WindowScalarFieldEnum = (typeof WindowScalarFieldEnum)[keyof typeof WindowScalarFieldEnum]
+
+
+  export const UserWindowScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    windowId: 'windowId',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type UserWindowScalarFieldEnum = (typeof UserWindowScalarFieldEnum)[keyof typeof UserWindowScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -3361,6 +5607,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -3377,6 +5630,93 @@ export namespace Prisma {
    */
 
 
+  export type UserWhereInput = {
+    AND?: UserWhereInput | UserWhereInput[]
+    OR?: UserWhereInput[]
+    NOT?: UserWhereInput | UserWhereInput[]
+    id?: IntFilter<"User"> | number
+    email?: StringFilter<"User"> | string
+    username?: StringFilter<"User"> | string
+    password?: StringFilter<"User"> | string
+    fullName?: StringFilter<"User"> | string
+    nickname?: StringFilter<"User"> | string
+    role?: StringFilter<"User"> | string
+    isActive?: BoolFilter<"User"> | boolean
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    userWindows?: UserWindowListRelationFilter
+  }
+
+  export type UserOrderByWithRelationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    username?: SortOrder
+    password?: SortOrder
+    fullName?: SortOrder
+    nickname?: SortOrder
+    role?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    userWindows?: UserWindowOrderByRelationAggregateInput
+  }
+
+  export type UserWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    email?: string
+    username?: string
+    AND?: UserWhereInput | UserWhereInput[]
+    OR?: UserWhereInput[]
+    NOT?: UserWhereInput | UserWhereInput[]
+    password?: StringFilter<"User"> | string
+    fullName?: StringFilter<"User"> | string
+    nickname?: StringFilter<"User"> | string
+    role?: StringFilter<"User"> | string
+    isActive?: BoolFilter<"User"> | boolean
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    userWindows?: UserWindowListRelationFilter
+  }, "id" | "email" | "username">
+
+  export type UserOrderByWithAggregationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    username?: SortOrder
+    password?: SortOrder
+    fullName?: SortOrder
+    nickname?: SortOrder
+    role?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    _count?: UserCountOrderByAggregateInput
+    _avg?: UserAvgOrderByAggregateInput
+    _max?: UserMaxOrderByAggregateInput
+    _min?: UserMinOrderByAggregateInput
+    _sum?: UserSumOrderByAggregateInput
+  }
+
+  export type UserScalarWhereWithAggregatesInput = {
+    AND?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
+    OR?: UserScalarWhereWithAggregatesInput[]
+    NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"User"> | number
+    email?: StringWithAggregatesFilter<"User"> | string
+    username?: StringWithAggregatesFilter<"User"> | string
+    password?: StringWithAggregatesFilter<"User"> | string
+    fullName?: StringWithAggregatesFilter<"User"> | string
+    nickname?: StringWithAggregatesFilter<"User"> | string
+    role?: StringWithAggregatesFilter<"User"> | string
+    isActive?: BoolWithAggregatesFilter<"User"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  }
+
   export type QueueWhereInput = {
     AND?: QueueWhereInput | QueueWhereInput[]
     OR?: QueueWhereInput[]
@@ -3390,7 +5730,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Queue"> | Date | string
     deletedAt?: DateTimeNullableFilter<"Queue"> | Date | string | null
     windowId?: IntNullableFilter<"Queue"> | number | null
-    window?: XOR<WindowNullableScalarRelationFilter, WindowWhereInput> | null
+    window?: XOR<WindowNullableRelationFilter, WindowWhereInput> | null
   }
 
   export type QueueOrderByWithRelationInput = {
@@ -3419,7 +5759,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Queue"> | Date | string
     deletedAt?: DateTimeNullableFilter<"Queue"> | Date | string | null
     windowId?: IntNullableFilter<"Queue"> | number | null
-    window?: XOR<WindowNullableScalarRelationFilter, WindowWhereInput> | null
+    window?: XOR<WindowNullableRelationFilter, WindowWhereInput> | null
   }, "id">
 
   export type QueueOrderByWithAggregationInput = {
@@ -3465,6 +5805,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Window"> | Date | string
     deletedAt?: DateTimeNullableFilter<"Window"> | Date | string | null
     queues?: QueueListRelationFilter
+    userWindows?: UserWindowListRelationFilter
   }
 
   export type WindowOrderByWithRelationInput = {
@@ -3475,6 +5816,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
     queues?: QueueOrderByRelationAggregateInput
+    userWindows?: UserWindowOrderByRelationAggregateInput
   }
 
   export type WindowWhereUniqueInput = Prisma.AtLeast<{
@@ -3488,6 +5830,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Window"> | Date | string
     deletedAt?: DateTimeNullableFilter<"Window"> | Date | string | null
     queues?: QueueListRelationFilter
+    userWindows?: UserWindowListRelationFilter
   }, "id">
 
   export type WindowOrderByWithAggregationInput = {
@@ -3514,6 +5857,171 @@ export namespace Prisma {
     status?: StringWithAggregatesFilter<"Window"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Window"> | Date | string
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Window"> | Date | string | null
+  }
+
+  export type UserWindowWhereInput = {
+    AND?: UserWindowWhereInput | UserWindowWhereInput[]
+    OR?: UserWindowWhereInput[]
+    NOT?: UserWindowWhereInput | UserWindowWhereInput[]
+    id?: IntFilter<"UserWindow"> | number
+    userId?: IntFilter<"UserWindow"> | number
+    windowId?: IntFilter<"UserWindow"> | number
+    isActive?: BoolFilter<"UserWindow"> | boolean
+    createdAt?: DateTimeFilter<"UserWindow"> | Date | string
+    updatedAt?: DateTimeFilter<"UserWindow"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    window?: XOR<WindowRelationFilter, WindowWhereInput>
+  }
+
+  export type UserWindowOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    windowId?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    window?: WindowOrderByWithRelationInput
+  }
+
+  export type UserWindowWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    userId_windowId?: UserWindowUserIdWindowIdCompoundUniqueInput
+    AND?: UserWindowWhereInput | UserWindowWhereInput[]
+    OR?: UserWindowWhereInput[]
+    NOT?: UserWindowWhereInput | UserWindowWhereInput[]
+    userId?: IntFilter<"UserWindow"> | number
+    windowId?: IntFilter<"UserWindow"> | number
+    isActive?: BoolFilter<"UserWindow"> | boolean
+    createdAt?: DateTimeFilter<"UserWindow"> | Date | string
+    updatedAt?: DateTimeFilter<"UserWindow"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    window?: XOR<WindowRelationFilter, WindowWhereInput>
+  }, "id" | "userId_windowId">
+
+  export type UserWindowOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    windowId?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: UserWindowCountOrderByAggregateInput
+    _avg?: UserWindowAvgOrderByAggregateInput
+    _max?: UserWindowMaxOrderByAggregateInput
+    _min?: UserWindowMinOrderByAggregateInput
+    _sum?: UserWindowSumOrderByAggregateInput
+  }
+
+  export type UserWindowScalarWhereWithAggregatesInput = {
+    AND?: UserWindowScalarWhereWithAggregatesInput | UserWindowScalarWhereWithAggregatesInput[]
+    OR?: UserWindowScalarWhereWithAggregatesInput[]
+    NOT?: UserWindowScalarWhereWithAggregatesInput | UserWindowScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"UserWindow"> | number
+    userId?: IntWithAggregatesFilter<"UserWindow"> | number
+    windowId?: IntWithAggregatesFilter<"UserWindow"> | number
+    isActive?: BoolWithAggregatesFilter<"UserWindow"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"UserWindow"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UserWindow"> | Date | string
+  }
+
+  export type UserCreateInput = {
+    email: string
+    username: string
+    password: string
+    fullName: string
+    nickname: string
+    role?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    userWindows?: UserWindowCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateInput = {
+    id?: number
+    email: string
+    username: string
+    password: string
+    fullName: string
+    nickname: string
+    role?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    userWindows?: UserWindowUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUpdateInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    nickname?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userWindows?: UserWindowUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    nickname?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userWindows?: UserWindowUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateManyInput = {
+    id?: number
+    email: string
+    username: string
+    password: string
+    fullName: string
+    nickname: string
+    role?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type UserUpdateManyMutationInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    nickname?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    nickname?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type QueueCreateInput = {
@@ -3603,6 +6111,7 @@ export namespace Prisma {
     createdAt?: Date | string
     deletedAt?: Date | string | null
     queues?: QueueCreateNestedManyWithoutWindowInput
+    userWindows?: UserWindowCreateNestedManyWithoutWindowInput
   }
 
   export type WindowUncheckedCreateInput = {
@@ -3613,6 +6122,7 @@ export namespace Prisma {
     createdAt?: Date | string
     deletedAt?: Date | string | null
     queues?: QueueUncheckedCreateNestedManyWithoutWindowInput
+    userWindows?: UserWindowUncheckedCreateNestedManyWithoutWindowInput
   }
 
   export type WindowUpdateInput = {
@@ -3622,6 +6132,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     queues?: QueueUpdateManyWithoutWindowNestedInput
+    userWindows?: UserWindowUpdateManyWithoutWindowNestedInput
   }
 
   export type WindowUncheckedUpdateInput = {
@@ -3632,6 +6143,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     queues?: QueueUncheckedUpdateManyWithoutWindowNestedInput
+    userWindows?: UserWindowUncheckedUpdateManyWithoutWindowNestedInput
   }
 
   export type WindowCreateManyInput = {
@@ -3660,6 +6172,64 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type UserWindowCreateInput = {
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutUserWindowsInput
+    window: WindowCreateNestedOneWithoutUserWindowsInput
+  }
+
+  export type UserWindowUncheckedCreateInput = {
+    id?: number
+    userId: number
+    windowId: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserWindowUpdateInput = {
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutUserWindowsNestedInput
+    window?: WindowUpdateOneRequiredWithoutUserWindowsNestedInput
+  }
+
+  export type UserWindowUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    windowId?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserWindowCreateManyInput = {
+    id?: number
+    userId: number
+    windowId: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserWindowUpdateManyMutationInput = {
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserWindowUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    windowId?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -3685,6 +6255,11 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[]
@@ -3707,6 +6282,140 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type UserWindowListRelationFilter = {
+    every?: UserWindowWhereInput
+    some?: UserWindowWhereInput
+    none?: UserWindowWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
+  export type UserWindowOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserCountOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    username?: SortOrder
+    password?: SortOrder
+    fullName?: SortOrder
+    nickname?: SortOrder
+    role?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type UserAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type UserMaxOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    username?: SortOrder
+    password?: SortOrder
+    fullName?: SortOrder
+    nickname?: SortOrder
+    role?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type UserMinOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    username?: SortOrder
+    password?: SortOrder
+    fullName?: SortOrder
+    nickname?: SortOrder
+    role?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type UserSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[]
+    notIn?: string[]
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[]
+    notIn?: Date[] | string[]
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type IntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | null
@@ -3718,14 +6427,9 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type WindowNullableScalarRelationFilter = {
+  export type WindowNullableRelationFilter = {
     is?: WindowWhereInput | null
     isNot?: WindowWhereInput | null
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type QueueCountOrderByAggregateInput = {
@@ -3774,67 +6478,6 @@ export namespace Prisma {
     id?: SortOrder
     ticketNumber?: SortOrder
     windowId?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type StringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[]
-    notIn?: string[]
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -3898,14 +6541,102 @@ export namespace Prisma {
     id?: SortOrder
   }
 
-  export type WindowCreateNestedOneWithoutQueuesInput = {
-    create?: XOR<WindowCreateWithoutQueuesInput, WindowUncheckedCreateWithoutQueuesInput>
-    connectOrCreate?: WindowCreateOrConnectWithoutQueuesInput
-    connect?: WindowWhereUniqueInput
+  export type UserRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type WindowRelationFilter = {
+    is?: WindowWhereInput
+    isNot?: WindowWhereInput
+  }
+
+  export type UserWindowUserIdWindowIdCompoundUniqueInput = {
+    userId: number
+    windowId: number
+  }
+
+  export type UserWindowCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    windowId?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserWindowAvgOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    windowId?: SortOrder
+  }
+
+  export type UserWindowMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    windowId?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserWindowMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    windowId?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserWindowSumOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    windowId?: SortOrder
+  }
+
+  export type UserWindowCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserWindowCreateWithoutUserInput, UserWindowUncheckedCreateWithoutUserInput> | UserWindowCreateWithoutUserInput[] | UserWindowUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserWindowCreateOrConnectWithoutUserInput | UserWindowCreateOrConnectWithoutUserInput[]
+    createMany?: UserWindowCreateManyUserInputEnvelope
+    connect?: UserWindowWhereUniqueInput | UserWindowWhereUniqueInput[]
+  }
+
+  export type UserWindowUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserWindowCreateWithoutUserInput, UserWindowUncheckedCreateWithoutUserInput> | UserWindowCreateWithoutUserInput[] | UserWindowUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserWindowCreateOrConnectWithoutUserInput | UserWindowCreateOrConnectWithoutUserInput[]
+    createMany?: UserWindowCreateManyUserInputEnvelope
+    connect?: UserWindowWhereUniqueInput | UserWindowWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
     set?: string
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type UserWindowUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserWindowCreateWithoutUserInput, UserWindowUncheckedCreateWithoutUserInput> | UserWindowCreateWithoutUserInput[] | UserWindowUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserWindowCreateOrConnectWithoutUserInput | UserWindowCreateOrConnectWithoutUserInput[]
+    upsert?: UserWindowUpsertWithWhereUniqueWithoutUserInput | UserWindowUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserWindowCreateManyUserInputEnvelope
+    set?: UserWindowWhereUniqueInput | UserWindowWhereUniqueInput[]
+    disconnect?: UserWindowWhereUniqueInput | UserWindowWhereUniqueInput[]
+    delete?: UserWindowWhereUniqueInput | UserWindowWhereUniqueInput[]
+    connect?: UserWindowWhereUniqueInput | UserWindowWhereUniqueInput[]
+    update?: UserWindowUpdateWithWhereUniqueWithoutUserInput | UserWindowUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserWindowUpdateManyWithWhereWithoutUserInput | UserWindowUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserWindowScalarWhereInput | UserWindowScalarWhereInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -3916,12 +6647,24 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
+  export type UserWindowUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserWindowCreateWithoutUserInput, UserWindowUncheckedCreateWithoutUserInput> | UserWindowCreateWithoutUserInput[] | UserWindowUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserWindowCreateOrConnectWithoutUserInput | UserWindowCreateOrConnectWithoutUserInput[]
+    upsert?: UserWindowUpsertWithWhereUniqueWithoutUserInput | UserWindowUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserWindowCreateManyUserInputEnvelope
+    set?: UserWindowWhereUniqueInput | UserWindowWhereUniqueInput[]
+    disconnect?: UserWindowWhereUniqueInput | UserWindowWhereUniqueInput[]
+    delete?: UserWindowWhereUniqueInput | UserWindowWhereUniqueInput[]
+    connect?: UserWindowWhereUniqueInput | UserWindowWhereUniqueInput[]
+    update?: UserWindowUpdateWithWhereUniqueWithoutUserInput | UserWindowUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserWindowUpdateManyWithWhereWithoutUserInput | UserWindowUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserWindowScalarWhereInput | UserWindowScalarWhereInput[]
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
+  export type WindowCreateNestedOneWithoutQueuesInput = {
+    create?: XOR<WindowCreateWithoutQueuesInput, WindowUncheckedCreateWithoutQueuesInput>
+    connectOrCreate?: WindowCreateOrConnectWithoutQueuesInput
+    connect?: WindowWhereUniqueInput
   }
 
   export type WindowUpdateOneWithoutQueuesNestedInput = {
@@ -3949,11 +6692,25 @@ export namespace Prisma {
     connect?: QueueWhereUniqueInput | QueueWhereUniqueInput[]
   }
 
+  export type UserWindowCreateNestedManyWithoutWindowInput = {
+    create?: XOR<UserWindowCreateWithoutWindowInput, UserWindowUncheckedCreateWithoutWindowInput> | UserWindowCreateWithoutWindowInput[] | UserWindowUncheckedCreateWithoutWindowInput[]
+    connectOrCreate?: UserWindowCreateOrConnectWithoutWindowInput | UserWindowCreateOrConnectWithoutWindowInput[]
+    createMany?: UserWindowCreateManyWindowInputEnvelope
+    connect?: UserWindowWhereUniqueInput | UserWindowWhereUniqueInput[]
+  }
+
   export type QueueUncheckedCreateNestedManyWithoutWindowInput = {
     create?: XOR<QueueCreateWithoutWindowInput, QueueUncheckedCreateWithoutWindowInput> | QueueCreateWithoutWindowInput[] | QueueUncheckedCreateWithoutWindowInput[]
     connectOrCreate?: QueueCreateOrConnectWithoutWindowInput | QueueCreateOrConnectWithoutWindowInput[]
     createMany?: QueueCreateManyWindowInputEnvelope
     connect?: QueueWhereUniqueInput | QueueWhereUniqueInput[]
+  }
+
+  export type UserWindowUncheckedCreateNestedManyWithoutWindowInput = {
+    create?: XOR<UserWindowCreateWithoutWindowInput, UserWindowUncheckedCreateWithoutWindowInput> | UserWindowCreateWithoutWindowInput[] | UserWindowUncheckedCreateWithoutWindowInput[]
+    connectOrCreate?: UserWindowCreateOrConnectWithoutWindowInput | UserWindowCreateOrConnectWithoutWindowInput[]
+    createMany?: UserWindowCreateManyWindowInputEnvelope
+    connect?: UserWindowWhereUniqueInput | UserWindowWhereUniqueInput[]
   }
 
   export type QueueUpdateManyWithoutWindowNestedInput = {
@@ -3970,6 +6727,20 @@ export namespace Prisma {
     deleteMany?: QueueScalarWhereInput | QueueScalarWhereInput[]
   }
 
+  export type UserWindowUpdateManyWithoutWindowNestedInput = {
+    create?: XOR<UserWindowCreateWithoutWindowInput, UserWindowUncheckedCreateWithoutWindowInput> | UserWindowCreateWithoutWindowInput[] | UserWindowUncheckedCreateWithoutWindowInput[]
+    connectOrCreate?: UserWindowCreateOrConnectWithoutWindowInput | UserWindowCreateOrConnectWithoutWindowInput[]
+    upsert?: UserWindowUpsertWithWhereUniqueWithoutWindowInput | UserWindowUpsertWithWhereUniqueWithoutWindowInput[]
+    createMany?: UserWindowCreateManyWindowInputEnvelope
+    set?: UserWindowWhereUniqueInput | UserWindowWhereUniqueInput[]
+    disconnect?: UserWindowWhereUniqueInput | UserWindowWhereUniqueInput[]
+    delete?: UserWindowWhereUniqueInput | UserWindowWhereUniqueInput[]
+    connect?: UserWindowWhereUniqueInput | UserWindowWhereUniqueInput[]
+    update?: UserWindowUpdateWithWhereUniqueWithoutWindowInput | UserWindowUpdateWithWhereUniqueWithoutWindowInput[]
+    updateMany?: UserWindowUpdateManyWithWhereWithoutWindowInput | UserWindowUpdateManyWithWhereWithoutWindowInput[]
+    deleteMany?: UserWindowScalarWhereInput | UserWindowScalarWhereInput[]
+  }
+
   export type QueueUncheckedUpdateManyWithoutWindowNestedInput = {
     create?: XOR<QueueCreateWithoutWindowInput, QueueUncheckedCreateWithoutWindowInput> | QueueCreateWithoutWindowInput[] | QueueUncheckedCreateWithoutWindowInput[]
     connectOrCreate?: QueueCreateOrConnectWithoutWindowInput | QueueCreateOrConnectWithoutWindowInput[]
@@ -3982,6 +6753,48 @@ export namespace Prisma {
     update?: QueueUpdateWithWhereUniqueWithoutWindowInput | QueueUpdateWithWhereUniqueWithoutWindowInput[]
     updateMany?: QueueUpdateManyWithWhereWithoutWindowInput | QueueUpdateManyWithWhereWithoutWindowInput[]
     deleteMany?: QueueScalarWhereInput | QueueScalarWhereInput[]
+  }
+
+  export type UserWindowUncheckedUpdateManyWithoutWindowNestedInput = {
+    create?: XOR<UserWindowCreateWithoutWindowInput, UserWindowUncheckedCreateWithoutWindowInput> | UserWindowCreateWithoutWindowInput[] | UserWindowUncheckedCreateWithoutWindowInput[]
+    connectOrCreate?: UserWindowCreateOrConnectWithoutWindowInput | UserWindowCreateOrConnectWithoutWindowInput[]
+    upsert?: UserWindowUpsertWithWhereUniqueWithoutWindowInput | UserWindowUpsertWithWhereUniqueWithoutWindowInput[]
+    createMany?: UserWindowCreateManyWindowInputEnvelope
+    set?: UserWindowWhereUniqueInput | UserWindowWhereUniqueInput[]
+    disconnect?: UserWindowWhereUniqueInput | UserWindowWhereUniqueInput[]
+    delete?: UserWindowWhereUniqueInput | UserWindowWhereUniqueInput[]
+    connect?: UserWindowWhereUniqueInput | UserWindowWhereUniqueInput[]
+    update?: UserWindowUpdateWithWhereUniqueWithoutWindowInput | UserWindowUpdateWithWhereUniqueWithoutWindowInput[]
+    updateMany?: UserWindowUpdateManyWithWhereWithoutWindowInput | UserWindowUpdateManyWithWhereWithoutWindowInput[]
+    deleteMany?: UserWindowScalarWhereInput | UserWindowScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutUserWindowsInput = {
+    create?: XOR<UserCreateWithoutUserWindowsInput, UserUncheckedCreateWithoutUserWindowsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserWindowsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type WindowCreateNestedOneWithoutUserWindowsInput = {
+    create?: XOR<WindowCreateWithoutUserWindowsInput, WindowUncheckedCreateWithoutUserWindowsInput>
+    connectOrCreate?: WindowCreateOrConnectWithoutUserWindowsInput
+    connect?: WindowWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutUserWindowsNestedInput = {
+    create?: XOR<UserCreateWithoutUserWindowsInput, UserUncheckedCreateWithoutUserWindowsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserWindowsInput
+    upsert?: UserUpsertWithoutUserWindowsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUserWindowsInput, UserUpdateWithoutUserWindowsInput>, UserUncheckedUpdateWithoutUserWindowsInput>
+  }
+
+  export type WindowUpdateOneRequiredWithoutUserWindowsNestedInput = {
+    create?: XOR<WindowCreateWithoutUserWindowsInput, WindowUncheckedCreateWithoutUserWindowsInput>
+    connectOrCreate?: WindowCreateOrConnectWithoutUserWindowsInput
+    upsert?: WindowUpsertWithoutUserWindowsInput
+    connect?: WindowWhereUniqueInput
+    update?: XOR<XOR<WindowUpdateToOneWithWhereWithoutUserWindowsInput, WindowUpdateWithoutUserWindowsInput>, WindowUncheckedUpdateWithoutUserWindowsInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -4009,6 +6822,11 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[]
@@ -4029,17 +6847,6 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -4086,6 +6893,14 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[]
@@ -4112,6 +6927,17 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -4141,12 +6967,65 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type UserWindowCreateWithoutUserInput = {
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    window: WindowCreateNestedOneWithoutUserWindowsInput
+  }
+
+  export type UserWindowUncheckedCreateWithoutUserInput = {
+    id?: number
+    windowId: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserWindowCreateOrConnectWithoutUserInput = {
+    where: UserWindowWhereUniqueInput
+    create: XOR<UserWindowCreateWithoutUserInput, UserWindowUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserWindowCreateManyUserInputEnvelope = {
+    data: UserWindowCreateManyUserInput | UserWindowCreateManyUserInput[]
+  }
+
+  export type UserWindowUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserWindowWhereUniqueInput
+    update: XOR<UserWindowUpdateWithoutUserInput, UserWindowUncheckedUpdateWithoutUserInput>
+    create: XOR<UserWindowCreateWithoutUserInput, UserWindowUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserWindowUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserWindowWhereUniqueInput
+    data: XOR<UserWindowUpdateWithoutUserInput, UserWindowUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserWindowUpdateManyWithWhereWithoutUserInput = {
+    where: UserWindowScalarWhereInput
+    data: XOR<UserWindowUpdateManyMutationInput, UserWindowUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserWindowScalarWhereInput = {
+    AND?: UserWindowScalarWhereInput | UserWindowScalarWhereInput[]
+    OR?: UserWindowScalarWhereInput[]
+    NOT?: UserWindowScalarWhereInput | UserWindowScalarWhereInput[]
+    id?: IntFilter<"UserWindow"> | number
+    userId?: IntFilter<"UserWindow"> | number
+    windowId?: IntFilter<"UserWindow"> | number
+    isActive?: BoolFilter<"UserWindow"> | boolean
+    createdAt?: DateTimeFilter<"UserWindow"> | Date | string
+    updatedAt?: DateTimeFilter<"UserWindow"> | Date | string
+  }
+
   export type WindowCreateWithoutQueuesInput = {
     windowTitle: string
     windowDescription: string
     status?: string
     createdAt?: Date | string
     deletedAt?: Date | string | null
+    userWindows?: UserWindowCreateNestedManyWithoutWindowInput
   }
 
   export type WindowUncheckedCreateWithoutQueuesInput = {
@@ -4156,6 +7035,7 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     deletedAt?: Date | string | null
+    userWindows?: UserWindowUncheckedCreateNestedManyWithoutWindowInput
   }
 
   export type WindowCreateOrConnectWithoutQueuesInput = {
@@ -4180,6 +7060,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userWindows?: UserWindowUpdateManyWithoutWindowNestedInput
   }
 
   export type WindowUncheckedUpdateWithoutQueuesInput = {
@@ -4189,6 +7070,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userWindows?: UserWindowUncheckedUpdateManyWithoutWindowNestedInput
   }
 
   export type QueueCreateWithoutWindowInput = {
@@ -4219,6 +7101,30 @@ export namespace Prisma {
 
   export type QueueCreateManyWindowInputEnvelope = {
     data: QueueCreateManyWindowInput | QueueCreateManyWindowInput[]
+  }
+
+  export type UserWindowCreateWithoutWindowInput = {
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutUserWindowsInput
+  }
+
+  export type UserWindowUncheckedCreateWithoutWindowInput = {
+    id?: number
+    userId: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserWindowCreateOrConnectWithoutWindowInput = {
+    where: UserWindowWhereUniqueInput
+    create: XOR<UserWindowCreateWithoutWindowInput, UserWindowUncheckedCreateWithoutWindowInput>
+  }
+
+  export type UserWindowCreateManyWindowInputEnvelope = {
+    data: UserWindowCreateManyWindowInput | UserWindowCreateManyWindowInput[]
   }
 
   export type QueueUpsertWithWhereUniqueWithoutWindowInput = {
@@ -4252,6 +7158,177 @@ export namespace Prisma {
     windowId?: IntNullableFilter<"Queue"> | number | null
   }
 
+  export type UserWindowUpsertWithWhereUniqueWithoutWindowInput = {
+    where: UserWindowWhereUniqueInput
+    update: XOR<UserWindowUpdateWithoutWindowInput, UserWindowUncheckedUpdateWithoutWindowInput>
+    create: XOR<UserWindowCreateWithoutWindowInput, UserWindowUncheckedCreateWithoutWindowInput>
+  }
+
+  export type UserWindowUpdateWithWhereUniqueWithoutWindowInput = {
+    where: UserWindowWhereUniqueInput
+    data: XOR<UserWindowUpdateWithoutWindowInput, UserWindowUncheckedUpdateWithoutWindowInput>
+  }
+
+  export type UserWindowUpdateManyWithWhereWithoutWindowInput = {
+    where: UserWindowScalarWhereInput
+    data: XOR<UserWindowUpdateManyMutationInput, UserWindowUncheckedUpdateManyWithoutWindowInput>
+  }
+
+  export type UserCreateWithoutUserWindowsInput = {
+    email: string
+    username: string
+    password: string
+    fullName: string
+    nickname: string
+    role?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type UserUncheckedCreateWithoutUserWindowsInput = {
+    id?: number
+    email: string
+    username: string
+    password: string
+    fullName: string
+    nickname: string
+    role?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type UserCreateOrConnectWithoutUserWindowsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutUserWindowsInput, UserUncheckedCreateWithoutUserWindowsInput>
+  }
+
+  export type WindowCreateWithoutUserWindowsInput = {
+    windowTitle: string
+    windowDescription: string
+    status?: string
+    createdAt?: Date | string
+    deletedAt?: Date | string | null
+    queues?: QueueCreateNestedManyWithoutWindowInput
+  }
+
+  export type WindowUncheckedCreateWithoutUserWindowsInput = {
+    id?: number
+    windowTitle: string
+    windowDescription: string
+    status?: string
+    createdAt?: Date | string
+    deletedAt?: Date | string | null
+    queues?: QueueUncheckedCreateNestedManyWithoutWindowInput
+  }
+
+  export type WindowCreateOrConnectWithoutUserWindowsInput = {
+    where: WindowWhereUniqueInput
+    create: XOR<WindowCreateWithoutUserWindowsInput, WindowUncheckedCreateWithoutUserWindowsInput>
+  }
+
+  export type UserUpsertWithoutUserWindowsInput = {
+    update: XOR<UserUpdateWithoutUserWindowsInput, UserUncheckedUpdateWithoutUserWindowsInput>
+    create: XOR<UserCreateWithoutUserWindowsInput, UserUncheckedCreateWithoutUserWindowsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutUserWindowsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutUserWindowsInput, UserUncheckedUpdateWithoutUserWindowsInput>
+  }
+
+  export type UserUpdateWithoutUserWindowsInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    nickname?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserUncheckedUpdateWithoutUserWindowsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    nickname?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type WindowUpsertWithoutUserWindowsInput = {
+    update: XOR<WindowUpdateWithoutUserWindowsInput, WindowUncheckedUpdateWithoutUserWindowsInput>
+    create: XOR<WindowCreateWithoutUserWindowsInput, WindowUncheckedCreateWithoutUserWindowsInput>
+    where?: WindowWhereInput
+  }
+
+  export type WindowUpdateToOneWithWhereWithoutUserWindowsInput = {
+    where?: WindowWhereInput
+    data: XOR<WindowUpdateWithoutUserWindowsInput, WindowUncheckedUpdateWithoutUserWindowsInput>
+  }
+
+  export type WindowUpdateWithoutUserWindowsInput = {
+    windowTitle?: StringFieldUpdateOperationsInput | string
+    windowDescription?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    queues?: QueueUpdateManyWithoutWindowNestedInput
+  }
+
+  export type WindowUncheckedUpdateWithoutUserWindowsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    windowTitle?: StringFieldUpdateOperationsInput | string
+    windowDescription?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    queues?: QueueUncheckedUpdateManyWithoutWindowNestedInput
+  }
+
+  export type UserWindowCreateManyUserInput = {
+    id?: number
+    windowId: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserWindowUpdateWithoutUserInput = {
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    window?: WindowUpdateOneRequiredWithoutUserWindowsNestedInput
+  }
+
+  export type UserWindowUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    windowId?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserWindowUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    windowId?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type QueueCreateManyWindowInput = {
     id?: number
     studentId: string
@@ -4261,6 +7338,14 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     deletedAt?: Date | string | null
+  }
+
+  export type UserWindowCreateManyWindowInput = {
+    id?: number
+    userId: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type QueueUpdateWithoutWindowInput = {
@@ -4293,6 +7378,29 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserWindowUpdateWithoutWindowInput = {
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutUserWindowsNestedInput
+  }
+
+  export type UserWindowUncheckedUpdateWithoutWindowInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserWindowUncheckedUpdateManyWithoutWindowInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

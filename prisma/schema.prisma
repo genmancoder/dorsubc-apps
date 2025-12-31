@@ -8,6 +8,23 @@ generator client {
   output   = "./generated/prisma-client-js"
 }
 
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  username     String   @unique
+  password     String
+  fullName     String
+  nickname     String
+  role         String   @default("user") // admin, user
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  deletedAt    DateTime? // Soft delete
+
+  // Relations
+  userWindows  UserWindow[]
+}
+
 model Queue {
   id           Int      @id @default(autoincrement())
   studentId    String
@@ -31,4 +48,20 @@ model Window {
   deletedAt    DateTime? // 👈 Soft delete field
 
   queues            Queue[]  // Relation back to Queue (1:N)
+  userWindows       UserWindow[] // Relation to UserWindow
+}
+
+model UserWindow {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  windowId  Int
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user      User     @relation(fields: [userId], references: [id])
+  window    Window   @relation(fields: [windowId], references: [id])
+
+  @@unique([userId, windowId])
 }
