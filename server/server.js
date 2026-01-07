@@ -1,7 +1,7 @@
 // server.js
-const express = require('express');
-const http = require('http');
-const { WebSocketServer } = require('ws');
+const express = require("express");
+const http = require("http");
+const { WebSocketServer } = require("ws");
 
 const app = express();
 const server = http.createServer(app);
@@ -15,49 +15,49 @@ const PORT = process.env.PORT || 3005;
 app.use(express.json());
 
 // Test route
-app.get('/', (req, res) => {
-  res.send('Express + WebSocket server running 🚀');
+app.get("/", (req, res) => {
+  res.send("Express + WebSocket server running 🚀");
 });
 
 // --------------------
 // WebSocket logic
 // --------------------
-wss.on('connection', (ws) => {
-  console.log('Client connected');
+wss.on("connection", (ws) => {
+  console.log("Client connected");
 
-  ws.on('message', (message) => {
-    console.log('Received:', message.toString());
+  ws.on("message", (message) => {
+    console.log("Received:", message.toString());
 
     let data;
     try {
       data = JSON.parse(message);
     } catch (err) {
-      console.warn('Invalid JSON');
+      console.warn("Invalid JSON" + err);
       return;
     }
 
-    console.log('Parsed data:', data);
+    console.log("Parsed data:", data);
 
-    if (data.type === 'CALL_TICKET' && data.ticketNumber != null) {
-      console.log('Broadcasting ticket:', data.ticketNumber);
+    if (data.type === "CALL_TICKET" && data.ticketNumber != null) {
+      console.log("Broadcasting ticket:", data.ticketNumber);
 
       wss.clients.forEach((client) => {
         if (client.readyState === ws.OPEN) {
           client.send(
             JSON.stringify({
-              type: 'CALL_TICKET',
+              type: "CALL_TICKET",
               ticketNumber: data.ticketNumber,
             })
           );
         }
       });
     } else {
-      console.log('Unknown message:', data);
+      console.log("Unknown message:", data);
     }
   });
 
-  ws.on('close', () => {
-    console.log('Client disconnected');
+  ws.on("close", () => {
+    console.log("Client disconnected");
   });
 });
 

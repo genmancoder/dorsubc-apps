@@ -56,9 +56,7 @@ export default function Admin() {
   const callTicket = () => {
     if (socketRef.current?.readyState === WebSocket.OPEN) {
       console.log("Calling current ticket via WebSocket");
-      socketRef.current.send(
-        JSON.stringify({ type: "CALL_TICKET", current })
-      );
+      socketRef.current.send(JSON.stringify({ type: "CALL_TICKET", current }));
     } else {
       console.log("WebSocket not connected");
     }
@@ -96,7 +94,7 @@ export default function Admin() {
 
   // Connect WebSocket
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:3005");
+    const ws = new WebSocket("process.env.WS_URL || 'ws://10.10.115.21:3005'");
     socketRef.current = ws;
 
     ws.onopen = () => console.log("WS connected");
@@ -107,12 +105,10 @@ export default function Admin() {
         if (data.type === "CALL_TICKET") {
           enqueueAudio(`Now serving ticket number ${data.ticketNumber}`);
         }
-
       } catch (err) {
         console.error(err);
       }
     };
-
 
     return () => ws.close();
   }, []);
@@ -161,17 +157,17 @@ export default function Admin() {
         const data = await res.json();
         setCurrent(data.ticketNumber);
 
-
         if (socketRef.current?.readyState === WebSocket.OPEN) {
           console.log("Calling current ticket via WebSocket");
           socketRef.current.send(
-            JSON.stringify({ type: "CALL_TICKET", ticketNumber: data.ticketNumber })
+            JSON.stringify({
+              type: "CALL_TICKET",
+              ticketNumber: data.ticketNumber,
+            })
           );
         } else {
           console.log("WebSocket not connected");
         }
-
-
       } else {
         setCurrent(null);
       }
@@ -194,22 +190,22 @@ export default function Admin() {
     }
   }, [windowId]);
 
-  const callCurrent = () => {
-    if (!voices.length) return;
-    if (!current?.ticketNumber) return;
-    // Find UK English male voice
-    const ukMaleVoice =
-      voices.find(v => v.lang === "en-GB" && /male/i.test(v.name)) ||
-      voices.find(v => v.lang === "en-GB"); // fallback
+  // const callCurrent = () => {
+  //   if (!voices.length) return;
+  //   if (!current?.ticketNumber) return;
+  //   // Find UK English male voice
+  //   const ukMaleVoice =
+  //     voices.find(v => v.lang === "en-GB" && /male/i.test(v.name)) ||
+  //     voices.find(v => v.lang === "en-GB"); // fallback
 
-    const text = `Now serving ticket number ${current ? current.ticketNumber : 'none'}`;
+  //   const text = `Now serving ticket number ${current ? current.ticketNumber : 'none'}`;
 
-    const msg = new SpeechSynthesisUtterance(text);
-    if (ukMaleVoice) msg.voice = ukMaleVoice;
-    msg.rate = 1;
-    msg.pitch = 1;
-    speechSynthesis.speak(msg);
-  };
+  //   const msg = new SpeechSynthesisUtterance(text);
+  //   if (ukMaleVoice) msg.voice = ukMaleVoice;
+  //   msg.rate = 1;
+  //   msg.pitch = 1;
+  //   speechSynthesis.speak(msg);
+  // };
 
   const sendMessage = () => {
     if (socketRef.current?.readyState === WebSocket.OPEN) {

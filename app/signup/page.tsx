@@ -1,111 +1,128 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { Eye, EyeOff, UserPlus, User, Mail, Lock, UserCheck } from 'lucide-react'
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import {
+  Eye,
+  EyeOff,
+  UserPlus,
+  User,
+  Mail,
+  Lock,
+  UserCheck,
+} from "lucide-react";
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
-    email: '',
-    username: '',
-    password: '',
-    confirmPassword: '',
-    fullName: '',
-    nickname: ''
-  })
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState('')
-  const router = useRouter()
+    email: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+    fullName: "",
+    nickname: "",
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
-    })
-    setError('') // Clear error when user types
-  }
+      [e.target.name]: e.target.value,
+    });
+    setError(""); // Clear error when user types
+  };
 
   const validateForm = () => {
-    const { email, username, password, confirmPassword, fullName, nickname } = formData
+    const { email, username, password, confirmPassword, fullName, nickname } =
+      formData;
 
-    if (!email || !username || !password || !confirmPassword || !fullName || !nickname) {
-      return 'All fields are required'
+    if (
+      !email ||
+      !username ||
+      !password ||
+      !confirmPassword ||
+      !fullName ||
+      !nickname
+    ) {
+      return "All fields are required";
     }
 
     if (password !== confirmPassword) {
-      return 'Passwords do not match'
+      return "Passwords do not match";
     }
 
     if (password.length < 6) {
-      return 'Password must be at least 6 characters long'
+      return "Password must be at least 6 characters long";
     }
 
     if (username.length < 3) {
-      return 'Username must be at least 3 characters long'
+      return "Username must be at least 3 characters long";
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return 'Please enter a valid email address'
+      return "Please enter a valid email address";
     }
 
-    return ''
-  }
+    return "";
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setError('')
-    setSuccess('')
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+    setSuccess("");
 
-    const validationError = validateForm()
+    const validationError = validateForm();
     if (validationError) {
-      setError(validationError)
-      setIsLoading(false)
-      return
+      setError(validationError);
+      setIsLoading(false);
+      return;
     }
 
     try {
-      const response = await fetch('/api/auth/signup', {
-        method: 'POST',
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           ...formData,
-          role: 'admin' // Always create admin user for signup
+          role: "admin", // Always create admin user for signup
         }),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (response.ok) {
-        setSuccess('Admin user created successfully! You can now login.')
+        setSuccess("Admin user created successfully! You can now login.");
         setFormData({
-          email: '',
-          username: '',
-          password: '',
-          confirmPassword: '',
-          fullName: '',
-          nickname: ''
-        })
+          email: "",
+          username: "",
+          password: "",
+          confirmPassword: "",
+          fullName: "",
+          nickname: "",
+        });
         // Redirect to login after 2 seconds
         setTimeout(() => {
-          router.push('/login')
-        }, 2000)
+          router.push("/login");
+        }, 2000);
       } else {
-        setError(data.error || 'Failed to create user')
+        setError(data.error || "Failed to create user");
       }
     } catch (error) {
-      setError('Network error. Please try again.')
+      console.log("Signup error:", error);
+      setError("Network error. Please try again.");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
@@ -115,8 +132,12 @@ export default function SignupPage() {
           <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
             <UserPlus className="h-8 w-8 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Create Admin Account</h1>
-          <p className="text-gray-600">Set up your initial administrator account</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            Create Admin Account
+          </h1>
+          <p className="text-gray-600">
+            Set up your initial administrator account
+          </p>
         </div>
 
         {/* Signup Form */}
@@ -124,7 +145,10 @@ export default function SignupPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Full Name Field */}
             <div>
-              <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="fullName"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Full Name
               </label>
               <div className="relative">
@@ -146,7 +170,10 @@ export default function SignupPage() {
 
             {/* Nickname Field */}
             <div>
-              <label htmlFor="nickname" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="nickname"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Nickname
               </label>
               <div className="relative">
@@ -168,7 +195,10 @@ export default function SignupPage() {
 
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Email Address
               </label>
               <div className="relative">
@@ -190,7 +220,10 @@ export default function SignupPage() {
 
             {/* Username Field */}
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Username
               </label>
               <div className="relative">
@@ -212,7 +245,10 @@ export default function SignupPage() {
 
             {/* Password Field */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Password
               </label>
               <div className="relative">
@@ -222,7 +258,7 @@ export default function SignupPage() {
                 <input
                   id="password"
                   name="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   required
                   value={formData.password}
                   onChange={handleChange}
@@ -245,7 +281,10 @@ export default function SignupPage() {
 
             {/* Confirm Password Field */}
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Confirm Password
               </label>
               <div className="relative">
@@ -255,7 +294,7 @@ export default function SignupPage() {
                 <input
                   id="confirmPassword"
                   name="confirmPassword"
-                  type={showConfirmPassword ? 'text' : 'password'}
+                  type={showConfirmPassword ? "text" : "password"}
                   required
                   value={formData.confirmPassword}
                   onChange={handleChange}
@@ -302,7 +341,7 @@ export default function SignupPage() {
                   Creating Account...
                 </div>
               ) : (
-                'Create Admin Account'
+                "Create Admin Account"
               )}
             </button>
           </form>
@@ -310,8 +349,11 @@ export default function SignupPage() {
           {/* Footer */}
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Already have an account?{' '}
-              <Link href="/login" className="text-green-600 hover:text-green-700 font-medium">
+              Already have an account?{" "}
+              <Link
+                href="/login"
+                className="text-green-600 hover:text-green-700 font-medium"
+              >
                 Sign in here
               </Link>
             </p>
@@ -320,8 +362,8 @@ export default function SignupPage() {
 
         {/* Back to Home */}
         <div className="text-center mt-6">
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className="text-sm text-gray-600 hover:text-gray-800 transition-colors"
           >
             ← Back to Home
@@ -329,5 +371,5 @@ export default function SignupPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

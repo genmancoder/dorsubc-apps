@@ -1,6 +1,6 @@
 "use client";
 
-import { AppSidebar } from "@/components/app-sidebar"
+import { AppSidebar } from "@/components/app-sidebar";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,22 +8,20 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Separator } from "@/components/ui/separator"
+} from "@/components/ui/breadcrumb";
+import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
-import { useState, useRef } from "react"
+} from "@/components/ui/sidebar";
+import { useState, useRef } from "react";
 import Papa from "papaparse";
 import * as htmlToImage from "html-to-image";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 
-
 export default function Page() {
-
   const [data, setData] = useState<string[]>([]);
   const qrRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
@@ -35,12 +33,11 @@ export default function Page() {
       complete: (results: Papa.ParseResult<string[]>) => {
         const rows = results.data as string[][];
         // Assuming first column values to be encoded
-        const values = rows.map(row => row[0]).filter(Boolean);
+        const values = rows.map((row) => row[0]).filter(Boolean);
         setData(values);
-      }
+      },
     });
-
-  }
+  };
 
   const downloadQR = async (value: string) => {
     const node = qrRefs.current[value];
@@ -86,9 +83,7 @@ export default function Page() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="#">
-                  Creating QR Code
-                </BreadcrumbLink>
+                <BreadcrumbLink href="#">Creating QR Code</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
@@ -98,35 +93,34 @@ export default function Page() {
           </Breadcrumb>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
+          <div className="p-6">
+            <h1 className="text-2xl font-bold mb-4">
+              CSV to QR Code Generator
+            </h1>
+            <input type="file" accept=".csv" onChange={handleFileUpload} />
+            {data.length > 0 && (
+              <button
+                onClick={downloadAll}
+                className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
+              >
+                Download All QR Codes (ZIP)
+              </button>
+            )}
 
- <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">CSV to QR Code Generator</h1>
-      <input type="file" accept=".csv" onChange={handleFileUpload} />
-      {data.length > 0 && (
-        <button
-          onClick={downloadAll}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
-        >
-          Download All QR Codes (ZIP)
-        </button>
-      )}
-
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-        {data.map((value, index) => (
-          <div key={index} className="p-2 border rounded text-center">            
-            <p className="mt-2 text-sm break-all">{value}</p>
-            <button
-              onClick={() => downloadQR(value)}
-              className="mt-2 text-sm text-blue-600 underline"
-            >
-              Download
-            </button>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+              {data.map((value, index) => (
+                <div key={index} className="p-2 border rounded text-center">
+                  <p className="mt-2 text-sm break-all">{value}</p>
+                  <button
+                    onClick={() => downloadQR(value)}
+                    className="mt-2 text-sm text-blue-600 underline"
+                  >
+                    Download
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
-      </div>
-    </div>
-
-
 
           {/* <div className="grid auto-rows-min gap-4 md:grid-cols-3">
             <div className="bg-muted/50 aspect-video rounded-xl" />
@@ -137,5 +131,5 @@ export default function Page() {
         </div>
       </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }

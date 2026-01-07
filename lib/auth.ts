@@ -30,6 +30,7 @@ export function verifyToken(token: string): UserSession | null {
   try {
     return jwt.verify(token, JWT_SECRET) as UserSession
   } catch (error) {
+    console.log('Token verification error:', error)
     return null
   }
 }

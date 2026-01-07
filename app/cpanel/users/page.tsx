@@ -1,226 +1,226 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { 
-  Plus, 
-  Edit, 
-  Trash2, 
-  Users, 
-  UserPlus, 
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import {
+  Plus,
+  Edit,
+  Trash2,
+  Users,
+  UserPlus,
   Settings,
   LogOut,
   Eye,
-  EyeOff
-} from 'lucide-react'
+  EyeOff,
+} from "lucide-react";
 
 interface User {
-  id: number
-  email: string
-  username: string
-  fullName: string
-  nickname: string
-  role: string
-  isActive: boolean
-  createdAt: string
+  id: number;
+  email: string;
+  username: string;
+  fullName: string;
+  nickname: string;
+  role: string;
+  isActive: boolean;
+  createdAt: string;
   userWindows: Array<{
-    id: number
+    id: number;
     window: {
-      id: number
-      windowTitle: string
-    }
-  }>
+      id: number;
+      windowTitle: string;
+    };
+  }>;
 }
 
 interface Window {
-  id: number
-  windowTitle: string
-  windowDescription: string
+  id: number;
+  windowTitle: string;
+  windowDescription: string;
 }
 
 export default function UserManagementPage() {
-  const [users, setUsers] = useState<User[]>([])
-  const [windows, setWindows] = useState<Window[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [showCreateModal, setShowCreateModal] = useState(false)
-  const [showEditModal, setShowEditModal] = useState(false)
-  const [selectedUser, setSelectedUser] = useState<User | null>(null)
-  const [currentUser, setCurrentUser] = useState<any>(null)
-  const router = useRouter()
+  const [users, setUsers] = useState<User[]>([]);
+  const [windows, setWindows] = useState<Window[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const router = useRouter();
 
   // Form states
   const [formData, setFormData] = useState({
-    email: '',
-    username: '',
-    password: '',
-    fullName: '',
-    nickname: '',
-    role: 'user',
-    windowIds: [] as number[]
-  })
-  const [showPassword, setShowPassword] = useState(false)
+    email: "",
+    username: "",
+    password: "",
+    fullName: "",
+    nickname: "",
+    role: "user",
+    windowIds: [] as number[],
+  });
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     // checkAuth()
-    fetchUsers()
-    fetchWindows()
-  }, [])
+    fetchUsers();
+    fetchWindows();
+  }, []);
 
   const checkAuth = async () => {
     try {
-      const response = await fetch('/api/auth/me')
+      const response = await fetch("/api/auth/me");
       if (response.ok) {
-        const data = await response.json()
-        setCurrentUser(data.user)
-        if (data.user.role !== 'admin') {
-          router.push('/login')
+        const data = await response.json();
+        setCurrentUser(data.user);
+        if (data.user.role !== "admin") {
+          router.push("/login");
         }
       } else {
-        router.push('/login')
+        router.push("/login");
       }
     } catch (error) {
-      router.push('/login')
+      router.push("/login");
     }
-  }
+  };
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('/api/users')
+      const response = await fetch("/api/users");
       if (response.ok) {
-        const data = await response.json()
-        setUsers(data)
+        const data = await response.json();
+        setUsers(data);
       }
     } catch (error) {
-      console.error('Error fetching users:', error)
+      console.error("Error fetching users:", error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const fetchWindows = async () => {
     try {
-      const response = await fetch('/api/window/list')
+      const response = await fetch("/api/window/list");
       if (response.ok) {
-        const data = await response.json()
-        setWindows(data)
+        const data = await response.json();
+        setWindows(data);
       }
     } catch (error) {
-      console.error('Error fetching windows:', error)
+      console.error("Error fetching windows:", error);
     }
-  }
+  };
 
   const handleLogout = async () => {
     try {
-      await fetch('/api/auth/logout', { method: 'POST' })
-      router.push('/login')
+      await fetch("/api/auth/logout", { method: "POST" });
+      router.push("/login");
     } catch (error) {
-      console.error('Logout error:', error)
+      console.error("Logout error:", error);
     }
-  }
+  };
 
   const handleCreateUser = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
+    e.preventDefault();
+
     try {
-      const response = await fetch('/api/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
-      })
+      });
 
       if (response.ok) {
-        setShowCreateModal(false)
+        setShowCreateModal(false);
         setFormData({
-          email: '',
-          username: '',
-          password: '',
-          fullName: '',
-          nickname: '',
-          role: 'user',
-          windowIds: []
-        })
-        fetchUsers()
+          email: "",
+          username: "",
+          password: "",
+          fullName: "",
+          nickname: "",
+          role: "user",
+          windowIds: [],
+        });
+        fetchUsers();
       } else {
-        const data = await response.json()
-        alert(data.error || 'Failed to create user')
+        const data = await response.json();
+        alert(data.error || "Failed to create user");
       }
     } catch (error) {
-      alert('Error creating user')
+      alert("Error creating user");
     }
-  }
+  };
 
   const handleEditUser = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!selectedUser) return
+    e.preventDefault();
+    if (!selectedUser) return;
 
     try {
       const response = await fetch(`/api/users/${selectedUser.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
-      })
+      });
 
       if (response.ok) {
-        setShowEditModal(false)
-        setSelectedUser(null)
+        setShowEditModal(false);
+        setSelectedUser(null);
         setFormData({
-          email: '',
-          username: '',
-          password: '',
-          fullName: '',
-          nickname: '',
-          role: 'user',
-          windowIds: []
-        })
-        fetchUsers()
+          email: "",
+          username: "",
+          password: "",
+          fullName: "",
+          nickname: "",
+          role: "user",
+          windowIds: [],
+        });
+        fetchUsers();
       } else {
-        const data = await response.json()
-        alert(data.error || 'Failed to update user')
+        const data = await response.json();
+        alert(data.error || "Failed to update user");
       }
     } catch (error) {
-      alert('Error updating user')
+      alert("Error updating user");
     }
-  }
+  };
 
   const handleDeleteUser = async (userId: number) => {
-    if (!confirm('Are you sure you want to delete this user?')) return
+    if (!confirm("Are you sure you want to delete this user?")) return;
 
     try {
       const response = await fetch(`/api/users/${userId}`, {
-        method: 'DELETE',
-      })
+        method: "DELETE",
+      });
 
       if (response.ok) {
-        fetchUsers()
+        fetchUsers();
       } else {
-        alert('Failed to delete user')
+        alert("Failed to delete user");
       }
     } catch (error) {
-      alert('Error deleting user')
+      alert("Error deleting user");
     }
-  }
+  };
 
   const openEditModal = (user: User) => {
-    setSelectedUser(user)
+    setSelectedUser(user);
     setFormData({
       email: user.email,
       username: user.username,
-      password: '',
+      password: "",
       fullName: user.fullName,
       nickname: user.nickname,
       role: user.role,
-      windowIds: user.userWindows.map(uw => uw.window.id)
-    })
-    setShowEditModal(true)
-  }
+      windowIds: user.userWindows.map((uw) => uw.window.id),
+    });
+    setShowEditModal(true);
+  };
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
       </div>
-    )
+    );
   }
 
   return (
@@ -231,7 +231,9 @@ export default function UserManagementPage() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
               <Users className="h-8 w-8 text-blue-600" />
-              <h1 className="text-xl font-semibold text-gray-900">User Management</h1>
+              <h1 className="text-xl font-semibold text-gray-900">
+                User Management
+              </h1>
             </div>
             <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-600">
@@ -303,29 +305,37 @@ export default function UserManagementPage() {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        user.role === 'admin' 
-                          ? 'bg-purple-100 text-purple-800' 
-                          : 'bg-gray-100 text-gray-800'
-                      }`}>
+                      <span
+                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                          user.role === "admin"
+                            ? "bg-purple-100 text-purple-800"
+                            : "bg-gray-100 text-gray-800"
+                        }`}
+                      >
                         {user.role}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        user.isActive 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-red-100 text-red-800'
-                      }`}>
-                        {user.isActive ? 'Active' : 'Inactive'}
+                      <span
+                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                          user.isActive
+                            ? "bg-green-100 text-green-800"
+                            : "bg-red-100 text-red-800"
+                        }`}
+                      >
+                        {user.isActive ? "Active" : "Inactive"}
                       </span>
                     </td>
                     <td className="px-6 py-4">
                       <div className="text-sm text-gray-900">
                         {user.userWindows.length > 0 ? (
-                          user.userWindows.map(uw => uw.window.windowTitle).join(', ')
+                          user.userWindows
+                            .map((uw) => uw.window.windowTitle)
+                            .join(", ")
                         ) : (
-                          <span className="text-gray-500">No windows assigned</span>
+                          <span className="text-gray-500">
+                            No windows assigned
+                          </span>
                         )}
                       </div>
                     </td>
@@ -357,36 +367,50 @@ export default function UserManagementPage() {
       {showCreateModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-lg max-w-md w-full p-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Create New User</h3>
+            <h3 className="text-lg font-medium text-gray-900 mb-4">
+              Create New User
+            </h3>
             <form onSubmit={handleCreateUser} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Email</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Email
+                </label>
                 <input
                   type="email"
                   required
                   value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Username</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Username
+                </label>
                 <input
                   type="text"
                   required
                   value={formData.username}
-                  onChange={(e) => setFormData({...formData, username: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, username: e.target.value })
+                  }
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Password</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Password
+                </label>
                 <div className="relative">
                   <input
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     required
                     value={formData.password}
-                    onChange={(e) => setFormData({...formData, password: e.target.value})}
+                    onChange={(e) =>
+                      setFormData({ ...formData, password: e.target.value })
+                    }
                     className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                   <button
@@ -394,35 +418,51 @@ export default function UserManagementPage() {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute inset-y-0 right-0 pr-3 flex items-center"
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
                   </button>
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Full Name</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Full Name
+                </label>
                 <input
                   type="text"
                   required
                   value={formData.fullName}
-                  onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, fullName: e.target.value })
+                  }
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Nickname</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Nickname
+                </label>
                 <input
                   type="text"
                   required
                   value={formData.nickname}
-                  onChange={(e) => setFormData({...formData, nickname: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, nickname: e.target.value })
+                  }
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Role</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Role
+                </label>
                 <select
                   value={formData.role}
-                  onChange={(e) => setFormData({...formData, role: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, role: e.target.value })
+                  }
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="user">User</option>
@@ -453,35 +493,49 @@ export default function UserManagementPage() {
       {showEditModal && selectedUser && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-lg max-w-md w-full p-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Edit User</h3>
+            <h3 className="text-lg font-medium text-gray-900 mb-4">
+              Edit User
+            </h3>
             <form onSubmit={handleEditUser} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Email</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Email
+                </label>
                 <input
                   type="email"
                   required
                   value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Username</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Username
+                </label>
                 <input
                   type="text"
                   required
                   value={formData.username}
-                  onChange={(e) => setFormData({...formData, username: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, username: e.target.value })
+                  }
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Password (leave blank to keep current)</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Password (leave blank to keep current)
+                </label>
                 <div className="relative">
                   <input
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     value={formData.password}
-                    onChange={(e) => setFormData({...formData, password: e.target.value})}
+                    onChange={(e) =>
+                      setFormData({ ...formData, password: e.target.value })
+                    }
                     className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                   <button
@@ -489,35 +543,51 @@ export default function UserManagementPage() {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute inset-y-0 right-0 pr-3 flex items-center"
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
                   </button>
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Full Name</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Full Name
+                </label>
                 <input
                   type="text"
                   required
                   value={formData.fullName}
-                  onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, fullName: e.target.value })
+                  }
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Nickname</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Nickname
+                </label>
                 <input
                   type="text"
                   required
                   value={formData.nickname}
-                  onChange={(e) => setFormData({...formData, nickname: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, nickname: e.target.value })
+                  }
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Role</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Role
+                </label>
                 <select
                   value={formData.role}
-                  onChange={(e) => setFormData({...formData, role: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, role: e.target.value })
+                  }
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="user">User</option>
@@ -544,5 +614,5 @@ export default function UserManagementPage() {
         </div>
       )}
     </div>
-  )
+  );
 }

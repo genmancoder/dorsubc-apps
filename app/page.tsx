@@ -1,22 +1,19 @@
 import { DisplayArea } from "@/components/container/display-area";
 import Image from "next/image";
-import Link from 'next/link'
+import Link from "next/link";
 export default function Home() {
-     
-
   return (
     <div className="font-sans grid grid-rows-[10px_1fr_10px] items-center justify-items-center min-h-screen p-4 pb-20 gap-2 sm:p-15">
       <main className="flex  gap-[16px] row-start-2 items-center sm:items-start">
         {/* <Window title="Window 1" /> */}
-        <DisplayArea/>
+        <DisplayArea />
         {/* <MediaPlayer/> */}
         {/* <Window title="BSBA" /> */}
-        
       </main>
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
         <Link
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="/"          
+          href="/"
           rel="noopener noreferrer"
         >
           <Image
@@ -30,7 +27,7 @@ export default function Home() {
         </Link>
         <Link
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="/request"          
+          href="/request"
           rel="noopener noreferrer"
         >
           <Image
@@ -44,7 +41,7 @@ export default function Home() {
         </Link>
         <Link
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="/"          
+          href="/"
           rel="noopener noreferrer"
         >
           <Image
@@ -59,7 +56,7 @@ export default function Home() {
 
         <Link
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="/"          
+          href="/"
           rel="noopener noreferrer"
         >
           <Image

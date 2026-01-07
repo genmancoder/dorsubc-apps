@@ -8,7 +8,7 @@ export default function TTSButton() {
 
   // Initialize the client (client-side only)
   const elevenlabs = new ElevenLabsClient({
-    apiKey: process.env.NEXT_PUBLIC_ELEVENLABS_API_KEY || "", 
+    apiKey: process.env.NEXT_PUBLIC_ELEVENLABS_API_KEY || "",
   });
 
   const speak = async () => {
@@ -25,9 +25,9 @@ export default function TTSButton() {
       );
 
       // Play using ElevenLabs helper
-      await play(audio);
-    } catch (err) {      
-      console.log("api", process.env.NEXT_PUBLIC_ELEVENLABS_API_KEY);  
+      // await play(audio);
+    } catch (err) {
+      console.log("api", process.env.NEXT_PUBLIC_ELEVENLABS_API_KEY);
       console.error("TTS Error:", err);
     } finally {
       setLoading(false);
