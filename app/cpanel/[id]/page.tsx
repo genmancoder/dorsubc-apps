@@ -94,7 +94,7 @@ export default function Admin() {
 
   // Connect WebSocket
   useEffect(() => {
-    const ws = new WebSocket("process.env.WS_URL || 'ws://10.10.115.21:3005'");
+    const ws = new WebSocket(process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:3005");
     socketRef.current = ws;
 
     ws.onopen = () => console.log("WS connected");

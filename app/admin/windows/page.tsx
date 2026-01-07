@@ -413,50 +413,166 @@ export default function Cpanel() {
         </DialogContent>
       </Dialog>
 
-      {/* Users Dialog */}
+      {/* Users Assignment Dialog */}
       <Dialog open={usersOpen} onOpenChange={setUsersOpen}>
         <DialogOverlay className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm" />
-        <DialogContent>
+        <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>
-              Assign Users – {selectedWindow?.windowTitle}
+            <DialogTitle className="flex items-center gap-3 text-xl">
+              <Users className="h-6 w-6 text-blue-600" />
+              <div>
+                <div>Assign Users</div>
+                <div className="text-sm font-normal text-gray-600 mt-1">
+                  {selectedWindow?.windowTitle}
+                </div>
+              </div>
             </DialogTitle>
           </DialogHeader>
 
-          <div className="space-y-2 max-h-64 overflow-y-auto border rounded-md p-3">
-            {users.map((user) => (
-              <label
-                key={user.id}
-                className="flex items-center gap-2 text-sm cursor-pointer"
+          <div className="space-y-4">
+            {/* Selected Count */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-blue-900">
+                  {assignedUserIds.length} user(s) selected
+                </span>
+                {assignedUserIds.length > 0 && (
+                  <button
+                    onClick={() => setAssignedUserIds([])}
+                    className="text-xs text-blue-600 hover:text-blue-800 font-medium"
+                  >
+                    Clear All
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* User List */}
+            <div className="border border-gray-200 rounded-lg overflow-hidden">
+              <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
+                <h3 className="text-sm font-semibold text-gray-700">
+                  Available Users
+                </h3>
+              </div>
+              <div className="max-h-96 overflow-y-auto">
+                {users.length > 0 ? (
+                  <div className="divide-y divide-gray-100">
+                    {users.map((user) => (
+                      <label
+                        key={user.id}
+                        className={`flex items-center gap-4 px-4 py-4 cursor-pointer hover:bg-gray-50 transition-colors ${
+                          assignedUserIds.includes(user.id)
+                            ? "bg-blue-50 hover:bg-blue-100"
+                            : ""
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={assignedUserIds.includes(user.id)}
+                          onChange={() => {
+                            setAssignedUserIds((prev) =>
+                              prev.includes(user.id)
+                                ? prev.filter((id) => id !== user.id)
+                                : [...prev, user.id]
+                            );
+                          }}
+                          className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+                        />
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                              <span className="text-white font-bold text-sm">
+                                {user.name?
+                                  .split(" ")
+                                  .map((n) => n[0])
+                                  .join("")
+                                  .toUpperCase()
+                                  .slice(0, 2)}
+                              </span>
+                            </div>
+                            <div>
+                              <div className="font-medium text-gray-900">
+                                {user.name}
+                              </div>
+                              <div className="text-sm text-gray-500">
+                                {user.email}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {assignedUserIds.includes(user.id) && (
+                          <div className="flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">
+                            <svg
+                              className="w-3 h-3"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                            Assigned
+                          </div>
+                        )}
+                      </label>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="px-4 py-12 text-center text-gray-500">
+                    <Users className="h-12 w-12 mx-auto mb-3 opacity-30" />
+                    <p className="text-sm">No users available</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="flex gap-2">
+              <button
+                onClick={() => setAssignedUserIds(users.map((u) => u.id))}
+                className="text-xs text-blue-600 hover:text-blue-800 font-medium px-3 py-2 rounded-lg hover:bg-blue-50 transition-colors"
               >
-                <input
-                  type="checkbox"
-                  checked={assignedUserIds.includes(user.id)}
-                  onChange={() => {
-                    setAssignedUserIds((prev) =>
-                      prev.includes(user.id)
-                        ? prev.filter((id) => id !== user.id)
-                        : [...prev, user.id]
-                    );
-                  }}
-                />
-                {user.name} ({user.email})
-              </label>
-            ))}
+                Select All
+              </button>
+              <button
+                onClick={() => setAssignedUserIds([])}
+                className="text-xs text-gray-600 hover:text-gray-800 font-medium px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                Deselect All
+              </button>
+            </div>
           </div>
 
           <DialogFooter>
             <button
-              onClick={() => setUsersOpen(false)}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+              onClick={() => {
+                setUsersOpen(false);
+                setAssignedUserIds([]);
+              }}
+              className="px-5 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
             >
               Cancel
             </button>
             <button
               onClick={updateWindowUsers}
-              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
+              className="px-5 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
             >
-              Update Users
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+              Save Assignment
             </button>
           </DialogFooter>
         </DialogContent>

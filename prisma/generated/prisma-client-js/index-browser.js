@@ -21,11 +21,11 @@ exports.$Enums = {}
 
 /**
  * Prisma Client JS version: 6.13.0
- * Query Engine version: 605197351a3c8bdd595af2d2a9bc3025bca48ea2
+ * Query Engine version: 361e86d0ea4987e9f53a565309b3eed797a6bcbd
  */
 Prisma.prismaVersion = {
   client: "6.13.0",
-  engine: "605197351a3c8bdd595af2d2a9bc3025bca48ea2"
+  engine: "361e86d0ea4987e9f53a565309b3eed797a6bcbd"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -161,6 +161,27 @@ exports.Prisma.UserWindowScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AnnouncementScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  message: 'message',
+  type: 'type',
+  isActive: 'isActive',
+  priority: 'priority',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.DisplaySettingsScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  value: 'value',
+  description: 'description',
+  updatedAt: 'updatedAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -176,7 +197,9 @@ exports.Prisma.ModelName = {
   User: 'User',
   Queue: 'Queue',
   Window: 'Window',
-  UserWindow: 'UserWindow'
+  UserWindow: 'UserWindow',
+  Announcement: 'Announcement',
+  DisplaySettings: 'DisplaySettings'
 };
 
 /**

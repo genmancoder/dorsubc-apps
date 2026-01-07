@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
+import { broadcastQueueUpdate } from '@/lib/websocket'
 
 export async function POST(req: Request) {
     try {
@@ -14,7 +15,7 @@ export async function POST(req: Request) {
             where: {
                 windowId: Number(windowId),
                 ticketNumber: Number(ticketNumber),
-                status: 'waiting' // Only update waiting tickets
+                status: 'called' // Update called tickets (was 'waiting')
             },
             data: { 
                 status: status,
@@ -25,6 +26,9 @@ export async function POST(req: Request) {
         if (updated.count === 0) {
             return NextResponse.json({ error: 'Ticket not found or already processed' }, { status: 404 })
         }
+
+        // Broadcast queue update via WebSocket
+        broadcastQueueUpdate(Number(windowId), status)
 
         return NextResponse.json({ 
             success: true, 

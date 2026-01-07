@@ -318,7 +318,7 @@ export default function Queue() {
       // Optional: Send to WebSocket for real-time announcements
       if (typeof window !== "undefined" && window.WebSocket) {
         const ws = new WebSocket(
-          process.env.WS_URL || "ws://10.10.115.21:3005"
+          process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:3005"
         );
         ws.onopen = () => {
           ws.send(

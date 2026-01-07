@@ -65,3 +65,24 @@ model UserWindow {
 
   @@unique([userId, windowId])
 }
+
+model Announcement {
+  id        Int      @id @default(autoincrement())
+  title     String
+  message   String
+  type      String   @default("info") // info, warning, success, error
+  isActive  Boolean  @default(true)
+  priority  Int      @default(0) // Higher number = higher priority
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime? // Soft delete
+}
+
+model DisplaySettings {
+  id              Int      @id @default(autoincrement())
+  key             String   @unique // Setting identifier
+  value           String   // JSON string for complex settings
+  description     String?
+  updatedAt       DateTime @updatedAt
+  createdAt       DateTime @default(now())
+}

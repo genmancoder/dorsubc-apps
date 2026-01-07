@@ -1,37 +1,61 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
+import { broadcastQueueUpdate } from '@/lib/websocket'
 
 const STARTING_TICKET = 10100
 
 export async function POST(req: Request) {
-    const body = await req.json()
-    const { studentId, firstName, lastName, windowId } = body
-  
-    const existingTicket = await prisma.queue.findFirst({
-        where: { studentId: studentId, windowId: windowId, status: "waiting" },    })
+    try {
+        const body = await req.json()
+        const { studentId, firstName, lastName, windowId } = body
 
-    if (existingTicket) {                
-            return NextResponse.json(existingTicket)        
-    }
+        if (!studentId || !firstName || !lastName || !windowId) {
+            return NextResponse.json(
+                { error: 'Missing required fields' },
+                { status: 400 }
+            )
+        }
     
-    const lastTicket = await prisma.queue.findFirst({
-        orderBy: { ticketNumber: 'desc' },
-    })
+        // Only check for duplicates if not a kiosk request (studentId is not "---")
+        // Kiosk requests should always generate new tickets
+        if (studentId !== "---") {
+            const existingTicket = await prisma.queue.findFirst({
+                where: { studentId: studentId, windowId: windowId, status: "waiting" },
+            })
 
-    const nextTicketNumber =
-        lastTicket?.ticketNumber && lastTicket.ticketNumber >= STARTING_TICKET
-            ? lastTicket.ticketNumber + 1
-            : STARTING_TICKET;
+            if (existingTicket) {                
+                return NextResponse.json(existingTicket)        
+            }
+        }
+        
+        const lastTicket = await prisma.queue.findFirst({
+            orderBy: { ticketNumber: 'desc' },
+        })
 
-    const newTicket = await prisma.queue.create({
-        data: {
-            studentId,
-            firstName,
-            lastName,
-            ticketNumber: nextTicketNumber,
-            windowId: windowId,
-        },
-    })
+        const nextTicketNumber =
+            lastTicket?.ticketNumber && lastTicket.ticketNumber >= STARTING_TICKET
+                ? lastTicket.ticketNumber + 1
+                : STARTING_TICKET;
 
-    return NextResponse.json(newTicket)
+        const newTicket = await prisma.queue.create({
+            data: {
+                studentId,
+                firstName,
+                lastName,
+                ticketNumber: nextTicketNumber,
+                windowId: windowId,
+            },
+        })
+
+        // Broadcast queue update via WebSocket
+        broadcastQueueUpdate(windowId, 'new')
+
+        return NextResponse.json(newTicket)
+    } catch (error) {
+        console.error('Error in /api/queue/new:', error)
+        return NextResponse.json(
+            { error: 'Internal server error' },
+            { status: 500 }
+        )
+    }
 }

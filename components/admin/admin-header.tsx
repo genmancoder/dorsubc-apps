@@ -49,6 +49,12 @@ export default function AdminHeader() {
                 Welcome, {currentUser?.fullName}
               </span>
               <Link
+                href="/admin"
+                className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Dashboard
+              </Link>
+              <Link
                 href="/admin/users"
                 className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
               >
@@ -61,10 +67,16 @@ export default function AdminHeader() {
                 Windows
               </Link>
               <Link
-                href="/admin/status"
+                href="/admin/announcements"
                 className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
               >
-                System Status
+                Announcements
+              </Link>
+              <Link
+                href="/admin/display-settings"
+                className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Display
               </Link>
               <button
                 onClick={handleLogout}

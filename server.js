@@ -29,26 +29,45 @@ app.prepare().then(() => {
         return;
       }
 
-      if (data.type === 'CALL_TICKET' && data.current.ticketNumber != null) {
+      if (data.type === 'CALL_TICKET' && data.ticketNumber != null) {
         // Broadcast to all clients
-        console.log('Broadcasting CALL_TICKET for ticket number:', data.current.ticketNumber);
+        console.log('Broadcasting CALL_TICKET for ticket number:', data.ticketNumber);
         wss.clients.forEach((client) => {
-          if (client.readyState === ws.OPEN) {
-            console.log('Sending CALL_TICKET to client');
-            client.send(JSON.stringify({
-              type: 'CALL_TICKET',
-              ticketNumber: data.current.ticketNumber
-            }));
-            console.log('Broadcasted CALL_TICKET for ticket number:', data.current.ticketNumber);
-          }else{
-            console.log('Client not ready, skipping');
+          if (client.readyState === 1) { // WebSocket.OPEN = 1
+            try {
+              client.send(JSON.stringify({
+                type: 'CALL_TICKET',
+                ticketNumber: data.ticketNumber,
+                windowId: data.windowId || null
+              }));
+            } catch (error) {
+              console.error('Error sending message to client:', error);
+            }
           }
         });
-      }else{
-        console.log('Unknown message type or missing ticketNumber', data);
-        console.log("ticket #", data.ticketNumber)
-        console.log("type", data.type)
+      } else if (data.type === 'QUEUE_UPDATE') {
+        // Broadcast queue updates to all clients
+        console.log('Broadcasting QUEUE_UPDATE for window:', data.windowId);
+        wss.clients.forEach((client) => {
+          if (client.readyState === 1) { // WebSocket.OPEN = 1
+            try {
+              client.send(JSON.stringify({
+                type: 'QUEUE_UPDATE',
+                windowId: data.windowId,
+                action: data.action // 'next', 'complete', 'new', etc.
+              }));
+            } catch (error) {
+              console.error('Error sending QUEUE_UPDATE to client:', error);
+            }
+          }
+        });
+      } else {
+        console.log('Unknown message type or missing required fields', data);
       }
+    });
+
+    ws.on('error', (error) => {
+      console.error('WebSocket error:', error);
     });
 
     ws.on('close', () => console.log('Client disconnected'));

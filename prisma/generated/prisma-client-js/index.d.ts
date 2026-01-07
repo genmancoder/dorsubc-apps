@@ -33,6 +33,16 @@ export type Window = $Result.DefaultSelection<Prisma.$WindowPayload>
  * 
  */
 export type UserWindow = $Result.DefaultSelection<Prisma.$UserWindowPayload>
+/**
+ * Model Announcement
+ * 
+ */
+export type Announcement = $Result.DefaultSelection<Prisma.$AnnouncementPayload>
+/**
+ * Model DisplaySettings
+ * 
+ */
+export type DisplaySettings = $Result.DefaultSelection<Prisma.$DisplaySettingsPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -198,6 +208,26 @@ export class PrismaClient<
     * ```
     */
   get userWindow(): Prisma.UserWindowDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.announcement`: Exposes CRUD operations for the **Announcement** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Announcements
+    * const announcements = await prisma.announcement.findMany()
+    * ```
+    */
+  get announcement(): Prisma.AnnouncementDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.displaySettings`: Exposes CRUD operations for the **DisplaySettings** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DisplaySettings
+    * const displaySettings = await prisma.displaySettings.findMany()
+    * ```
+    */
+  get displaySettings(): Prisma.DisplaySettingsDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -257,7 +287,7 @@ export namespace Prisma {
 
   /**
    * Prisma Client JS version: 6.13.0
-   * Query Engine version: 605197351a3c8bdd595af2d2a9bc3025bca48ea2
+   * Query Engine version: 361e86d0ea4987e9f53a565309b3eed797a6bcbd
    */
   export type PrismaVersion = {
     client: string
@@ -434,7 +464,7 @@ export namespace Prisma {
   ? False
   : T extends Uint8Array
   ? False
-  : T extends bigint
+  : T extends BigInt
   ? False
   : T extends object
   ? True
@@ -641,7 +671,9 @@ export namespace Prisma {
     User: 'User',
     Queue: 'Queue',
     Window: 'Window',
-    UserWindow: 'UserWindow'
+    UserWindow: 'UserWindow',
+    Announcement: 'Announcement',
+    DisplaySettings: 'DisplaySettings'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -660,7 +692,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "queue" | "window" | "userWindow"
+      modelProps: "user" | "queue" | "window" | "userWindow" | "announcement" | "displaySettings"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -715,6 +747,10 @@ export namespace Prisma {
           updateMany: {
             args: Prisma.UserUpdateManyArgs<ExtArgs>
             result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
           }
           upsert: {
             args: Prisma.UserUpsertArgs<ExtArgs>
@@ -786,6 +822,10 @@ export namespace Prisma {
             args: Prisma.QueueUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
+          updateManyAndReturn: {
+            args: Prisma.QueueUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QueuePayload>[]
+          }
           upsert: {
             args: Prisma.QueueUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$QueuePayload>
@@ -855,6 +895,10 @@ export namespace Prisma {
           updateMany: {
             args: Prisma.WindowUpdateManyArgs<ExtArgs>
             result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WindowUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WindowPayload>[]
           }
           upsert: {
             args: Prisma.WindowUpsertArgs<ExtArgs>
@@ -926,6 +970,10 @@ export namespace Prisma {
             args: Prisma.UserWindowUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
+          updateManyAndReturn: {
+            args: Prisma.UserWindowUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWindowPayload>[]
+          }
           upsert: {
             args: Prisma.UserWindowUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$UserWindowPayload>
@@ -941,6 +989,154 @@ export namespace Prisma {
           count: {
             args: Prisma.UserWindowCountArgs<ExtArgs>
             result: $Utils.Optional<UserWindowCountAggregateOutputType> | number
+          }
+        }
+      }
+      Announcement: {
+        payload: Prisma.$AnnouncementPayload<ExtArgs>
+        fields: Prisma.AnnouncementFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AnnouncementFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AnnouncementFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+          }
+          findFirst: {
+            args: Prisma.AnnouncementFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AnnouncementFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+          }
+          findMany: {
+            args: Prisma.AnnouncementFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload>[]
+          }
+          create: {
+            args: Prisma.AnnouncementCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+          }
+          createMany: {
+            args: Prisma.AnnouncementCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AnnouncementCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload>[]
+          }
+          delete: {
+            args: Prisma.AnnouncementDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+          }
+          update: {
+            args: Prisma.AnnouncementUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+          }
+          deleteMany: {
+            args: Prisma.AnnouncementDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AnnouncementUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AnnouncementUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload>[]
+          }
+          upsert: {
+            args: Prisma.AnnouncementUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+          }
+          aggregate: {
+            args: Prisma.AnnouncementAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAnnouncement>
+          }
+          groupBy: {
+            args: Prisma.AnnouncementGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AnnouncementGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AnnouncementCountArgs<ExtArgs>
+            result: $Utils.Optional<AnnouncementCountAggregateOutputType> | number
+          }
+        }
+      }
+      DisplaySettings: {
+        payload: Prisma.$DisplaySettingsPayload<ExtArgs>
+        fields: Prisma.DisplaySettingsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DisplaySettingsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DisplaySettingsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DisplaySettingsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DisplaySettingsPayload>
+          }
+          findFirst: {
+            args: Prisma.DisplaySettingsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DisplaySettingsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DisplaySettingsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DisplaySettingsPayload>
+          }
+          findMany: {
+            args: Prisma.DisplaySettingsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DisplaySettingsPayload>[]
+          }
+          create: {
+            args: Prisma.DisplaySettingsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DisplaySettingsPayload>
+          }
+          createMany: {
+            args: Prisma.DisplaySettingsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DisplaySettingsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DisplaySettingsPayload>[]
+          }
+          delete: {
+            args: Prisma.DisplaySettingsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DisplaySettingsPayload>
+          }
+          update: {
+            args: Prisma.DisplaySettingsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DisplaySettingsPayload>
+          }
+          deleteMany: {
+            args: Prisma.DisplaySettingsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DisplaySettingsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DisplaySettingsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DisplaySettingsPayload>[]
+          }
+          upsert: {
+            args: Prisma.DisplaySettingsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DisplaySettingsPayload>
+          }
+          aggregate: {
+            args: Prisma.DisplaySettingsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDisplaySettings>
+          }
+          groupBy: {
+            args: Prisma.DisplaySettingsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DisplaySettingsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DisplaySettingsCountArgs<ExtArgs>
+            result: $Utils.Optional<DisplaySettingsCountAggregateOutputType> | number
           }
         }
       }
@@ -1040,6 +1236,8 @@ export namespace Prisma {
     queue?: QueueOmit
     window?: WindowOmit
     userWindow?: UserWindowOmit
+    announcement?: AnnouncementOmit
+    displaySettings?: DisplaySettingsOmit
   }
 
   /* Types for Logging */
@@ -1473,6 +1671,19 @@ export namespace Prisma {
     deletedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
+  export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    username?: boolean
+    password?: boolean
+    fullName?: boolean
+    nickname?: boolean
+    role?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+  }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
     id?: boolean
@@ -1494,6 +1705,7 @@ export namespace Prisma {
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
@@ -1716,6 +1928,36 @@ export namespace Prisma {
      * 
      */
     updateMany<T extends UserUpdateManyArgs>(args: SelectSubset<T, UserUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Users and returns the data updated in the database.
+     * @param {UserUpdateManyAndReturnArgs} args - Arguments to update many Users.
+     * @example
+     * // Update many Users
+     * const user = await prisma.user.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Users and only return the `id`
+     * const userWithIdOnly = await prisma.user.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserUpdateManyAndReturnArgs>(args: SelectSubset<T, UserUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one User.
@@ -2204,6 +2446,36 @@ export namespace Prisma {
      * Filter which Users to update
      */
     where?: UserWhereInput
+    /**
+     * Limit how many Users to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * User updateManyAndReturn
+   */
+  export type UserUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * The data used to update Users.
+     */
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
+    /**
+     * Filter which Users to update
+     */
+    where?: UserWhereInput
+    /**
+     * Limit how many Users to update.
+     */
+    limit?: number
   }
 
   /**
@@ -2266,6 +2538,10 @@ export namespace Prisma {
      * Filter which Users to delete
      */
     where?: UserWhereInput
+    /**
+     * Limit how many Users to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -2565,6 +2841,18 @@ export namespace Prisma {
     window?: boolean | Queue$windowArgs<ExtArgs>
   }, ExtArgs["result"]["queue"]>
 
+  export type QueueSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    studentId?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    ticketNumber?: boolean
+    status?: boolean
+    createdAt?: boolean
+    deletedAt?: boolean
+    windowId?: boolean
+    window?: boolean | Queue$windowArgs<ExtArgs>
+  }, ExtArgs["result"]["queue"]>
 
   export type QueueSelectScalar = {
     id?: boolean
@@ -2583,6 +2871,9 @@ export namespace Prisma {
     window?: boolean | Queue$windowArgs<ExtArgs>
   }
   export type QueueIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    window?: boolean | Queue$windowArgs<ExtArgs>
+  }
+  export type QueueIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     window?: boolean | Queue$windowArgs<ExtArgs>
   }
 
@@ -2805,6 +3096,36 @@ export namespace Prisma {
      * 
      */
     updateMany<T extends QueueUpdateManyArgs>(args: SelectSubset<T, QueueUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Queues and returns the data updated in the database.
+     * @param {QueueUpdateManyAndReturnArgs} args - Arguments to update many Queues.
+     * @example
+     * // Update many Queues
+     * const queue = await prisma.queue.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Queues and only return the `id`
+     * const queueWithIdOnly = await prisma.queue.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends QueueUpdateManyAndReturnArgs>(args: SelectSubset<T, QueueUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QueuePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one Queue.
@@ -3295,6 +3616,40 @@ export namespace Prisma {
      * Filter which Queues to update
      */
     where?: QueueWhereInput
+    /**
+     * Limit how many Queues to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Queue updateManyAndReturn
+   */
+  export type QueueUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Queue
+     */
+    select?: QueueSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Queue
+     */
+    omit?: QueueOmit<ExtArgs> | null
+    /**
+     * The data used to update Queues.
+     */
+    data: XOR<QueueUpdateManyMutationInput, QueueUncheckedUpdateManyInput>
+    /**
+     * Filter which Queues to update
+     */
+    where?: QueueWhereInput
+    /**
+     * Limit how many Queues to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QueueIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -3357,6 +3712,10 @@ export namespace Prisma {
      * Filter which Queues to delete
      */
     where?: QueueWhereInput
+    /**
+     * Limit how many Queues to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -3617,6 +3976,14 @@ export namespace Prisma {
     deletedAt?: boolean
   }, ExtArgs["result"]["window"]>
 
+  export type WindowSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    windowTitle?: boolean
+    windowDescription?: boolean
+    status?: boolean
+    createdAt?: boolean
+    deletedAt?: boolean
+  }, ExtArgs["result"]["window"]>
 
   export type WindowSelectScalar = {
     id?: boolean
@@ -3634,6 +4001,7 @@ export namespace Prisma {
     _count?: boolean | WindowCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type WindowIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type WindowIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $WindowPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Window"
@@ -3852,6 +4220,36 @@ export namespace Prisma {
      * 
      */
     updateMany<T extends WindowUpdateManyArgs>(args: SelectSubset<T, WindowUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Windows and returns the data updated in the database.
+     * @param {WindowUpdateManyAndReturnArgs} args - Arguments to update many Windows.
+     * @example
+     * // Update many Windows
+     * const window = await prisma.window.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Windows and only return the `id`
+     * const windowWithIdOnly = await prisma.window.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WindowUpdateManyAndReturnArgs>(args: SelectSubset<T, WindowUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WindowPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one Window.
@@ -4336,6 +4734,36 @@ export namespace Prisma {
      * Filter which Windows to update
      */
     where?: WindowWhereInput
+    /**
+     * Limit how many Windows to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Window updateManyAndReturn
+   */
+  export type WindowUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Window
+     */
+    select?: WindowSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Window
+     */
+    omit?: WindowOmit<ExtArgs> | null
+    /**
+     * The data used to update Windows.
+     */
+    data: XOR<WindowUpdateManyMutationInput, WindowUncheckedUpdateManyInput>
+    /**
+     * Filter which Windows to update
+     */
+    where?: WindowWhereInput
+    /**
+     * Limit how many Windows to update.
+     */
+    limit?: number
   }
 
   /**
@@ -4398,6 +4826,10 @@ export namespace Prisma {
      * Filter which Windows to delete
      */
     where?: WindowWhereInput
+    /**
+     * Limit how many Windows to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -4696,6 +5128,16 @@ export namespace Prisma {
     window?: boolean | WindowDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userWindow"]>
 
+  export type UserWindowSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    windowId?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    window?: boolean | WindowDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userWindow"]>
 
   export type UserWindowSelectScalar = {
     id?: boolean
@@ -4712,6 +5154,10 @@ export namespace Prisma {
     window?: boolean | WindowDefaultArgs<ExtArgs>
   }
   export type UserWindowIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    window?: boolean | WindowDefaultArgs<ExtArgs>
+  }
+  export type UserWindowIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     window?: boolean | WindowDefaultArgs<ExtArgs>
   }
@@ -4933,6 +5379,36 @@ export namespace Prisma {
      * 
      */
     updateMany<T extends UserWindowUpdateManyArgs>(args: SelectSubset<T, UserWindowUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserWindows and returns the data updated in the database.
+     * @param {UserWindowUpdateManyAndReturnArgs} args - Arguments to update many UserWindows.
+     * @example
+     * // Update many UserWindows
+     * const userWindow = await prisma.userWindow.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserWindows and only return the `id`
+     * const userWindowWithIdOnly = await prisma.userWindow.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserWindowUpdateManyAndReturnArgs>(args: SelectSubset<T, UserWindowUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserWindowPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one UserWindow.
@@ -5421,6 +5897,40 @@ export namespace Prisma {
      * Filter which UserWindows to update
      */
     where?: UserWindowWhereInput
+    /**
+     * Limit how many UserWindows to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserWindow updateManyAndReturn
+   */
+  export type UserWindowUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWindow
+     */
+    select?: UserWindowSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWindow
+     */
+    omit?: UserWindowOmit<ExtArgs> | null
+    /**
+     * The data used to update UserWindows.
+     */
+    data: XOR<UserWindowUpdateManyMutationInput, UserWindowUncheckedUpdateManyInput>
+    /**
+     * Filter which UserWindows to update
+     */
+    where?: UserWindowWhereInput
+    /**
+     * Limit how many UserWindows to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWindowIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -5483,6 +5993,10 @@ export namespace Prisma {
      * Filter which UserWindows to delete
      */
     where?: UserWindowWhereInput
+    /**
+     * Limit how many UserWindows to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -5501,6 +6015,2129 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserWindowInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Announcement
+   */
+
+  export type AggregateAnnouncement = {
+    _count: AnnouncementCountAggregateOutputType | null
+    _avg: AnnouncementAvgAggregateOutputType | null
+    _sum: AnnouncementSumAggregateOutputType | null
+    _min: AnnouncementMinAggregateOutputType | null
+    _max: AnnouncementMaxAggregateOutputType | null
+  }
+
+  export type AnnouncementAvgAggregateOutputType = {
+    id: number | null
+    priority: number | null
+  }
+
+  export type AnnouncementSumAggregateOutputType = {
+    id: number | null
+    priority: number | null
+  }
+
+  export type AnnouncementMinAggregateOutputType = {
+    id: number | null
+    title: string | null
+    message: string | null
+    type: string | null
+    isActive: boolean | null
+    priority: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type AnnouncementMaxAggregateOutputType = {
+    id: number | null
+    title: string | null
+    message: string | null
+    type: string | null
+    isActive: boolean | null
+    priority: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type AnnouncementCountAggregateOutputType = {
+    id: number
+    title: number
+    message: number
+    type: number
+    isActive: number
+    priority: number
+    createdAt: number
+    updatedAt: number
+    deletedAt: number
+    _all: number
+  }
+
+
+  export type AnnouncementAvgAggregateInputType = {
+    id?: true
+    priority?: true
+  }
+
+  export type AnnouncementSumAggregateInputType = {
+    id?: true
+    priority?: true
+  }
+
+  export type AnnouncementMinAggregateInputType = {
+    id?: true
+    title?: true
+    message?: true
+    type?: true
+    isActive?: true
+    priority?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type AnnouncementMaxAggregateInputType = {
+    id?: true
+    title?: true
+    message?: true
+    type?: true
+    isActive?: true
+    priority?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type AnnouncementCountAggregateInputType = {
+    id?: true
+    title?: true
+    message?: true
+    type?: true
+    isActive?: true
+    priority?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    _all?: true
+  }
+
+  export type AnnouncementAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Announcement to aggregate.
+     */
+    where?: AnnouncementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Announcements to fetch.
+     */
+    orderBy?: AnnouncementOrderByWithRelationInput | AnnouncementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AnnouncementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Announcements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Announcements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Announcements
+    **/
+    _count?: true | AnnouncementCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AnnouncementAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AnnouncementSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AnnouncementMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AnnouncementMaxAggregateInputType
+  }
+
+  export type GetAnnouncementAggregateType<T extends AnnouncementAggregateArgs> = {
+        [P in keyof T & keyof AggregateAnnouncement]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAnnouncement[P]>
+      : GetScalarType<T[P], AggregateAnnouncement[P]>
+  }
+
+
+
+
+  export type AnnouncementGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnnouncementWhereInput
+    orderBy?: AnnouncementOrderByWithAggregationInput | AnnouncementOrderByWithAggregationInput[]
+    by: AnnouncementScalarFieldEnum[] | AnnouncementScalarFieldEnum
+    having?: AnnouncementScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AnnouncementCountAggregateInputType | true
+    _avg?: AnnouncementAvgAggregateInputType
+    _sum?: AnnouncementSumAggregateInputType
+    _min?: AnnouncementMinAggregateInputType
+    _max?: AnnouncementMaxAggregateInputType
+  }
+
+  export type AnnouncementGroupByOutputType = {
+    id: number
+    title: string
+    message: string
+    type: string
+    isActive: boolean
+    priority: number
+    createdAt: Date
+    updatedAt: Date
+    deletedAt: Date | null
+    _count: AnnouncementCountAggregateOutputType | null
+    _avg: AnnouncementAvgAggregateOutputType | null
+    _sum: AnnouncementSumAggregateOutputType | null
+    _min: AnnouncementMinAggregateOutputType | null
+    _max: AnnouncementMaxAggregateOutputType | null
+  }
+
+  type GetAnnouncementGroupByPayload<T extends AnnouncementGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AnnouncementGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AnnouncementGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AnnouncementGroupByOutputType[P]>
+            : GetScalarType<T[P], AnnouncementGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AnnouncementSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    message?: boolean
+    type?: boolean
+    isActive?: boolean
+    priority?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+  }, ExtArgs["result"]["announcement"]>
+
+  export type AnnouncementSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    message?: boolean
+    type?: boolean
+    isActive?: boolean
+    priority?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+  }, ExtArgs["result"]["announcement"]>
+
+  export type AnnouncementSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    message?: boolean
+    type?: boolean
+    isActive?: boolean
+    priority?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+  }, ExtArgs["result"]["announcement"]>
+
+  export type AnnouncementSelectScalar = {
+    id?: boolean
+    title?: boolean
+    message?: boolean
+    type?: boolean
+    isActive?: boolean
+    priority?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+  }
+
+  export type AnnouncementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "message" | "type" | "isActive" | "priority" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["announcement"]>
+
+  export type $AnnouncementPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Announcement"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      title: string
+      message: string
+      type: string
+      isActive: boolean
+      priority: number
+      createdAt: Date
+      updatedAt: Date
+      deletedAt: Date | null
+    }, ExtArgs["result"]["announcement"]>
+    composites: {}
+  }
+
+  type AnnouncementGetPayload<S extends boolean | null | undefined | AnnouncementDefaultArgs> = $Result.GetResult<Prisma.$AnnouncementPayload, S>
+
+  type AnnouncementCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AnnouncementFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AnnouncementCountAggregateInputType | true
+    }
+
+  export interface AnnouncementDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Announcement'], meta: { name: 'Announcement' } }
+    /**
+     * Find zero or one Announcement that matches the filter.
+     * @param {AnnouncementFindUniqueArgs} args - Arguments to find a Announcement
+     * @example
+     * // Get one Announcement
+     * const announcement = await prisma.announcement.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AnnouncementFindUniqueArgs>(args: SelectSubset<T, AnnouncementFindUniqueArgs<ExtArgs>>): Prisma__AnnouncementClient<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Announcement that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AnnouncementFindUniqueOrThrowArgs} args - Arguments to find a Announcement
+     * @example
+     * // Get one Announcement
+     * const announcement = await prisma.announcement.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AnnouncementFindUniqueOrThrowArgs>(args: SelectSubset<T, AnnouncementFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AnnouncementClient<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Announcement that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnnouncementFindFirstArgs} args - Arguments to find a Announcement
+     * @example
+     * // Get one Announcement
+     * const announcement = await prisma.announcement.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AnnouncementFindFirstArgs>(args?: SelectSubset<T, AnnouncementFindFirstArgs<ExtArgs>>): Prisma__AnnouncementClient<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Announcement that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnnouncementFindFirstOrThrowArgs} args - Arguments to find a Announcement
+     * @example
+     * // Get one Announcement
+     * const announcement = await prisma.announcement.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AnnouncementFindFirstOrThrowArgs>(args?: SelectSubset<T, AnnouncementFindFirstOrThrowArgs<ExtArgs>>): Prisma__AnnouncementClient<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Announcements that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnnouncementFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Announcements
+     * const announcements = await prisma.announcement.findMany()
+     * 
+     * // Get first 10 Announcements
+     * const announcements = await prisma.announcement.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const announcementWithIdOnly = await prisma.announcement.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AnnouncementFindManyArgs>(args?: SelectSubset<T, AnnouncementFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Announcement.
+     * @param {AnnouncementCreateArgs} args - Arguments to create a Announcement.
+     * @example
+     * // Create one Announcement
+     * const Announcement = await prisma.announcement.create({
+     *   data: {
+     *     // ... data to create a Announcement
+     *   }
+     * })
+     * 
+     */
+    create<T extends AnnouncementCreateArgs>(args: SelectSubset<T, AnnouncementCreateArgs<ExtArgs>>): Prisma__AnnouncementClient<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Announcements.
+     * @param {AnnouncementCreateManyArgs} args - Arguments to create many Announcements.
+     * @example
+     * // Create many Announcements
+     * const announcement = await prisma.announcement.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AnnouncementCreateManyArgs>(args?: SelectSubset<T, AnnouncementCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Announcements and returns the data saved in the database.
+     * @param {AnnouncementCreateManyAndReturnArgs} args - Arguments to create many Announcements.
+     * @example
+     * // Create many Announcements
+     * const announcement = await prisma.announcement.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Announcements and only return the `id`
+     * const announcementWithIdOnly = await prisma.announcement.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AnnouncementCreateManyAndReturnArgs>(args?: SelectSubset<T, AnnouncementCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Announcement.
+     * @param {AnnouncementDeleteArgs} args - Arguments to delete one Announcement.
+     * @example
+     * // Delete one Announcement
+     * const Announcement = await prisma.announcement.delete({
+     *   where: {
+     *     // ... filter to delete one Announcement
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AnnouncementDeleteArgs>(args: SelectSubset<T, AnnouncementDeleteArgs<ExtArgs>>): Prisma__AnnouncementClient<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Announcement.
+     * @param {AnnouncementUpdateArgs} args - Arguments to update one Announcement.
+     * @example
+     * // Update one Announcement
+     * const announcement = await prisma.announcement.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AnnouncementUpdateArgs>(args: SelectSubset<T, AnnouncementUpdateArgs<ExtArgs>>): Prisma__AnnouncementClient<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Announcements.
+     * @param {AnnouncementDeleteManyArgs} args - Arguments to filter Announcements to delete.
+     * @example
+     * // Delete a few Announcements
+     * const { count } = await prisma.announcement.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AnnouncementDeleteManyArgs>(args?: SelectSubset<T, AnnouncementDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Announcements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnnouncementUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Announcements
+     * const announcement = await prisma.announcement.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AnnouncementUpdateManyArgs>(args: SelectSubset<T, AnnouncementUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Announcements and returns the data updated in the database.
+     * @param {AnnouncementUpdateManyAndReturnArgs} args - Arguments to update many Announcements.
+     * @example
+     * // Update many Announcements
+     * const announcement = await prisma.announcement.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Announcements and only return the `id`
+     * const announcementWithIdOnly = await prisma.announcement.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AnnouncementUpdateManyAndReturnArgs>(args: SelectSubset<T, AnnouncementUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Announcement.
+     * @param {AnnouncementUpsertArgs} args - Arguments to update or create a Announcement.
+     * @example
+     * // Update or create a Announcement
+     * const announcement = await prisma.announcement.upsert({
+     *   create: {
+     *     // ... data to create a Announcement
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Announcement we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AnnouncementUpsertArgs>(args: SelectSubset<T, AnnouncementUpsertArgs<ExtArgs>>): Prisma__AnnouncementClient<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Announcements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnnouncementCountArgs} args - Arguments to filter Announcements to count.
+     * @example
+     * // Count the number of Announcements
+     * const count = await prisma.announcement.count({
+     *   where: {
+     *     // ... the filter for the Announcements we want to count
+     *   }
+     * })
+    **/
+    count<T extends AnnouncementCountArgs>(
+      args?: Subset<T, AnnouncementCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AnnouncementCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Announcement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnnouncementAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AnnouncementAggregateArgs>(args: Subset<T, AnnouncementAggregateArgs>): Prisma.PrismaPromise<GetAnnouncementAggregateType<T>>
+
+    /**
+     * Group by Announcement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnnouncementGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AnnouncementGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AnnouncementGroupByArgs['orderBy'] }
+        : { orderBy?: AnnouncementGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AnnouncementGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAnnouncementGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Announcement model
+   */
+  readonly fields: AnnouncementFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Announcement.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AnnouncementClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Announcement model
+   */
+  interface AnnouncementFieldRefs {
+    readonly id: FieldRef<"Announcement", 'Int'>
+    readonly title: FieldRef<"Announcement", 'String'>
+    readonly message: FieldRef<"Announcement", 'String'>
+    readonly type: FieldRef<"Announcement", 'String'>
+    readonly isActive: FieldRef<"Announcement", 'Boolean'>
+    readonly priority: FieldRef<"Announcement", 'Int'>
+    readonly createdAt: FieldRef<"Announcement", 'DateTime'>
+    readonly updatedAt: FieldRef<"Announcement", 'DateTime'>
+    readonly deletedAt: FieldRef<"Announcement", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Announcement findUnique
+   */
+  export type AnnouncementFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * Filter, which Announcement to fetch.
+     */
+    where: AnnouncementWhereUniqueInput
+  }
+
+  /**
+   * Announcement findUniqueOrThrow
+   */
+  export type AnnouncementFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * Filter, which Announcement to fetch.
+     */
+    where: AnnouncementWhereUniqueInput
+  }
+
+  /**
+   * Announcement findFirst
+   */
+  export type AnnouncementFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * Filter, which Announcement to fetch.
+     */
+    where?: AnnouncementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Announcements to fetch.
+     */
+    orderBy?: AnnouncementOrderByWithRelationInput | AnnouncementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Announcements.
+     */
+    cursor?: AnnouncementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Announcements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Announcements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Announcements.
+     */
+    distinct?: AnnouncementScalarFieldEnum | AnnouncementScalarFieldEnum[]
+  }
+
+  /**
+   * Announcement findFirstOrThrow
+   */
+  export type AnnouncementFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * Filter, which Announcement to fetch.
+     */
+    where?: AnnouncementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Announcements to fetch.
+     */
+    orderBy?: AnnouncementOrderByWithRelationInput | AnnouncementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Announcements.
+     */
+    cursor?: AnnouncementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Announcements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Announcements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Announcements.
+     */
+    distinct?: AnnouncementScalarFieldEnum | AnnouncementScalarFieldEnum[]
+  }
+
+  /**
+   * Announcement findMany
+   */
+  export type AnnouncementFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * Filter, which Announcements to fetch.
+     */
+    where?: AnnouncementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Announcements to fetch.
+     */
+    orderBy?: AnnouncementOrderByWithRelationInput | AnnouncementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Announcements.
+     */
+    cursor?: AnnouncementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Announcements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Announcements.
+     */
+    skip?: number
+    distinct?: AnnouncementScalarFieldEnum | AnnouncementScalarFieldEnum[]
+  }
+
+  /**
+   * Announcement create
+   */
+  export type AnnouncementCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Announcement.
+     */
+    data: XOR<AnnouncementCreateInput, AnnouncementUncheckedCreateInput>
+  }
+
+  /**
+   * Announcement createMany
+   */
+  export type AnnouncementCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Announcements.
+     */
+    data: AnnouncementCreateManyInput | AnnouncementCreateManyInput[]
+  }
+
+  /**
+   * Announcement createManyAndReturn
+   */
+  export type AnnouncementCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * The data used to create many Announcements.
+     */
+    data: AnnouncementCreateManyInput | AnnouncementCreateManyInput[]
+  }
+
+  /**
+   * Announcement update
+   */
+  export type AnnouncementUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Announcement.
+     */
+    data: XOR<AnnouncementUpdateInput, AnnouncementUncheckedUpdateInput>
+    /**
+     * Choose, which Announcement to update.
+     */
+    where: AnnouncementWhereUniqueInput
+  }
+
+  /**
+   * Announcement updateMany
+   */
+  export type AnnouncementUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Announcements.
+     */
+    data: XOR<AnnouncementUpdateManyMutationInput, AnnouncementUncheckedUpdateManyInput>
+    /**
+     * Filter which Announcements to update
+     */
+    where?: AnnouncementWhereInput
+    /**
+     * Limit how many Announcements to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Announcement updateManyAndReturn
+   */
+  export type AnnouncementUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * The data used to update Announcements.
+     */
+    data: XOR<AnnouncementUpdateManyMutationInput, AnnouncementUncheckedUpdateManyInput>
+    /**
+     * Filter which Announcements to update
+     */
+    where?: AnnouncementWhereInput
+    /**
+     * Limit how many Announcements to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Announcement upsert
+   */
+  export type AnnouncementUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Announcement to update in case it exists.
+     */
+    where: AnnouncementWhereUniqueInput
+    /**
+     * In case the Announcement found by the `where` argument doesn't exist, create a new Announcement with this data.
+     */
+    create: XOR<AnnouncementCreateInput, AnnouncementUncheckedCreateInput>
+    /**
+     * In case the Announcement was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AnnouncementUpdateInput, AnnouncementUncheckedUpdateInput>
+  }
+
+  /**
+   * Announcement delete
+   */
+  export type AnnouncementDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * Filter which Announcement to delete.
+     */
+    where: AnnouncementWhereUniqueInput
+  }
+
+  /**
+   * Announcement deleteMany
+   */
+  export type AnnouncementDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Announcements to delete
+     */
+    where?: AnnouncementWhereInput
+    /**
+     * Limit how many Announcements to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Announcement without action
+   */
+  export type AnnouncementDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DisplaySettings
+   */
+
+  export type AggregateDisplaySettings = {
+    _count: DisplaySettingsCountAggregateOutputType | null
+    _avg: DisplaySettingsAvgAggregateOutputType | null
+    _sum: DisplaySettingsSumAggregateOutputType | null
+    _min: DisplaySettingsMinAggregateOutputType | null
+    _max: DisplaySettingsMaxAggregateOutputType | null
+  }
+
+  export type DisplaySettingsAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type DisplaySettingsSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type DisplaySettingsMinAggregateOutputType = {
+    id: number | null
+    key: string | null
+    value: string | null
+    description: string | null
+    updatedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type DisplaySettingsMaxAggregateOutputType = {
+    id: number | null
+    key: string | null
+    value: string | null
+    description: string | null
+    updatedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type DisplaySettingsCountAggregateOutputType = {
+    id: number
+    key: number
+    value: number
+    description: number
+    updatedAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type DisplaySettingsAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type DisplaySettingsSumAggregateInputType = {
+    id?: true
+  }
+
+  export type DisplaySettingsMinAggregateInputType = {
+    id?: true
+    key?: true
+    value?: true
+    description?: true
+    updatedAt?: true
+    createdAt?: true
+  }
+
+  export type DisplaySettingsMaxAggregateInputType = {
+    id?: true
+    key?: true
+    value?: true
+    description?: true
+    updatedAt?: true
+    createdAt?: true
+  }
+
+  export type DisplaySettingsCountAggregateInputType = {
+    id?: true
+    key?: true
+    value?: true
+    description?: true
+    updatedAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type DisplaySettingsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DisplaySettings to aggregate.
+     */
+    where?: DisplaySettingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DisplaySettings to fetch.
+     */
+    orderBy?: DisplaySettingsOrderByWithRelationInput | DisplaySettingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DisplaySettingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DisplaySettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DisplaySettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DisplaySettings
+    **/
+    _count?: true | DisplaySettingsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DisplaySettingsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DisplaySettingsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DisplaySettingsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DisplaySettingsMaxAggregateInputType
+  }
+
+  export type GetDisplaySettingsAggregateType<T extends DisplaySettingsAggregateArgs> = {
+        [P in keyof T & keyof AggregateDisplaySettings]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDisplaySettings[P]>
+      : GetScalarType<T[P], AggregateDisplaySettings[P]>
+  }
+
+
+
+
+  export type DisplaySettingsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DisplaySettingsWhereInput
+    orderBy?: DisplaySettingsOrderByWithAggregationInput | DisplaySettingsOrderByWithAggregationInput[]
+    by: DisplaySettingsScalarFieldEnum[] | DisplaySettingsScalarFieldEnum
+    having?: DisplaySettingsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DisplaySettingsCountAggregateInputType | true
+    _avg?: DisplaySettingsAvgAggregateInputType
+    _sum?: DisplaySettingsSumAggregateInputType
+    _min?: DisplaySettingsMinAggregateInputType
+    _max?: DisplaySettingsMaxAggregateInputType
+  }
+
+  export type DisplaySettingsGroupByOutputType = {
+    id: number
+    key: string
+    value: string
+    description: string | null
+    updatedAt: Date
+    createdAt: Date
+    _count: DisplaySettingsCountAggregateOutputType | null
+    _avg: DisplaySettingsAvgAggregateOutputType | null
+    _sum: DisplaySettingsSumAggregateOutputType | null
+    _min: DisplaySettingsMinAggregateOutputType | null
+    _max: DisplaySettingsMaxAggregateOutputType | null
+  }
+
+  type GetDisplaySettingsGroupByPayload<T extends DisplaySettingsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DisplaySettingsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DisplaySettingsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DisplaySettingsGroupByOutputType[P]>
+            : GetScalarType<T[P], DisplaySettingsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DisplaySettingsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    value?: boolean
+    description?: boolean
+    updatedAt?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["displaySettings"]>
+
+  export type DisplaySettingsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    value?: boolean
+    description?: boolean
+    updatedAt?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["displaySettings"]>
+
+  export type DisplaySettingsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    value?: boolean
+    description?: boolean
+    updatedAt?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["displaySettings"]>
+
+  export type DisplaySettingsSelectScalar = {
+    id?: boolean
+    key?: boolean
+    value?: boolean
+    description?: boolean
+    updatedAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type DisplaySettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "key" | "value" | "description" | "updatedAt" | "createdAt", ExtArgs["result"]["displaySettings"]>
+
+  export type $DisplaySettingsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DisplaySettings"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      key: string
+      value: string
+      description: string | null
+      updatedAt: Date
+      createdAt: Date
+    }, ExtArgs["result"]["displaySettings"]>
+    composites: {}
+  }
+
+  type DisplaySettingsGetPayload<S extends boolean | null | undefined | DisplaySettingsDefaultArgs> = $Result.GetResult<Prisma.$DisplaySettingsPayload, S>
+
+  type DisplaySettingsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DisplaySettingsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DisplaySettingsCountAggregateInputType | true
+    }
+
+  export interface DisplaySettingsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DisplaySettings'], meta: { name: 'DisplaySettings' } }
+    /**
+     * Find zero or one DisplaySettings that matches the filter.
+     * @param {DisplaySettingsFindUniqueArgs} args - Arguments to find a DisplaySettings
+     * @example
+     * // Get one DisplaySettings
+     * const displaySettings = await prisma.displaySettings.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DisplaySettingsFindUniqueArgs>(args: SelectSubset<T, DisplaySettingsFindUniqueArgs<ExtArgs>>): Prisma__DisplaySettingsClient<$Result.GetResult<Prisma.$DisplaySettingsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DisplaySettings that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DisplaySettingsFindUniqueOrThrowArgs} args - Arguments to find a DisplaySettings
+     * @example
+     * // Get one DisplaySettings
+     * const displaySettings = await prisma.displaySettings.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DisplaySettingsFindUniqueOrThrowArgs>(args: SelectSubset<T, DisplaySettingsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DisplaySettingsClient<$Result.GetResult<Prisma.$DisplaySettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DisplaySettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DisplaySettingsFindFirstArgs} args - Arguments to find a DisplaySettings
+     * @example
+     * // Get one DisplaySettings
+     * const displaySettings = await prisma.displaySettings.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DisplaySettingsFindFirstArgs>(args?: SelectSubset<T, DisplaySettingsFindFirstArgs<ExtArgs>>): Prisma__DisplaySettingsClient<$Result.GetResult<Prisma.$DisplaySettingsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DisplaySettings that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DisplaySettingsFindFirstOrThrowArgs} args - Arguments to find a DisplaySettings
+     * @example
+     * // Get one DisplaySettings
+     * const displaySettings = await prisma.displaySettings.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DisplaySettingsFindFirstOrThrowArgs>(args?: SelectSubset<T, DisplaySettingsFindFirstOrThrowArgs<ExtArgs>>): Prisma__DisplaySettingsClient<$Result.GetResult<Prisma.$DisplaySettingsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DisplaySettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DisplaySettingsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DisplaySettings
+     * const displaySettings = await prisma.displaySettings.findMany()
+     * 
+     * // Get first 10 DisplaySettings
+     * const displaySettings = await prisma.displaySettings.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const displaySettingsWithIdOnly = await prisma.displaySettings.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DisplaySettingsFindManyArgs>(args?: SelectSubset<T, DisplaySettingsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DisplaySettingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DisplaySettings.
+     * @param {DisplaySettingsCreateArgs} args - Arguments to create a DisplaySettings.
+     * @example
+     * // Create one DisplaySettings
+     * const DisplaySettings = await prisma.displaySettings.create({
+     *   data: {
+     *     // ... data to create a DisplaySettings
+     *   }
+     * })
+     * 
+     */
+    create<T extends DisplaySettingsCreateArgs>(args: SelectSubset<T, DisplaySettingsCreateArgs<ExtArgs>>): Prisma__DisplaySettingsClient<$Result.GetResult<Prisma.$DisplaySettingsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DisplaySettings.
+     * @param {DisplaySettingsCreateManyArgs} args - Arguments to create many DisplaySettings.
+     * @example
+     * // Create many DisplaySettings
+     * const displaySettings = await prisma.displaySettings.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DisplaySettingsCreateManyArgs>(args?: SelectSubset<T, DisplaySettingsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DisplaySettings and returns the data saved in the database.
+     * @param {DisplaySettingsCreateManyAndReturnArgs} args - Arguments to create many DisplaySettings.
+     * @example
+     * // Create many DisplaySettings
+     * const displaySettings = await prisma.displaySettings.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DisplaySettings and only return the `id`
+     * const displaySettingsWithIdOnly = await prisma.displaySettings.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DisplaySettingsCreateManyAndReturnArgs>(args?: SelectSubset<T, DisplaySettingsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DisplaySettingsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DisplaySettings.
+     * @param {DisplaySettingsDeleteArgs} args - Arguments to delete one DisplaySettings.
+     * @example
+     * // Delete one DisplaySettings
+     * const DisplaySettings = await prisma.displaySettings.delete({
+     *   where: {
+     *     // ... filter to delete one DisplaySettings
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DisplaySettingsDeleteArgs>(args: SelectSubset<T, DisplaySettingsDeleteArgs<ExtArgs>>): Prisma__DisplaySettingsClient<$Result.GetResult<Prisma.$DisplaySettingsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DisplaySettings.
+     * @param {DisplaySettingsUpdateArgs} args - Arguments to update one DisplaySettings.
+     * @example
+     * // Update one DisplaySettings
+     * const displaySettings = await prisma.displaySettings.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DisplaySettingsUpdateArgs>(args: SelectSubset<T, DisplaySettingsUpdateArgs<ExtArgs>>): Prisma__DisplaySettingsClient<$Result.GetResult<Prisma.$DisplaySettingsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DisplaySettings.
+     * @param {DisplaySettingsDeleteManyArgs} args - Arguments to filter DisplaySettings to delete.
+     * @example
+     * // Delete a few DisplaySettings
+     * const { count } = await prisma.displaySettings.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DisplaySettingsDeleteManyArgs>(args?: SelectSubset<T, DisplaySettingsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DisplaySettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DisplaySettingsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DisplaySettings
+     * const displaySettings = await prisma.displaySettings.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DisplaySettingsUpdateManyArgs>(args: SelectSubset<T, DisplaySettingsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DisplaySettings and returns the data updated in the database.
+     * @param {DisplaySettingsUpdateManyAndReturnArgs} args - Arguments to update many DisplaySettings.
+     * @example
+     * // Update many DisplaySettings
+     * const displaySettings = await prisma.displaySettings.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DisplaySettings and only return the `id`
+     * const displaySettingsWithIdOnly = await prisma.displaySettings.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DisplaySettingsUpdateManyAndReturnArgs>(args: SelectSubset<T, DisplaySettingsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DisplaySettingsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DisplaySettings.
+     * @param {DisplaySettingsUpsertArgs} args - Arguments to update or create a DisplaySettings.
+     * @example
+     * // Update or create a DisplaySettings
+     * const displaySettings = await prisma.displaySettings.upsert({
+     *   create: {
+     *     // ... data to create a DisplaySettings
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DisplaySettings we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DisplaySettingsUpsertArgs>(args: SelectSubset<T, DisplaySettingsUpsertArgs<ExtArgs>>): Prisma__DisplaySettingsClient<$Result.GetResult<Prisma.$DisplaySettingsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DisplaySettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DisplaySettingsCountArgs} args - Arguments to filter DisplaySettings to count.
+     * @example
+     * // Count the number of DisplaySettings
+     * const count = await prisma.displaySettings.count({
+     *   where: {
+     *     // ... the filter for the DisplaySettings we want to count
+     *   }
+     * })
+    **/
+    count<T extends DisplaySettingsCountArgs>(
+      args?: Subset<T, DisplaySettingsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DisplaySettingsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DisplaySettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DisplaySettingsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DisplaySettingsAggregateArgs>(args: Subset<T, DisplaySettingsAggregateArgs>): Prisma.PrismaPromise<GetDisplaySettingsAggregateType<T>>
+
+    /**
+     * Group by DisplaySettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DisplaySettingsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DisplaySettingsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DisplaySettingsGroupByArgs['orderBy'] }
+        : { orderBy?: DisplaySettingsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DisplaySettingsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDisplaySettingsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DisplaySettings model
+   */
+  readonly fields: DisplaySettingsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DisplaySettings.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DisplaySettingsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DisplaySettings model
+   */
+  interface DisplaySettingsFieldRefs {
+    readonly id: FieldRef<"DisplaySettings", 'Int'>
+    readonly key: FieldRef<"DisplaySettings", 'String'>
+    readonly value: FieldRef<"DisplaySettings", 'String'>
+    readonly description: FieldRef<"DisplaySettings", 'String'>
+    readonly updatedAt: FieldRef<"DisplaySettings", 'DateTime'>
+    readonly createdAt: FieldRef<"DisplaySettings", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DisplaySettings findUnique
+   */
+  export type DisplaySettingsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DisplaySettings
+     */
+    select?: DisplaySettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DisplaySettings
+     */
+    omit?: DisplaySettingsOmit<ExtArgs> | null
+    /**
+     * Filter, which DisplaySettings to fetch.
+     */
+    where: DisplaySettingsWhereUniqueInput
+  }
+
+  /**
+   * DisplaySettings findUniqueOrThrow
+   */
+  export type DisplaySettingsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DisplaySettings
+     */
+    select?: DisplaySettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DisplaySettings
+     */
+    omit?: DisplaySettingsOmit<ExtArgs> | null
+    /**
+     * Filter, which DisplaySettings to fetch.
+     */
+    where: DisplaySettingsWhereUniqueInput
+  }
+
+  /**
+   * DisplaySettings findFirst
+   */
+  export type DisplaySettingsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DisplaySettings
+     */
+    select?: DisplaySettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DisplaySettings
+     */
+    omit?: DisplaySettingsOmit<ExtArgs> | null
+    /**
+     * Filter, which DisplaySettings to fetch.
+     */
+    where?: DisplaySettingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DisplaySettings to fetch.
+     */
+    orderBy?: DisplaySettingsOrderByWithRelationInput | DisplaySettingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DisplaySettings.
+     */
+    cursor?: DisplaySettingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DisplaySettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DisplaySettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DisplaySettings.
+     */
+    distinct?: DisplaySettingsScalarFieldEnum | DisplaySettingsScalarFieldEnum[]
+  }
+
+  /**
+   * DisplaySettings findFirstOrThrow
+   */
+  export type DisplaySettingsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DisplaySettings
+     */
+    select?: DisplaySettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DisplaySettings
+     */
+    omit?: DisplaySettingsOmit<ExtArgs> | null
+    /**
+     * Filter, which DisplaySettings to fetch.
+     */
+    where?: DisplaySettingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DisplaySettings to fetch.
+     */
+    orderBy?: DisplaySettingsOrderByWithRelationInput | DisplaySettingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DisplaySettings.
+     */
+    cursor?: DisplaySettingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DisplaySettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DisplaySettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DisplaySettings.
+     */
+    distinct?: DisplaySettingsScalarFieldEnum | DisplaySettingsScalarFieldEnum[]
+  }
+
+  /**
+   * DisplaySettings findMany
+   */
+  export type DisplaySettingsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DisplaySettings
+     */
+    select?: DisplaySettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DisplaySettings
+     */
+    omit?: DisplaySettingsOmit<ExtArgs> | null
+    /**
+     * Filter, which DisplaySettings to fetch.
+     */
+    where?: DisplaySettingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DisplaySettings to fetch.
+     */
+    orderBy?: DisplaySettingsOrderByWithRelationInput | DisplaySettingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DisplaySettings.
+     */
+    cursor?: DisplaySettingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DisplaySettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DisplaySettings.
+     */
+    skip?: number
+    distinct?: DisplaySettingsScalarFieldEnum | DisplaySettingsScalarFieldEnum[]
+  }
+
+  /**
+   * DisplaySettings create
+   */
+  export type DisplaySettingsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DisplaySettings
+     */
+    select?: DisplaySettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DisplaySettings
+     */
+    omit?: DisplaySettingsOmit<ExtArgs> | null
+    /**
+     * The data needed to create a DisplaySettings.
+     */
+    data: XOR<DisplaySettingsCreateInput, DisplaySettingsUncheckedCreateInput>
+  }
+
+  /**
+   * DisplaySettings createMany
+   */
+  export type DisplaySettingsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DisplaySettings.
+     */
+    data: DisplaySettingsCreateManyInput | DisplaySettingsCreateManyInput[]
+  }
+
+  /**
+   * DisplaySettings createManyAndReturn
+   */
+  export type DisplaySettingsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DisplaySettings
+     */
+    select?: DisplaySettingsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DisplaySettings
+     */
+    omit?: DisplaySettingsOmit<ExtArgs> | null
+    /**
+     * The data used to create many DisplaySettings.
+     */
+    data: DisplaySettingsCreateManyInput | DisplaySettingsCreateManyInput[]
+  }
+
+  /**
+   * DisplaySettings update
+   */
+  export type DisplaySettingsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DisplaySettings
+     */
+    select?: DisplaySettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DisplaySettings
+     */
+    omit?: DisplaySettingsOmit<ExtArgs> | null
+    /**
+     * The data needed to update a DisplaySettings.
+     */
+    data: XOR<DisplaySettingsUpdateInput, DisplaySettingsUncheckedUpdateInput>
+    /**
+     * Choose, which DisplaySettings to update.
+     */
+    where: DisplaySettingsWhereUniqueInput
+  }
+
+  /**
+   * DisplaySettings updateMany
+   */
+  export type DisplaySettingsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DisplaySettings.
+     */
+    data: XOR<DisplaySettingsUpdateManyMutationInput, DisplaySettingsUncheckedUpdateManyInput>
+    /**
+     * Filter which DisplaySettings to update
+     */
+    where?: DisplaySettingsWhereInput
+    /**
+     * Limit how many DisplaySettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DisplaySettings updateManyAndReturn
+   */
+  export type DisplaySettingsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DisplaySettings
+     */
+    select?: DisplaySettingsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DisplaySettings
+     */
+    omit?: DisplaySettingsOmit<ExtArgs> | null
+    /**
+     * The data used to update DisplaySettings.
+     */
+    data: XOR<DisplaySettingsUpdateManyMutationInput, DisplaySettingsUncheckedUpdateManyInput>
+    /**
+     * Filter which DisplaySettings to update
+     */
+    where?: DisplaySettingsWhereInput
+    /**
+     * Limit how many DisplaySettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DisplaySettings upsert
+   */
+  export type DisplaySettingsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DisplaySettings
+     */
+    select?: DisplaySettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DisplaySettings
+     */
+    omit?: DisplaySettingsOmit<ExtArgs> | null
+    /**
+     * The filter to search for the DisplaySettings to update in case it exists.
+     */
+    where: DisplaySettingsWhereUniqueInput
+    /**
+     * In case the DisplaySettings found by the `where` argument doesn't exist, create a new DisplaySettings with this data.
+     */
+    create: XOR<DisplaySettingsCreateInput, DisplaySettingsUncheckedCreateInput>
+    /**
+     * In case the DisplaySettings was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DisplaySettingsUpdateInput, DisplaySettingsUncheckedUpdateInput>
+  }
+
+  /**
+   * DisplaySettings delete
+   */
+  export type DisplaySettingsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DisplaySettings
+     */
+    select?: DisplaySettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DisplaySettings
+     */
+    omit?: DisplaySettingsOmit<ExtArgs> | null
+    /**
+     * Filter which DisplaySettings to delete.
+     */
+    where: DisplaySettingsWhereUniqueInput
+  }
+
+  /**
+   * DisplaySettings deleteMany
+   */
+  export type DisplaySettingsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DisplaySettings to delete
+     */
+    where?: DisplaySettingsWhereInput
+    /**
+     * Limit how many DisplaySettings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DisplaySettings without action
+   */
+  export type DisplaySettingsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DisplaySettings
+     */
+    select?: DisplaySettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DisplaySettings
+     */
+    omit?: DisplaySettingsOmit<ExtArgs> | null
   }
 
 
@@ -5569,6 +8206,33 @@ export namespace Prisma {
   };
 
   export type UserWindowScalarFieldEnum = (typeof UserWindowScalarFieldEnum)[keyof typeof UserWindowScalarFieldEnum]
+
+
+  export const AnnouncementScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    message: 'message',
+    type: 'type',
+    isActive: 'isActive',
+    priority: 'priority',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
+  };
+
+  export type AnnouncementScalarFieldEnum = (typeof AnnouncementScalarFieldEnum)[keyof typeof AnnouncementScalarFieldEnum]
+
+
+  export const DisplaySettingsScalarFieldEnum: {
+    id: 'id',
+    key: 'key',
+    value: 'value',
+    description: 'description',
+    updatedAt: 'updatedAt',
+    createdAt: 'createdAt'
+  };
+
+  export type DisplaySettingsScalarFieldEnum = (typeof DisplaySettingsScalarFieldEnum)[keyof typeof DisplaySettingsScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -5730,7 +8394,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Queue"> | Date | string
     deletedAt?: DateTimeNullableFilter<"Queue"> | Date | string | null
     windowId?: IntNullableFilter<"Queue"> | number | null
-    window?: XOR<WindowNullableRelationFilter, WindowWhereInput> | null
+    window?: XOR<WindowNullableScalarRelationFilter, WindowWhereInput> | null
   }
 
   export type QueueOrderByWithRelationInput = {
@@ -5759,7 +8423,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Queue"> | Date | string
     deletedAt?: DateTimeNullableFilter<"Queue"> | Date | string | null
     windowId?: IntNullableFilter<"Queue"> | number | null
-    window?: XOR<WindowNullableRelationFilter, WindowWhereInput> | null
+    window?: XOR<WindowNullableScalarRelationFilter, WindowWhereInput> | null
   }, "id">
 
   export type QueueOrderByWithAggregationInput = {
@@ -5869,8 +8533,8 @@ export namespace Prisma {
     isActive?: BoolFilter<"UserWindow"> | boolean
     createdAt?: DateTimeFilter<"UserWindow"> | Date | string
     updatedAt?: DateTimeFilter<"UserWindow"> | Date | string
-    user?: XOR<UserRelationFilter, UserWhereInput>
-    window?: XOR<WindowRelationFilter, WindowWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    window?: XOR<WindowScalarRelationFilter, WindowWhereInput>
   }
 
   export type UserWindowOrderByWithRelationInput = {
@@ -5895,8 +8559,8 @@ export namespace Prisma {
     isActive?: BoolFilter<"UserWindow"> | boolean
     createdAt?: DateTimeFilter<"UserWindow"> | Date | string
     updatedAt?: DateTimeFilter<"UserWindow"> | Date | string
-    user?: XOR<UserRelationFilter, UserWhereInput>
-    window?: XOR<WindowRelationFilter, WindowWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    window?: XOR<WindowScalarRelationFilter, WindowWhereInput>
   }, "id" | "userId_windowId">
 
   export type UserWindowOrderByWithAggregationInput = {
@@ -5923,6 +8587,139 @@ export namespace Prisma {
     isActive?: BoolWithAggregatesFilter<"UserWindow"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"UserWindow"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"UserWindow"> | Date | string
+  }
+
+  export type AnnouncementWhereInput = {
+    AND?: AnnouncementWhereInput | AnnouncementWhereInput[]
+    OR?: AnnouncementWhereInput[]
+    NOT?: AnnouncementWhereInput | AnnouncementWhereInput[]
+    id?: IntFilter<"Announcement"> | number
+    title?: StringFilter<"Announcement"> | string
+    message?: StringFilter<"Announcement"> | string
+    type?: StringFilter<"Announcement"> | string
+    isActive?: BoolFilter<"Announcement"> | boolean
+    priority?: IntFilter<"Announcement"> | number
+    createdAt?: DateTimeFilter<"Announcement"> | Date | string
+    updatedAt?: DateTimeFilter<"Announcement"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Announcement"> | Date | string | null
+  }
+
+  export type AnnouncementOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    type?: SortOrder
+    isActive?: SortOrder
+    priority?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+  }
+
+  export type AnnouncementWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: AnnouncementWhereInput | AnnouncementWhereInput[]
+    OR?: AnnouncementWhereInput[]
+    NOT?: AnnouncementWhereInput | AnnouncementWhereInput[]
+    title?: StringFilter<"Announcement"> | string
+    message?: StringFilter<"Announcement"> | string
+    type?: StringFilter<"Announcement"> | string
+    isActive?: BoolFilter<"Announcement"> | boolean
+    priority?: IntFilter<"Announcement"> | number
+    createdAt?: DateTimeFilter<"Announcement"> | Date | string
+    updatedAt?: DateTimeFilter<"Announcement"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Announcement"> | Date | string | null
+  }, "id">
+
+  export type AnnouncementOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    type?: SortOrder
+    isActive?: SortOrder
+    priority?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    _count?: AnnouncementCountOrderByAggregateInput
+    _avg?: AnnouncementAvgOrderByAggregateInput
+    _max?: AnnouncementMaxOrderByAggregateInput
+    _min?: AnnouncementMinOrderByAggregateInput
+    _sum?: AnnouncementSumOrderByAggregateInput
+  }
+
+  export type AnnouncementScalarWhereWithAggregatesInput = {
+    AND?: AnnouncementScalarWhereWithAggregatesInput | AnnouncementScalarWhereWithAggregatesInput[]
+    OR?: AnnouncementScalarWhereWithAggregatesInput[]
+    NOT?: AnnouncementScalarWhereWithAggregatesInput | AnnouncementScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Announcement"> | number
+    title?: StringWithAggregatesFilter<"Announcement"> | string
+    message?: StringWithAggregatesFilter<"Announcement"> | string
+    type?: StringWithAggregatesFilter<"Announcement"> | string
+    isActive?: BoolWithAggregatesFilter<"Announcement"> | boolean
+    priority?: IntWithAggregatesFilter<"Announcement"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Announcement"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Announcement"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Announcement"> | Date | string | null
+  }
+
+  export type DisplaySettingsWhereInput = {
+    AND?: DisplaySettingsWhereInput | DisplaySettingsWhereInput[]
+    OR?: DisplaySettingsWhereInput[]
+    NOT?: DisplaySettingsWhereInput | DisplaySettingsWhereInput[]
+    id?: IntFilter<"DisplaySettings"> | number
+    key?: StringFilter<"DisplaySettings"> | string
+    value?: StringFilter<"DisplaySettings"> | string
+    description?: StringNullableFilter<"DisplaySettings"> | string | null
+    updatedAt?: DateTimeFilter<"DisplaySettings"> | Date | string
+    createdAt?: DateTimeFilter<"DisplaySettings"> | Date | string
+  }
+
+  export type DisplaySettingsOrderByWithRelationInput = {
+    id?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    description?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DisplaySettingsWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    key?: string
+    AND?: DisplaySettingsWhereInput | DisplaySettingsWhereInput[]
+    OR?: DisplaySettingsWhereInput[]
+    NOT?: DisplaySettingsWhereInput | DisplaySettingsWhereInput[]
+    value?: StringFilter<"DisplaySettings"> | string
+    description?: StringNullableFilter<"DisplaySettings"> | string | null
+    updatedAt?: DateTimeFilter<"DisplaySettings"> | Date | string
+    createdAt?: DateTimeFilter<"DisplaySettings"> | Date | string
+  }, "id" | "key">
+
+  export type DisplaySettingsOrderByWithAggregationInput = {
+    id?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    description?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    createdAt?: SortOrder
+    _count?: DisplaySettingsCountOrderByAggregateInput
+    _avg?: DisplaySettingsAvgOrderByAggregateInput
+    _max?: DisplaySettingsMaxOrderByAggregateInput
+    _min?: DisplaySettingsMinOrderByAggregateInput
+    _sum?: DisplaySettingsSumOrderByAggregateInput
+  }
+
+  export type DisplaySettingsScalarWhereWithAggregatesInput = {
+    AND?: DisplaySettingsScalarWhereWithAggregatesInput | DisplaySettingsScalarWhereWithAggregatesInput[]
+    OR?: DisplaySettingsScalarWhereWithAggregatesInput[]
+    NOT?: DisplaySettingsScalarWhereWithAggregatesInput | DisplaySettingsScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"DisplaySettings"> | number
+    key?: StringWithAggregatesFilter<"DisplaySettings"> | string
+    value?: StringWithAggregatesFilter<"DisplaySettings"> | string
+    description?: StringNullableWithAggregatesFilter<"DisplaySettings"> | string | null
+    updatedAt?: DateTimeWithAggregatesFilter<"DisplaySettings"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"DisplaySettings"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -6230,6 +9027,147 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AnnouncementCreateInput = {
+    title: string
+    message: string
+    type?: string
+    isActive?: boolean
+    priority?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type AnnouncementUncheckedCreateInput = {
+    id?: number
+    title: string
+    message: string
+    type?: string
+    isActive?: boolean
+    priority?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type AnnouncementUpdateInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    priority?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type AnnouncementUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    priority?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type AnnouncementCreateManyInput = {
+    id?: number
+    title: string
+    message: string
+    type?: string
+    isActive?: boolean
+    priority?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type AnnouncementUpdateManyMutationInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    priority?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type AnnouncementUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    priority?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type DisplaySettingsCreateInput = {
+    key: string
+    value: string
+    description?: string | null
+    updatedAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type DisplaySettingsUncheckedCreateInput = {
+    id?: number
+    key: string
+    value: string
+    description?: string | null
+    updatedAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type DisplaySettingsUpdateInput = {
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DisplaySettingsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DisplaySettingsCreateManyInput = {
+    id?: number
+    key: string
+    value: string
+    description?: string | null
+    updatedAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type DisplaySettingsUpdateManyMutationInput = {
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DisplaySettingsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -6427,7 +9365,7 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type WindowNullableRelationFilter = {
+  export type WindowNullableScalarRelationFilter = {
     is?: WindowWhereInput | null
     isNot?: WindowWhereInput | null
   }
@@ -6541,12 +9479,12 @@ export namespace Prisma {
     id?: SortOrder
   }
 
-  export type UserRelationFilter = {
+  export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
   }
 
-  export type WindowRelationFilter = {
+  export type WindowScalarRelationFilter = {
     is?: WindowWhereInput
     isNot?: WindowWhereInput
   }
@@ -6593,6 +9531,118 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     windowId?: SortOrder
+  }
+
+  export type AnnouncementCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    type?: SortOrder
+    isActive?: SortOrder
+    priority?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type AnnouncementAvgOrderByAggregateInput = {
+    id?: SortOrder
+    priority?: SortOrder
+  }
+
+  export type AnnouncementMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    type?: SortOrder
+    isActive?: SortOrder
+    priority?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type AnnouncementMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    type?: SortOrder
+    isActive?: SortOrder
+    priority?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type AnnouncementSumOrderByAggregateInput = {
+    id?: SortOrder
+    priority?: SortOrder
+  }
+
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type DisplaySettingsCountOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    description?: SortOrder
+    updatedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DisplaySettingsAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type DisplaySettingsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    description?: SortOrder
+    updatedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DisplaySettingsMinOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    description?: SortOrder
+    updatedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DisplaySettingsSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type UserWindowCreateNestedManyWithoutUserInput = {
@@ -6797,6 +9847,10 @@ export namespace Prisma {
     update?: XOR<XOR<WindowUpdateToOneWithWhereWithoutUserWindowsInput, WindowUpdateWithoutUserWindowsInput>, WindowUncheckedUpdateWithoutUserWindowsInput>
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -6965,6 +10019,37 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type UserWindowCreateWithoutUserInput = {

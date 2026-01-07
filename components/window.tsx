@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Clock, Users, Volume2 } from "lucide-react";
 
 type Queue = {
@@ -21,6 +21,10 @@ export function Window({ title, windowId }: WindowProps) {
   const [current, setCurrent] = useState<Queue | null>(null);
   const [pending, setPending] = useState<Queue[]>([]);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const wsRef = useRef<WebSocket | null>(null);
+  const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const reconnectAttemptsRef = useRef(0);
+  const isManualCloseRef = useRef(false);
 
   const fetchCurrent = async () => {
     try {
@@ -54,6 +58,67 @@ export function Window({ title, windowId }: WindowProps) {
     fetchPending();
   };
 
+  const connectWebSocket = () => {
+    if (wsRef.current?.readyState === WebSocket.OPEN) {
+      return;
+    }
+
+    const wsUrl = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:3005";
+
+    try {
+      const ws = new WebSocket(wsUrl);
+      wsRef.current = ws;
+
+      ws.onopen = () => {
+        console.log(`Window ${windowId}: WS connected`);
+        reconnectAttemptsRef.current = 0;
+      };
+
+      ws.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          if (data.type === "QUEUE_UPDATE") {
+            // Refresh data when queue updates for any window or this specific window
+            if (!data.windowId || data.windowId === windowId) {
+              refreshData();
+            }
+          }
+        } catch (err) {
+          console.error("Error parsing WS message:", err);
+        }
+      };
+
+      ws.onerror = (error) => {
+        console.error(`Window ${windowId}: WebSocket error:`, error);
+      };
+
+      ws.onclose = (event) => {
+        console.log(`Window ${windowId}: WebSocket closed`);
+        wsRef.current = null;
+
+        if (!isManualCloseRef.current && event.code !== 1000) {
+          const maxAttempts = 10;
+          const baseDelay = 1000;
+
+          if (reconnectAttemptsRef.current < maxAttempts) {
+            const delay = Math.min(
+              baseDelay * Math.pow(2, reconnectAttemptsRef.current),
+              30000
+            );
+
+            reconnectAttemptsRef.current++;
+
+            reconnectTimeoutRef.current = setTimeout(() => {
+              connectWebSocket();
+            }, delay);
+          }
+        }
+      };
+    } catch (error) {
+      console.error(`Window ${windowId}: Error creating WebSocket:`, error);
+    }
+  };
+
   // Update current time every second
   useEffect(() => {
     const timeInterval = setInterval(() => {
@@ -63,10 +128,33 @@ export function Window({ title, windowId }: WindowProps) {
     return () => clearInterval(timeInterval);
   }, []);
 
+  // WebSocket connection
+  useEffect(() => {
+    isManualCloseRef.current = false;
+    connectWebSocket();
+
+    return () => {
+      isManualCloseRef.current = true;
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+      }
+      if (wsRef.current) {
+        wsRef.current.close();
+        wsRef.current = null;
+      }
+    };
+  }, []);
+
+  // Initial data fetch and fallback polling
   useEffect(() => {
     refreshData();
-    const interval = setInterval(refreshData, 5000); // Refresh every 5 seconds
-    return () => clearInterval(interval); // Clean up on unmount
+    // Reduced polling - only as fallback when WebSocket is disconnected
+    const interval = setInterval(() => {
+      if (wsRef.current?.readyState !== WebSocket.OPEN) {
+        refreshData();
+      }
+    }, 30000); // 30 seconds fallback
+    return () => clearInterval(interval);
   }, [windowId]);
 
   const formatTime = (date: Date) => {

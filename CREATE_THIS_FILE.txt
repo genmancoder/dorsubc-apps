@@ -1,0 +1,57 @@
+================================================================================
+IMPORTANT: CREATE A FILE NAMED ".env.local" IN YOUR PROJECT ROOT
+================================================================================
+
+Copy the content below and create a new file named exactly: .env.local
+
+FILE LOCATION: E:\DEV\queue-system-nextjs\.env.local
+
+FILE CONTENTS:
+--------------------------------------------------------------------------------
+NEXT_PUBLIC_WS_URL=ws://localhost:3005
+WS_URL=ws://localhost:3005
+--------------------------------------------------------------------------------
+
+STEPS TO FIX THE WEBSOCKET CONNECTION:
+
+1. CREATE .env.local FILE
+   - Right-click in the project root folder
+   - New → Text Document
+   - Name it: .env.local (delete the .txt extension)
+   - Paste the content above
+
+2. START THE WEBSOCKET SERVER (IN A NEW TERMINAL)
+   Open a NEW terminal window and run:
+   
+   npm run serv
+   
+   You should see: "Server running on http://localhost:3005"
+
+3. RESTART YOUR NEXT.JS SERVER
+   - Stop your current dev server (Ctrl+C)
+   - Run: npm run dev
+   - Wait for it to fully start
+
+4. REFRESH YOUR BROWSER
+   - Go to http://localhost:3000
+   - Connection indicator should show GREEN dot and "Connected"
+   - Try the Call button - it should work now!
+
+================================================================================
+
+WHY THIS IS NEEDED:
+- The WebSocket server (server.js) runs separately on port 3005
+- Next.js dev server runs on port 3000
+- They need to communicate, so both must be running
+- Environment variables tell the browser where to find the WebSocket server
+
+TROUBLESHOOTING:
+- If still disconnected, make sure BOTH terminals are running:
+  Terminal 1: npm run serv (WebSocket server)
+  Terminal 2: npm run dev (Next.js)
+  
+- Check browser console (F12) for connection errors
+- Port 3005 must not be used by another program
+
+================================================================================
+
